@@ -1,31 +1,63 @@
-// app/contexts/MobileContext.tsx
-import React, { createContext, useState, useEffect, useContext } from 'react';
+// app/MobileContext.tsx
+'use client';
 
-const MobileStateContext = createContext({});
+import React, { useEffect, useState } from "react";
 
-export const MobileStateProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isMobile, setIsMobile] = useState(false);
-  const [isIpad, setIsIpad] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(true);
+const initialState: MobileState = {
+  isMobile: false,
+  isIpad: false,
+  isDesktop: false,
+};
 
-  const handleResize = () => {
-    const width = window.innerWidth;
-    setIsMobile(width <= 600);
-    setIsIpad(width > 600 && width <= 1024);
-    setIsDesktop(width > 1024);
-  };
+export const MobileStateContext = React.createContext(initialState);
 
-  useEffect(() => {
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+interface MobileStateProviderProps {
+  children: React.ReactElement;
+}
+
+interface MobileState {
+  isMobile: boolean;
+  isIpad: boolean;
+  isDesktop: boolean;
+}
+
+export function MobileStateProvider({ children }: MobileStateProviderProps) {
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [isIpad, setIsIpad] = useState<boolean>(false);
+  const [isDesktop, setIsDesktop] = useState<boolean>(false);
+
+  useEffect(setupViewSizeListener, []);
+  useEffect(checkView, []);
+
+  function setupViewSizeListener() {
+    window.addEventListener("resize", checkView);
+  }
+
+  function checkView() {
+    if (window.innerWidth <= 768) {
+      setIsMobile(true);
+      setIsIpad(false);
+      setIsDesktop(false);
+    } else if (window.innerWidth < 1212 && window.innerWidth > 768) {
+      setIsMobile(false);
+      setIsIpad(true);
+      setIsDesktop(false);
+    } else {
+      setIsMobile(false);
+      setIsIpad(false);
+      setIsDesktop(true);
+    }
+  }
 
   return (
-    <MobileStateContext.Provider value={{ isMobile, isIpad, isDesktop }}>
+    <MobileStateContext.Provider
+      value={{
+        isMobile,
+        isIpad,
+        isDesktop,
+      }}
+    >
       {children}
     </MobileStateContext.Provider>
   );
-};
-
-export const useMobileState = () => useContext(MobileStateContext);
+}

@@ -35,14 +35,16 @@ const Footer = () => {
         justifyContent: 'center',
       }}
     >
+
+      {/* Add your logo here */}
       <Grid item xs={12} md={4}>
         <Grid container justifyContent="center" alignItems="center">
-            <Image src="/logo/Vit transparant.png" height={200} width={200} alt="Logo" />
-        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
+          <Image src="/logo/Vit transparant.png" height={200} width={200} alt="Logo" />
+          <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
             <Link
               target="_blank"
               rel="noopener"
-              href="https://sv-se.facebook.com/mtsektionen/"
+              href="https://sv-se.facebook.com/"
             >
               <IconButton color="secondary" aria-label="Facebook">
                 <FacebookRoundedIcon />
@@ -51,7 +53,7 @@ const Footer = () => {
             <Link
               target="_blank"
               rel="noopener"
-              href="https://www.instagram.com/mtsektionen/?hl=en"
+              href="https://www.instagram.com/"
             >
               <IconButton color="secondary" aria-label="Instagram">
                 <InstagramIcon />
@@ -60,6 +62,9 @@ const Footer = () => {
           </Grid>
         </Grid>
       </Grid>
+
+
+      {/* Add your contact information here */}
       <Grid item xs={12} md={4}>
         <Typography variant="h4" color="white">
           Kontakt
@@ -69,19 +74,13 @@ const Footer = () => {
           Norra Botkyrka <br />
             145 57 Norsborg
         </Typography>
-        <br />
-        <Box sx={{ textAlign: 'left' }}>
-          <Typography variant="body2" color="#Ffff00" display="inline">
+        <Typography color="white" display="inline">
             info@albyradet.se
           </Typography>
-          <IconButton
-            onClick={() => copyToClipboard('info@medieteknik.nu')}
-            size="small"
-          >
-            <FileCopyIcon fontSize="small" />
-          </IconButton>
-        </Box>
+        <br />
       </Grid>
+
+      {/* Add your links here */}
       <Grid item xs={12} md={4}>
         <Typography variant="h4" color="white">
           Länkar
@@ -92,6 +91,8 @@ const Footer = () => {
           </Link>
         ))}
       </Grid>
+
+      {/* Add your social media links here */}
       <Grid
         item
         xs={12}
@@ -105,8 +106,9 @@ const Footer = () => {
           m: 2,
         }}
       >
-
       </Grid>
+
+
     </Grid>
   );
 };

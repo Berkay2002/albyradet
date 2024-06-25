@@ -4,7 +4,7 @@ import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import CustomWavyBackground from './CustomWavyBackground';
 
-const Header = ({ title, backgroundImage }: { title: string; backgroundImage: string }) => {
+const Header = ({ title, backgroundImage, backgroundPattern }: { title: string; backgroundImage: string; backgroundPattern?: string }) => {
   return (
     <Box
       sx={{
@@ -16,9 +16,12 @@ const Header = ({ title, backgroundImage }: { title: string; backgroundImage: st
         alignItems: 'center',
         color: 'white',
         overflow: 'hidden',
+        backgroundImage: `url(${backgroundPattern})`,
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
       }}
     >
-      <Box
+      <Box 
         sx={{
           position: 'absolute',
           top: 0,
@@ -30,11 +33,11 @@ const Header = ({ title, backgroundImage }: { title: string; backgroundImage: st
       >
         <Image
           src={backgroundImage}
-          alt="background"
-          layout="fill"
-          objectFit="cover"
+          alt="background"    
           quality={100}
           priority
+          layout="fill"
+          style={{ objectFit: 'cover', }}
         />
       </Box>
       <Box

@@ -6,6 +6,7 @@ import './globals.css';
 import NavBar from './navbar';
 import MuiProvider from './MuiProvider';
 import Footer from './Footer';
+import { MobileStateProvider } from './MobileContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,9 +19,16 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <MuiProvider>
-          <NavBar />
-          {children}
-          <Footer />
+          <MobileStateProvider> 
+            <>
+
+              <NavBar />
+              {children}
+              <Footer />
+
+            </>
+
+          </MobileStateProvider>
         </MuiProvider>
       </body>
     </html>
