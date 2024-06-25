@@ -6,7 +6,7 @@ import Header from '../header';
 const blimedlem = () => {
   return (
     <>
-      <Header title="BLI MEDLEM" backgroundImage="/sektionen/sektionenImage.jpeg" />
+      <Header title="BLI MEDLEM" backgroundImageDesktop='/sektionen/sektionenImage.jpeg' backgroundImageMobile='/sektionen/styrelsen-mobil.jpeg' />
       <Container>
 
       </Container>

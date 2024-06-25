@@ -6,7 +6,7 @@ import Header from '../header';
 const ArSports = () => {
   return (
     <>
-      <Header title="AR SPORTS" backgroundImage="/sektionen/sektionenImage.jpeg" />
+      <Header title="AR SPORTS" backgroundImageDesktop='/sektionen/sektionenImage.jpeg' backgroundImageMobile='/sektionen/styrelsen-mobil.jpeg' />
       <Container>
 
       </Container>

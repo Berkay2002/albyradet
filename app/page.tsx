@@ -9,7 +9,7 @@ import News from './News';
 const Home = () => {
   return (
     <>
-      <Header title="HEM" backgroundImage='/sektionen/sektionenImage.jpeg' />
+      <Header title="HEM" backgroundImageDesktop='/sektionen/sektionenImage.jpeg' backgroundImageMobile='/sektionen/styrelsen-mobil.jpeg' />
       
       <Divider sx={{ my: 6 }} />
 

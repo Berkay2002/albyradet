@@ -25,7 +25,7 @@ const Kontakt = () => {
 
   return (
     <>
-      <Header title="KONTAKTA OSS" backgroundImage="/sektionen/sektionenImage.jpeg" />
+      <Header title="KONTAKTA OSS" backgroundImageDesktop='/sektionen/sektionenImage.jpeg' backgroundImageMobile='/sektionen/styrelsen-mobil.jpeg' />
 
       <Divider sx={{ my: 6 }} />  
 

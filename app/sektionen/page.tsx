@@ -41,7 +41,7 @@ const Sektionen = () => {
 
   return (
     <>
-      <Header title="SEKTIONEN" backgroundImage="/sektionen/sektionenImage.jpeg"/>
+      <Header title="SEKTIONEN" backgroundImageDesktop='/sektionen/sektionenImage.jpeg' backgroundImageMobile='/sektionen/styrelsen-mobil.jpeg' />
 
       <Divider sx={{ my: 6 }} />
 

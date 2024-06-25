@@ -7,8 +7,8 @@ import Image from 'next/image';
 import CustomWavyBackground from './CustomWavyBackground';
 import { MobileStateContext } from './MobileContext';
 
-const Header = ({ title, backgroundImage, backgroundPattern }: { title: string; backgroundImage: string; backgroundPattern?: string }) => {
-  const { isMobile, isIpad, isDesktop } = useContext(MobileStateContext);
+const Header = ({ title, backgroundImageMobile, backgroundImageDesktop, backgroundPattern }: { title: string; backgroundImageMobile: string; backgroundImageDesktop: string; backgroundPattern?: string }) => {
+  const { isMobile, isDesktop } = useContext(MobileStateContext);
   
   return (
     <Box
@@ -37,12 +37,12 @@ const Header = ({ title, backgroundImage, backgroundPattern }: { title: string; 
         }}
       >
         <Image
-          src={backgroundImage}
+          src={isMobile ? backgroundImageMobile : backgroundImageDesktop}
           alt="background"    
           quality={100}
           priority
           layout="fill"
-          style={{ objectFit: 'cover', }}
+          style={{ objectFit: 'cover' }}
         />
       </Box>
       <Box
