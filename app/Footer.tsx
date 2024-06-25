@@ -1,12 +1,12 @@
 // app/Footer.tsx
 'use client';
 
-import React from 'react';
+import React, { useContext } from 'react';
 import { Grid, IconButton, Typography, Link, Box } from '@mui/material';
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
 import InstagramIcon from '@mui/icons-material/Instagram';
-import FileCopyIcon from '@mui/icons-material/FileCopy';
 import Image from 'next/image';
+import { MobileStateContext } from './MobileContext';
 
 const linksContent = [
   { title: 'Link 1', path: '#' },
@@ -18,10 +18,7 @@ const linksContent = [
 ];
 
 const Footer = () => {
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text);
-    alert('Copied to clipboard');
-  };
+  const { isMobile, isIpad, isDesktop } = useContext(MobileStateContext);
 
   return (
     <Grid
@@ -35,7 +32,6 @@ const Footer = () => {
         justifyContent: 'center',
       }}
     >
-
       {/* Add your logo here */}
       <Grid item xs={12} md={4}>
         <Grid container justifyContent="center" alignItems="center">
@@ -63,31 +59,28 @@ const Footer = () => {
         </Grid>
       </Grid>
 
-
       {/* Add your contact information here */}
       <Grid item xs={12} md={4}>
-        <Typography variant="h4" color="white">
+        <Typography variant="h4" color="white" align={isMobile ? 'center' : 'left'}>
           Kontakt
         </Typography>
-        <Typography color="white">
+        <Typography color="white" align={isMobile ? 'center' : 'left'}>
           Alby Rådet <br />
           Norra Botkyrka <br />
-            145 57 Norsborg
+          145 57 Norsborg <br />
+          info@albyradet.se
         </Typography>
-        <Typography color="white" display="inline">
-            info@albyradet.se
-          </Typography>
         <br />
       </Grid>
 
       {/* Add your links here */}
       <Grid item xs={12} md={4}>
-        <Typography variant="h4" color="white">
+        <Typography variant="h4" color="white" align={isMobile ? 'center' : 'left'}>
           Länkar
         </Typography>
         {linksContent.map((link, index) => (
           <Link target="_blank" rel="noopener" href={link.path} key={index}>
-            <Typography color="white">{link.title}</Typography>
+            <Typography color="white" align={isMobile ? 'center' : 'left'}>{link.title}</Typography>
           </Link>
         ))}
       </Grid>
@@ -107,8 +100,6 @@ const Footer = () => {
         }}
       >
       </Grid>
-
-
     </Grid>
   );
 };

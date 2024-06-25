@@ -1,10 +1,15 @@
 // app/header.tsx
-import React from 'react';
+'use client';
+
+import React, { useContext } from 'react';
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import CustomWavyBackground from './CustomWavyBackground';
+import { MobileStateContext } from './MobileContext';
 
 const Header = ({ title, backgroundImage, backgroundPattern }: { title: string; backgroundImage: string; backgroundPattern?: string }) => {
+  const { isMobile, isIpad, isDesktop } = useContext(MobileStateContext);
+  
   return (
     <Box
       sx={{
@@ -50,7 +55,7 @@ const Header = ({ title, backgroundImage, backgroundPattern }: { title: string; 
           backgroundColor: 'rgba(0, 0, 0, 0.5)', // Adjust the overlay color
         }}
       />
-      <Typography variant="h1" sx={{ position: 'relative', zIndex: 1, color: 'white' }}>
+      <Typography variant="h1" sx={{ position: 'relative', zIndex: 1, color: 'white', fontSize: isMobile ? '3rem' : '4rem' }}>
         {title}
       </Typography>
       <Box
