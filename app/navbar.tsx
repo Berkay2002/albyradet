@@ -2,16 +2,18 @@
 "use client";
 
 import React, { useState, useEffect, useContext } from 'react';
-import { AppBar, Toolbar, Button, Box, Drawer, IconButton, List, ListItem, Typography } from '@mui/material';
+import { AppBar, Toolbar, Button, Box, Drawer, IconButton, List, ListItem, Typography, Grid } from '@mui/material';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { MobileStateContext } from './MobileContext';
 import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
+import SocialMediaIcons from './SocialMediaIcons';
 
 const NavBar = () => {
+  const [isOpen, setOpen] = useState(false);
   const [scroll, setScroll] = useState(false);
-  const [drawerOpen, setDrawerOpen] = useState(false);
   const { isMobile, isIpad, isDesktop } = useContext(MobileStateContext);
   const pathname = usePathname();
 
@@ -43,7 +45,7 @@ const NavBar = () => {
     ) {
       return;
     }
-    setDrawerOpen(open);
+    setOpen(open);
   };
 
   const drawerList = () => (
@@ -100,16 +102,46 @@ const NavBar = () => {
             <IconButton
               color="inherit"
               edge="end"
-              onClick={toggleDrawer(true)}
+              onClick={toggleDrawer(!isOpen)}
+              sx={{
+                transition: 'transform 0.3s',
+                transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                color: 'white',
+                fontSize: '2rem', // Increase the size of the icon
+              }}
             >
-              <MenuIcon />
+              {isOpen ? <CloseIcon /> : <MenuIcon />}
             </IconButton>
             <Drawer
               anchor="right"
-              open={drawerOpen}
+              sx={{ zIndex: 101 }}
+              open={isOpen}
               onClose={toggleDrawer(false)}
+              transitionDuration={600}
+              PaperProps={{
+                sx: isMobile
+                  ? { width: "100%", backgroundColor: "black" }
+                  : { width: "50%", backgroundColor: "black" },
+              }}
             >
-              {drawerList()}
+              <Grid
+                container
+                sx={{ height: "100%", p: 3 }}
+                display="flex"
+                flexDirection="row"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Grid item>
+                  <Image
+                    alt="Alby Rådet Logo"
+                    src="/logo/Vit transparant.png"
+                    width={75}
+                    height={75}
+                  />
+                  <SocialMediaIcons />
+                </Grid>
+              </Grid>
             </Drawer>
           </>
         )}
