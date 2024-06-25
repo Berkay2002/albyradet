@@ -137,7 +137,7 @@ const NavBar = () => {
                             sx={{
                               borderBottom: pathname === page.path ? '2px solid #FFEB3B' : 'none',
                               color: '#FFFFFF',
-                              fontSize: '1.5rem', // Increase font size here
+                              fontSize: '1rem', // Increase font size here
                             }}
                           >
                             {page.name}
