@@ -48,37 +48,27 @@ const NavBar = () => {
     setOpen(open);
   };
 
-  const drawerList = () => (
-    <Box
-      sx={{ width: isMobile ? '100%' : 250 }}
-      role="presentation"
-      onClick={toggleDrawer(false)}
-      onKeyDown={toggleDrawer(false)}
-    >
-      <List>
-        {pages.map((page, index) => (
-          <ListItem button key={index}>
-            <Link href={page.path} passHref>
-              <Button
-                color="inherit"
-                sx={{ borderBottom: pathname === page.path ? '2px solid #FFEB3B' : 'none', color: '#FFFFFF' }}
-              >
-                {page.name}
-              </Button>
-            </Link>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
 
   return (
-    <AppBar position="fixed" color="transparent" sx={{ backgroundColor: scroll ? 'rgba(0, 0, 0, 0.8)' : 'transparent', transition: 'background-color 0.3s' }}>
+    <AppBar 
+      position="fixed" 
+      color="transparent" 
+      sx={{ 
+        backgroundColor: scroll ? 'rgba(0, 0, 0, 0.8)' : 'transparent', 
+        transition: 'background-color 0.3s',
+        width: '100%' // Ensure the AppBar covers the full width
+      }}
+    >      
       <Toolbar>
         <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
           <Link href="/" passHref legacyBehavior>
             <a>
-              <Image src="/logo/Vit transparant.png" alt="Alby Rådet Logo" width={75} height={75} />
+              <Image 
+                src="/logo/Vit transparant.png" 
+                alt="Alby Rådet" 
+                width={isMobile || isDesktop ? 100 : 75} // Increase size on mobile
+                height={isMobile || isDesktop ? 100 : 75} 
+              />
             </a>
           </Link>
         </Box>
@@ -107,7 +97,7 @@ const NavBar = () => {
                 transition: 'transform 0.3s',
                 transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
                 color: 'white',
-                fontSize: '2rem', // Increase the size of the icon
+                fontSize: '2.5rem', // Increase the size of the icon
               }}
             >
               {isOpen ? <CloseIcon /> : <MenuIcon />}
@@ -126,21 +116,51 @@ const NavBar = () => {
             >
               <Grid
                 container
-                sx={{ height: "100%", p: 3 }}
-                display="flex"
-                flexDirection="row"
-                justifyContent="center"
-                alignItems="center"
+                direction="column"
+                justifyContent="center" // Changed to center content vertically
+                alignItems="center" // Keeps content centered horizontally
+                sx={{ height: '100%', p: 3 }}
               >
-                <Grid item>
-                  <Image
-                    alt="Alby Rådet Logo"
-                    src="/logo/Vit transparant.png"
-                    width={75}
-                    height={75}
-                  />
-                  <SocialMediaIcons />
-                </Grid>
+                {/* Pages List */}
+                <Box
+                  sx={{ width: isMobile ? '100%' : 250 }}
+                  role="presentation"
+                  onClick={toggleDrawer(false)}
+                  onKeyDown={toggleDrawer(false)}
+                >
+                  <List>
+                    {pages.map((page, index) => (
+                      <ListItem key={index} sx={{ justifyContent: 'center' }}> {/* Centers each ListItem */}
+                        <Link href={page.path} passHref>
+                          <Button
+                            color="inherit"
+                            sx={{
+                              borderBottom: pathname === page.path ? '2px solid #FFEB3B' : 'none',
+                              color: '#FFFFFF',
+                              fontSize: '1.5rem', // Increase font size here
+                            }}
+                          >
+                            {page.name}
+                          </Button>
+                        </Link>
+                      </ListItem>
+                    ))}
+                  </List>
+
+                  
+
+                  {/* Logo and Social Media Icons */}
+                  <Box sx={{ textAlign: 'center', mt: "0.5rem" }}> {/* Centers the logo and icons */}
+                    <Image
+                      alt="Alby Rådet Logo"
+                      src="/logo/Vit transparant.png"
+                      width={125}
+                      height={125}
+                    />
+
+                    <SocialMediaIcons />
+                  </Box>
+                </Box>
               </Grid>
             </Drawer>
           </>
