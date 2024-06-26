@@ -30,9 +30,9 @@ const NavBar = () => {
   const pages = [
     { name: 'HEM', path: '/' },
     { name: 'OM OSS', path: '/sektionen' },
-    { name: 'LOVAKTIVITETER', path: '/lovaktiviteter' },
-    { name: 'SPORTSTRUCK', path: '/sportstruck' },
-    { name: 'JUDO', path: '/judo' },
+    { name: 'AR INNOVATION', path: '/ar-innovation' },
+    { name: 'AR SPORTS', path: '/ar-sports' },
+    { name: 'AR GAMING', path: '/ar-gaming' },
     { name: 'BLI MEDLEM', path: '/bli-medlem' },
     { name: 'KONTAKTA OSS', path: '/kontakta-oss' },
   ];
