@@ -17,38 +17,6 @@ const HeaderText = styled(Typography)(({ theme }) => ({
   lineHeight: 1,
 }));
 
-const members = [
-  {
-    name: 'Muhammet Tozak',
-    title: 'Ordförande',
-    email: 'muhammet@klivif.se',
-    image: '/sektionen/profile.jpg',
-  },
-  {
-    name: 'Maria Rafaelius',
-    title: 'Medlemsansvarig',
-    email: 'Maria@klivif.se',
-    image: '/sektionen/profile.jpg',
-  },
-  {
-    name: 'Eldar Ljuca',
-    title: 'Aktivitetsansvarig',
-    email: 'Eldar@klivif.se',
-    image: '/sektionen/profile.jpg',
-  },
-  {
-    name: 'Binel Elias',
-    title: 'PR-ansvarig',
-    email: 'Binel@klivif.se',
-    image: '/sektionen/profile.jpg',
-  },
-  {
-    name: 'Leah Aybar',
-    title: 'PR-ansvarig',
-    email: 'Leah@klivif.se',
-    image: '/sektionen/profile.jpg',
-  },
-];
 
 interface FormValues {
   name: string;
