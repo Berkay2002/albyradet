@@ -58,8 +58,8 @@ const NavBar = () => {
 
   const pages = [
     { name: 'HEM', path: '/' },
-    { name: 'LOVAKTIVITETER', path: '/lovaktiviteter' },
-    { name: 'JUDO', path: '/judo' },
+    { name: 'SEKTIONEN', path: '/sektionen' },
+    { name: 'AR-SPORTS', path: '/ar-sports' },
     { name: 'KONTAKTA OSS', path: '/kontakta-oss' },
   ];
 
@@ -88,7 +88,7 @@ const NavBar = () => {
               <a>
                 <Image
                   src="/logo/transparant-svart.svg" // Always use the black variant of the logo
-                  alt="Kliv Idrottsförening"
+                  alt="Alby Rådet"
                   width={75}
                   height={75}
                 />
@@ -141,7 +141,7 @@ const NavBar = () => {
                 <a>
                   <Image
                     src={scroll ? "/logo/transparant.svg" : "/logo/white_test.png"}
-                    alt="Kliv Idrottsförening"
+                    alt="Alby Rådet"
                     width={50}
                     height={50}
                   />
@@ -225,7 +225,7 @@ const NavBar = () => {
             </List>
             <Box sx={{ textAlign: 'center', mt: "0.5rem" }}>
               <Image
-                alt="Kliv Idrottsförening"
+                alt="Alby Rådet"
                 src="/logo/white.svg"
                 width={150}
                 height={150}
