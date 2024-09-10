@@ -42,7 +42,7 @@ const Footer = () => {
         {/* Logo Section */}
         <Grid item xs={12} md={4}>
           <Grid container justifyContent="center" alignItems="center">
-            <Image src="/logo/logo.svg" height={200} width={200} alt="Logo" />
+            <Image src="/logo/vit transparant.png" height={200} width={200} alt="Logo" />
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
               {/* Facebook Link */}
               <Link
@@ -74,10 +74,9 @@ const Footer = () => {
             Kontakt
           </Typography>
           <Typography color="white" align={isMobile ? 'center' : 'left'}>
-            Kliv Idrottsförening <br />
-            Tomtbergavägen 370A <br />
-            145 71 Norsborg <br />
-            info@kliv.se
+            Alby Rådet <br />
+            +46 8 123 456 78 <br />
+            info@albyradet.se
           </Typography>
           <br />
         </Grid>

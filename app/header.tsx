@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import { Box, Typography, useTheme, useMediaQuery } from '@mui/material';
 import { styled } from '@mui/system';
@@ -60,7 +62,7 @@ const Header: React.FC<HeaderProps> = ({ title, description }) => {
       <Box
         sx={{
           minHeight: isMobile ? '50vh' : '70vh',
-          backgroundColor: '#ADD8E6',
+          backgroundColor: '#FFA500', // Changed to orange
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
@@ -133,7 +135,7 @@ const Header: React.FC<HeaderProps> = ({ title, description }) => {
           top: 0,
           width: `${orangeBoxWidth}%`,
           height: '100%',
-          backgroundColor: '#ADD8E6',
+          backgroundColor: '#FFA500', // Changed to orange
           transition: 'width 0.2s ease-out',
         }}
       />

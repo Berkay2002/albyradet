@@ -89,9 +89,22 @@ const Kontakt = () => {
                     error={!!errors.message}
                     helperText={errors.message ? String(errors.message.message) : ''}
                   />
-                  <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 3 }}>
+                  
+                  <Button 
+                    type="submit" 
+                    variant="contained" 
+                    fullWidth 
+                    sx={{ 
+                      mt: 3, 
+                      backgroundColor: '#FFA500', 
+                      '&:hover': {
+                        backgroundColor: '#e59400',  // Optional: Darker shade on hover
+                      } 
+                    }}
+                  >
                     Skicka meddelande
                   </Button>
+
                 </form>
               </Grid>
             </Grid>

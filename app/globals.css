@@ -58,7 +58,7 @@ a {
   position: relative;
   width: 100%;
   height: 400px; /* Set this to the desired height for all images */
-  background-color: #ADD8E6; /* Use your desired orange background color */
+  background-color: #FFA500; /* Use your desired orange background color */
   display: flex;
   justify-content: center;
   align-items: center;
