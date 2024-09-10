@@ -17,9 +17,10 @@ const HeaderText = styled(Typography)(({ theme }) => ({
 interface HeaderProps {
   title: string;
   description: string;
+  imageUrl: string; 
 }
 
-const Header: React.FC<HeaderProps> = ({ title, description }) => {
+const Header: React.FC<HeaderProps> = ({ title, description, imageUrl }) => {
   const { isMobile, isIpad } = useContext(MobileStateContext);
   const [orangeBoxWidth, setOrangeBoxWidth] = useState(65);
   const headerRef = useRef<HTMLDivElement>(null);
@@ -62,14 +63,27 @@ const Header: React.FC<HeaderProps> = ({ title, description }) => {
       <Box
         sx={{
           minHeight: isMobile ? '50vh' : '70vh',
-          backgroundColor: '#FFA500', // Changed to orange
+          backgroundImage: imageUrl ? `url(${imageUrl})` : 'none', // Dynamic image
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
           padding: isMobile ? '1.5rem' : '2.5rem',
           textAlign: 'center',
+          position: 'relative',
           ...getMarginStyle(),
+          '&::after': {
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(255, 165, 0, 0.5)', // Orange with 50% opacity
+            zIndex: 1, 
+          },
         }}
       >
         <HeaderText 
@@ -100,7 +114,8 @@ const Header: React.FC<HeaderProps> = ({ title, description }) => {
     );
   }
 
-  // Desktop layout (unchanged)
+
+  // Desktop layout (with background image and gray overlay)
   return (
     <Box
       ref={headerRef}
@@ -114,7 +129,7 @@ const Header: React.FC<HeaderProps> = ({ title, description }) => {
         ...getMarginStyle(),
       }}
     >
-      {/* White background */}
+      {/* Background image with gray overlay */}
       <Box
         sx={{
           position: 'absolute',
@@ -122,12 +137,24 @@ const Header: React.FC<HeaderProps> = ({ title, description }) => {
           top: 0,
           width: `${100 - orangeBoxWidth}%`,
           height: '100%',
-          backgroundColor: '#f0f0f0',
+          backgroundImage: imageUrl ? `url(${imageUrl})` : 'none', // Dynamic image
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
           transition: 'width 0.2s ease-out',
+          zIndex: 0, // Ensures the image is behind content
+          '&::after': {
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(240, 240, 240, 0.8)', // Gray overlay with 80% opacity
+          },
         }}
       />
-      
-      {/* Orange background */}
+
+      {/* Orange background (moving box) */}
       <Box
         sx={{
           position: 'absolute',
@@ -135,7 +162,7 @@ const Header: React.FC<HeaderProps> = ({ title, description }) => {
           top: 0,
           width: `${orangeBoxWidth}%`,
           height: '100%',
-          backgroundColor: '#FFA500', // Changed to orange
+          backgroundColor: '#FFA500', // Orange background
           transition: 'width 0.2s ease-out',
         }}
       />
@@ -144,7 +171,7 @@ const Header: React.FC<HeaderProps> = ({ title, description }) => {
       <Box
         sx={{
           position: 'relative',
-          zIndex: 1,
+          zIndex: 1, // Make sure the content stays above the background image and overlay
           maxWidth: '80%',
           padding: '3rem',
           paddingLeft: '5%',
@@ -178,6 +205,7 @@ const Header: React.FC<HeaderProps> = ({ title, description }) => {
       </Box>
     </Box>
   );
+
 };
 
 export default Header;

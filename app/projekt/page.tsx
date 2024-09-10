@@ -19,8 +19,13 @@ const Projekt = () => {
   return (
     <>
       {/* Use the Header component */}
-      <Header title="VÅRA PROJEKT" description="Här kan du ta del av våra tidigare och pågående projekt!" />
+      <Header
+        title="VÅRA PROJEKT"
+        description="Här kan du ta del av våra tidigare och pågående projekt!"
+        imageUrl={isMobile ? '/sektionen/styrelsen-mobil.jpeg' : '/sektionen/styrelsen-mobil.jpeg'}
+      />
 
+      
       {/* Page content with the same background and structure as the home page */}
       <Box sx={{ backgroundColor: '#F0F0F0', py: 10, ...getMarginStyle() }}>  {/* Matching the home page background */}
         <Container maxWidth="lg">

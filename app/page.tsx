@@ -171,15 +171,21 @@ const Home = () => {
               justifyContent: 'center',
               alignItems: 'center',
               textAlign: 'center',
-              backgroundColor: 'rgba(255, 165, 0, 0.85)', // Orange with 85% opacity
+              backgroundColor: 'rgba(255, 165, 0, 0.3)', // Orange with 50% opacity
               zIndex: 1,
               padding: '3%',
             }}
           >
-            <HeaderText variant={isMobile ? 'h2' : 'h1'} sx={{ color: '#ffffff', fontSize: isMobile ? '3rem' : isIpad ? '4rem' : '5rem', marginBottom: 2 }}>
-              ALBY RÅDET
-            </HeaderText>
-            <HeaderText variant={isMobile ? 'h3' : 'h2'} sx={{ color: '#000000', fontSize: isMobile ? '2rem' : isIpad ? '3rem' : '4rem' }}>
+            {/* Logo Image Instead of ALBY RÅDET */}
+            <Image
+              src="/logo/Vit transparant-header.png" // Replace with the actual logo path
+              alt="Alby Rådet Logo"
+              width={isMobile ? 100 : 300} // Adjust width for mobile and desktop
+              height={isMobile ? 100 : 300} // Adjust height for mobile and desktop
+            />
+            
+            {/* Subheading Text */}
+            <HeaderText variant={isMobile ? 'h3' : 'h2'} sx={{ color: '#ffffff', mt: 4 , fontSize: isMobile ? '2rem' : isIpad ? '3rem' : '4rem' }}>
               Av unga, för unga
             </HeaderText>
           </Box>

@@ -80,7 +80,11 @@ const Kontakt = () => {
 
   return (
     <>
-      <Header title='KONTAKTA OSS' description="" />
+      <Header
+        title="KONTAKTA OSS"
+        description="Har du några frågor eller funderingar? Kontakta oss här!"
+        imageUrl={isMobile ? '/sektionen/styrelsen-mobil.jpeg' : '/sektionen/styrelsen-mobil.jpeg'}
+      />
       <Box sx={{ backgroundColor: '#FFFFFF' }}>
         <Box py={isMobile ? 5 : 10} sx={{ backgroundColor: '#f0f0f0', ...(isMobile || isIpad ? {} : getMarginStyle()) }}>
           <Container maxWidth={isMobile ? 'sm' : 'lg'}>

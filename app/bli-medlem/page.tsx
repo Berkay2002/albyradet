@@ -19,7 +19,12 @@ const BliMedlem = () => {
   return (
     <>
       {/* Use the Header component */}
-      <Header title="BLI MEDLEM" description="Är du ung och bor i Botkyrka? Engagera dig idag!" />
+      <Header
+        title="BLI MEDLEM" 
+        description="Är du ung och bor i Botkyrka? Engagera dig idag!"
+        imageUrl={isMobile ? '/sektionen/styrelsen-mobil.jpeg' : '/sektionen/styrelsen-mobil.jpeg'}
+      />
+
 
       {/* Page content with same background and structure as the home page */}
       <Box sx={{ backgroundColor: '#F0F0F0', py: 10, ...getMarginStyle() }}>  {/* Matching the home page background */}
