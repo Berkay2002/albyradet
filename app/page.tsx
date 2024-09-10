@@ -9,10 +9,6 @@ import { Container, Grid, Typography, Card, CardMedia, CardContent, Box, Button,
 import Image from 'next/image';
 import AOS from 'aos';
 import 'aos/dist/aos.css'; // Import AOS styles
-import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
-import SecurityIcon from '@mui/icons-material/Security';
-import SchoolIcon from '@mui/icons-material/School';
-import GroupWorkIcon from '@mui/icons-material/GroupWork';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
@@ -20,6 +16,17 @@ import { MobileStateContext } from './MobileContext';
 import { styled } from '@mui/system';
 import './globals.css';
 import { calculateMinHeight } from './CalculateMinHeight';
+
+
+// Import icons
+import SecurityIcon from '@mui/icons-material/Security';
+import GavelIcon from '@mui/icons-material/Gavel';
+import LightbulbIcon from '@mui/icons-material/Lightbulb';
+import GroupIcon from '@mui/icons-material/Group';
+import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
+import SchoolIcon from '@mui/icons-material/School';
+import GroupWorkIcon from '@mui/icons-material/GroupWork';
+
 
 
 
@@ -150,7 +157,7 @@ const Home = () => {
               transform: 'translate(-50%, -50%)',
             }}
           >
-            <source src="/videos/video.mp4" type="video/mp4" />
+            <source src="/montage480.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
 
@@ -173,7 +180,7 @@ const Home = () => {
               ALBY RÅDET
             </HeaderText>
             <HeaderText variant={isMobile ? 'h3' : 'h2'} sx={{ color: '#000000', fontSize: isMobile ? '2rem' : isIpad ? '3rem' : '4rem' }}>
-              
+              Av unga, för unga
             </HeaderText>
           </Box>
         </Box>
@@ -192,7 +199,7 @@ const Home = () => {
               </Grid>
               <Grid item xs={12} md={6}>
                 <Typography variant="h6" gutterBottom>
-                  Vi är...
+                  Albyrådet grundades för snart ett decennium sedan av ett tiotal ungdomar från Alby. Sedan dess har Albyrådet varit en plattform för ungdomar som engagerar sig i föreningen med målet att motverka kriminalitet, mobbning, och diskriminering. Vi utvecklar projekt och koncept som antingen genomförts eller fortsätter bedrivas idag.
                 </Typography>
               </Grid>
             </Grid>
@@ -211,27 +218,27 @@ const Home = () => {
               <Grid item xs={12} md={8}>
                 <Grid container spacing={5}>
                   <Grid item xs={12} sm={6} md={3} textAlign="center">
-                    <EmojiPeopleIcon sx={{ fontSize: '3rem', mb: 1, color: 'white' }} />
-                    <Typography variant="h6" sx={{ color: 'white' }}>
-                      KOSTNADSFRITT FÖR BARN OCH UNGDOMAR
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={3} textAlign="center">
                     <SecurityIcon sx={{ fontSize: '3rem', mb: 1, color: 'white' }} />
                     <Typography variant="h6" sx={{ color: 'white' }}>
-                      TRYGG OCH SÄKER MILJÖ FÖR ALLA
+                      Skapa en trygg och säker miljö för ungdomar
                     </Typography>
                   </Grid>
                   <Grid item xs={12} sm={6} md={3} textAlign="center">
-                    <SchoolIcon sx={{ fontSize: '3rem', mb: 1, color: 'white' }} />
+                    <GavelIcon sx={{ fontSize: '3rem', mb: 1, color: 'white' }} />
                     <Typography variant="h6" sx={{ color: 'white' }}>
-                      BEMANNAD MED UTBILDADE LEDARE
+                      Motverka kriminalitet, mobbning och diskriminering
                     </Typography>
                   </Grid>
                   <Grid item xs={12} sm={6} md={3} textAlign="center">
-                    <GroupWorkIcon sx={{ fontSize: '3rem', mb: 1, color: 'white' }} />
+                    <LightbulbIcon sx={{ fontSize: '3rem', mb: 1, color: 'white' }} />
                     <Typography variant="h6" sx={{ color: 'white' }}>
-                      STÖD AV KOMMUNEN
+                      Stimulera kreativitet och ledarskap bland unga
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={3} textAlign="center">
+                    <GroupIcon sx={{ fontSize: '3rem', mb: 1, color: 'white' }} />
+                    <Typography variant="h6" sx={{ color: 'white' }}>
+                      Främja inkludering och gemenskap
                     </Typography>
                   </Grid>
                 </Grid>
@@ -240,18 +247,18 @@ const Home = () => {
           </Container>
         </Box>
 
-        {/* UNGT LEDARSKAP section */}
+        {/* VÅR STRÄVAN section */}
         <Box py={isMobile ? 5 : 10} sx={{ backgroundColor: '#f0f0f0', ...getMarginStyle() }}>
           <Container maxWidth={isMobile ? 'xl' : 'lg'}>
             <Grid container spacing={5} direction={isMobile ? 'column' : 'row'}>
               <Grid item xs={12} md={6}>
                 <HeaderText variant={isMobile ? "h3" : "h2"} gutterBottom sx={{ color: '#000000' }}>
-                  UNGT LEDARSKAP
+                  VÅR STRÄVAN
                 </HeaderText>
               </Grid>
               <Grid item xs={12} md={6}>
                 <Typography variant="h6" gutterBottom>
-                  
+                Föreningens målsättning är att skapa meningsfulla aktiviteter för barn och ungdomar i Botkyrka. Vi strävar efter att ge unga en trygg plats där de kan utvecklas och växa som individer.
                 </Typography>
               </Grid>
             </Grid>
@@ -259,7 +266,7 @@ const Home = () => {
         </Box>
 
         {/* Carousel Section */}
-        <Box py={0} sx={{ backgroundColor: '#f0f0f0', height: '100%', ...getMarginStyle() }}>
+        <Box py={0} sx={{ backgroundColor: '#FFA500', height: '100%', ...getMarginStyle() }}>
           <Box sx={{ width: '100%', margin: '0 auto', height: '100%' }}>
             <Slider {...settings}>
               <div className="carousel-image-wrapper" style={{ minHeight: `${minHeight}px` }}>
@@ -288,24 +295,6 @@ const Home = () => {
           </Box>
         </Box>
 
-
-        {/* VÅR STRÄVAN section */}
-        <Box py={isMobile ? 5 : 10} sx={{ backgroundColor: '#f0f0f0', ...getMarginStyle() }}>
-          <Container maxWidth={isMobile ? 'xl' : 'lg'}>
-            <Grid container spacing={5} direction={isMobile ? 'column' : 'row'}>
-              <Grid item xs={12} md={6}>
-                <HeaderText variant={isMobile ? "h3" : "h2"} gutterBottom sx={{ color: '#000000' }}>
-                  VÅR STRÄVAN
-                </HeaderText>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Typography variant="h6" gutterBottom>
-                  BLA BLA BLA
-                </Typography>
-              </Grid>
-            </Grid>
-          </Container>
-        </Box>
 
         <Box sx={{ backgroundColor: '#FFA500', py: isMobile ? 1 : 13, ...getMarginStyle() }}></Box>
 

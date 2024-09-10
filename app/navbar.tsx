@@ -58,9 +58,9 @@ const NavBar = () => {
 
   const pages = [
     { name: 'HEM', path: '/' },
-    { name: 'SEKTIONEN', path: '/sektionen' },
-    { name: 'AR-SPORTS', path: '/ar-sports' },
+    { name: 'VÅRA PROJEKT', path: '/projekt' },
     { name: 'KONTAKTA OSS', path: '/kontakta-oss' },
+    { name: 'BLI MEDLEM', path: '/bli-medlem' },
   ];
 
   const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -87,7 +87,7 @@ const NavBar = () => {
             <Link href="/" passHref legacyBehavior>
               <a>
                 <Image
-                  src="/logo/vit.svg" // Always use the black variant of the logo
+                  src="/logo/vit.png" // Always use the black variant of the logo
                   alt="Alby Rådet"
                   width={75}
                   height={75}
@@ -142,8 +142,8 @@ const NavBar = () => {
                   <Image
                     src={scroll ? "/logo/vit transparant.png" : "/logo/vit.png"}
                     alt="Alby Rådet"
-                    width={50}
-                    height={50}
+                    width={100}
+                    height={100}
                   />
                 </a>
               </Link>
@@ -156,6 +156,7 @@ const NavBar = () => {
                       color="inherit"
                       sx={{
                         color: scroll ? 'white' : 'black',
+                        fontSize: '1.25rem',
                       }}
                     >
                       {page.name}
