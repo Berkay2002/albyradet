@@ -42,7 +42,7 @@ const Footer = () => {
         {/* Logo Section */}
         <Grid item xs={12} md={4}>
           <Grid container justifyContent="center" alignItems="center">
-            <Image src="/logo/vit transparant.png" height={200} width={200} alt="Logo" />
+            <Image src="/logo/Vit transparant.png" height={200} width={200} alt="Logo" />
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
               {/* Facebook Link */}
               <Link

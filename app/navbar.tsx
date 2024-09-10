@@ -87,7 +87,7 @@ const NavBar = () => {
             <Link href="/" passHref legacyBehavior>
               <a>
                 <Image
-                  src="/logo/vit.png" // Always use the black variant of the logo
+                  src="/logo/Vit.png" // Always use the black variant of the logo
                   alt="Alby Rådet"
                   width={75}
                   height={75}
@@ -140,7 +140,7 @@ const NavBar = () => {
               <Link href="/" passHref legacyBehavior>
                 <a>
                   <Image
-                    src={scroll ? "/logo/vit transparant.png" : "/logo/vit.png"}
+                    src={scroll ? "/logo/Vit transparant.png" : "/logo/Vit.png"}
                     alt="Alby Rådet"
                     width={100}
                     height={100}
