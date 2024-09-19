@@ -17,6 +17,7 @@
     "@mui/icons-material": "^5.16.5",
     "@mui/lab": "^5.0.0-alpha.172",
     "@mui/material": "^5.16.4",
+    "@mui/system": "^6.1.0",
     "@react-google-maps/api": "^2.19.3",
     "@types/auth0": "^3.3.10",
     "@types/axios": "^0.14.0",

@@ -43,6 +43,17 @@ const BliMedlem = () => {
             Är du ung och bor i Botkyrka? Är du engagerad och brinner för att förvandla Botkyrka till en bättre plats? Vill du hitta gemenskap med andra som brinner för samma sak som du? Bli medlem i Albyrådet! Hos oss får du möjligheten att engagera dig i frågor som du brinner för i Alby och Norra Botkyrka.
           </Typography>
 
+          
+          {/* Last Image */}
+          <Card sx={{ mb: 5 }}>
+            <CardMedia 
+              component="img" 
+              height="550"
+              image="/sektionen/sektionenImage.jpeg" 
+              alt="Albyrådet medlemmar"
+            />  
+          </Card>
+
           {/* Membership Benefits */}
           <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
             Vad får du som medlem?
@@ -76,20 +87,7 @@ const BliMedlem = () => {
             </Button>
           </Box>
 
-          {/* Last Image */}
-          <Card sx={{ mb: 5 }}>
-            <CardMedia 
-              component="img" 
-              height="300"
-              image="/path-to-last-image.jpg" // Replace with actual image path
-              alt="Albyrådet Youth Event"
-            />
-            <CardContent>
-              <Typography variant="body2" sx={{ textAlign: 'center' }}>
-                Deltagare i en av våra ungdomsaktiviteter - Albyrådet 2023 (Exempelbild)
-              </Typography>
-            </CardContent>
-          </Card>
+
 
         </Container>
       </Box>

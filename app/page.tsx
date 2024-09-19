@@ -200,12 +200,12 @@ const Home = () => {
             <Grid container spacing={5} direction={isMobile ? 'column' : 'row'}>
               <Grid item xs={12} md={6}>
                 <HeaderText variant={isMobile ? "h3" : "h2"} gutterBottom sx={{ color: '#000000' }}>
-                  VEM ÄR VI
+                  VILKA VI ÄR
                 </HeaderText>
               </Grid>
               <Grid item xs={12} md={6}>
                 <Typography variant="h6" gutterBottom>
-                  Albyrådet grundades för snart ett decennium sedan av ett tiotal ungdomar från Alby. Sedan dess har Albyrådet varit en plattform för ungdomar som engagerar sig i föreningen med målet att motverka kriminalitet, mobbning, och diskriminering. Vi utvecklar projekt och koncept som antingen genomförts eller fortsätter bedrivas idag.
+                  Albyrådet grundades för snart ett decennium sedan av ett tiotal ungdomar från Alby. Sedan dess har Albyrådet varit en plattform för ungdomar som engagerar sig i området med målet att motverka kriminalitet, mobbning, och diskriminering. Vi utvecklar projekt och koncept som antingen genomförts eller fortsätter bedrivas idag.
                 </Typography>
               </Grid>
             </Grid>
@@ -264,8 +264,7 @@ const Home = () => {
               </Grid>
               <Grid item xs={12} md={6}>
                 <Typography variant="h6" gutterBottom>
-                Föreningens målsättning är att skapa meningsfulla aktiviteter för barn och ungdomar i Botkyrka. Vi strävar efter att ge unga en trygg plats där de kan utvecklas och växa som individer.
-                </Typography>
+                Vi strävar efter att bedriva en oberoende plattform för ungdomar i Alby där det finns möjlighet för varje ungdom att engagera sig och göra skillnad. Detta med ändamålet att motverka, förebygga och stoppa all form av kriminalitet, mobbning samt diskriminering.                </Typography>
               </Grid>
             </Grid>
           </Container>
@@ -277,7 +276,7 @@ const Home = () => {
             <Slider {...settings}>
               <div className="carousel-image-wrapper" style={{ minHeight: `${minHeight}px` }}>
                 <img
-                  src="/lovaktiviteter/lovaktiviteter1.png"
+                  src="/sektionen/sektionenImage.jpeg"
                   alt="Image 1"
                   className="carousel-image"
                 />
@@ -302,7 +301,6 @@ const Home = () => {
         </Box>
 
 
-        <Box sx={{ backgroundColor: '#FFA500', py: isMobile ? 1 : 13, ...getMarginStyle() }}></Box>
 
         {/* VÅRT FANTASTISKA STYRELSE section */}
         {isMobile || isIpad ? (
@@ -315,7 +313,7 @@ const Home = () => {
               }} 
             />
             
-            <Container maxWidth={isMobile ? 'xl' : 'lg'} sx={{ position: 'relative', mt: isMobile ? '-50px' : '-150px' }}>
+            <Container maxWidth={isMobile ? 'xl' : 'lg'} sx={{ position: 'relative' }}>
               <Grid container spacing={3} alignItems="flex-start">
                 <Grid item xs={12}>
                   <Box>
@@ -328,7 +326,7 @@ const Home = () => {
                         mb: 1
                       }}
                     >
-                      VÅRT
+                      VÅR
                     </HeaderText>
                     <HeaderText 
                       variant={isMobile ? "h3" : "h2"} 
@@ -339,17 +337,6 @@ const Home = () => {
                         mb: 1
                       }}
                     >
-                      FANTASTISKA
-                    </HeaderText>
-                    <HeaderText 
-                      variant={isMobile ? "h3" : "h2"} 
-                      sx={{ 
-                        fontWeight: 'bold', 
-                        fontSize: isMobile ? '2.5rem' : '3.5rem',
-                        color: 'black',
-                        mb: 2
-                      }}
-                    >
                       STYRELSE
                     </HeaderText>
                   </Box>
@@ -358,7 +345,7 @@ const Home = () => {
                 {/* Description for mobile and iPad */}
                 <Grid item xs={12}>
                   <Typography variant={isMobile ? "body1" : "h6"}>
-                    Hej! Här är styrelsen för Alby Rådet. Om du har några frågor eller funderingar är du välkommen att <Link href="/kontakta-oss"><span style={{ color: '#FFA500', fontWeight: 'bold' }}>kontakta oss</span></Link>.
+                  Vi är styrelsen för Albyrådet. Om du har några frågor eller funderingar är du välkommen att <Link href="/kontakta-oss"><span style={{ color: 'black', fontWeight: 'bold' }}>kontakta oss</span></Link>!
                   </Typography>
                 </Grid>
               </Grid>
@@ -397,20 +384,17 @@ const Home = () => {
           // Desktop version 
           <Box py={13} sx={{ backgroundColor: '#f0f0f0', marginLeft: '3%', marginRight: '3%', position: 'relative' }}>
             <Container sx={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' }}>
-              <Box sx={{ position: 'relative', top: '-8rem' }}>
+              <Box sx={{ position: 'relative', top: '-2rem' }}>
                 <HeaderText variant="h2" sx={{ fontWeight: 'bold', fontSize: '4rem', color: 'black' }}>
-                  VÅRT
+                  VÅR
                 </HeaderText>
                 <HeaderText variant="h2" sx={{ fontWeight: 'bold', fontSize: '4rem', color: '#FFA500' }}>
-                  FANTASTISKA
-                </HeaderText>
-                <HeaderText variant="h2" sx={{ fontWeight: 'bold', fontSize: '4rem', color: 'black' }}>
-                  STYRELSE
+                STYRELSE
                 </HeaderText>
               </Box>
               <Box sx={{ maxWidth: '50%' }}>
                 <Typography variant="h5">
-                  Hej! Här är styrelsen för Alby Rådet. Om du har några frågor eller funderingar är du välkommen att <Link href="/kontakta-oss"><span style={{ color: 'black', fontWeight: 'bold' }}>kontakta oss</span></Link>.
+                  Vi är styrelsen för Albyrådet. Om du har några frågor eller funderingar är du välkommen att <Link href="/kontakta-oss"><span style={{ color: 'black', fontWeight: 'bold' }}>kontakta oss</span></Link>!
                 </Typography>
               </Box>
             </Container>

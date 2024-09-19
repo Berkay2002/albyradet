@@ -140,7 +140,7 @@ const NavBar = () => {
               <Link href="/" passHref legacyBehavior>
                 <a>
                   <Image
-                    src={scroll ? "/logo/Vit transparant.png" : "/logo/Vit.png"}
+                    src={scroll ? "/logo/vit.svg" : "/logo/svart.svg"}
                     alt="Alby Rådet"
                     width={100}
                     height={100}
@@ -156,7 +156,7 @@ const NavBar = () => {
                       color="inherit"
                       sx={{
                         color: scroll ? 'white' : 'black',
-                        fontSize: '1.25rem',
+                        fontSize: '1.1rem',
                       }}
                     >
                       {page.name}
