@@ -188,19 +188,9 @@ const Kontakt = () => {
                         mb: 1
                       }}
                     >
-                      FANTASTISKA
-                    </HeaderText>
-                    <HeaderText 
-                      variant={isMobile ? "h3" : "h2"} 
-                      sx={{ 
-                        fontWeight: 'bold', 
-                        fontSize: isMobile ? '2.5rem' : '3.5rem',
-                        color: 'black',
-                        mb: 2
-                      }}
-                    >
                       STYRELSE
                     </HeaderText>
+                    
                   </Box>
                 </Grid>
 
@@ -251,11 +241,9 @@ const Kontakt = () => {
                   VÅRT
                 </HeaderText>
                 <HeaderText variant="h2" sx={{ fontWeight: 'bold', fontSize: '4rem', color: '#FFA500' }}>
-                  FANTASTISKA
+                STYRELSE
                 </HeaderText>
-                <HeaderText variant="h2" sx={{ fontWeight: 'bold', fontSize: '4rem', color: 'black' }}>
-                  STYRELSE
-                </HeaderText>
+            
               </Box>
               <Box sx={{ maxWidth: '50%' }}>
                 <Typography variant="h5">
