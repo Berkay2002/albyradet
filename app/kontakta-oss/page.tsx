@@ -24,31 +24,31 @@ const members = [
     name: 'Muhammet Tozak',
     title: 'Ordförande',
     email: 'Muhammet@albyradet.se',
-    image: '/sektionen/profile.jpg',
+    image: '/sektionen/tozak.jpg',
   },
   {
     name: 'Anahit Tovmasyan',
     title: 'Vice ordförande',
     email: 'Anahit@albyradet.se',
-    image: '/sektionen/profile.jpg',
+    image: '/sektionen/nr4.jpg',
   },
   {
     name: 'Jessica Mwaura',
     title: 'PR-ansvarig',
     email: 'Jessica@albyradet.se',
-    image: '/sektionen/profile.jpg',
+    image: '/sektionen/nr3.jpg',
   },
   {
     name: 'Sara Dhahri',
     title: 'Styrelseledamot',
     email: 'Sara@albyradet.se',
-    image: '/sektionen/profile.jpg',
+    image: '/sektionen/nr2.jpg',
   },
   {
     name: 'Jalil Saleem',
     title: 'PR-ansvarig',
     email: 'Jalil@albyradet.se',
-    image: '/sektionen/profile.jpg',
+    image: '/sektionen/nr5.jpg',
   },
 ];
 
@@ -153,8 +153,8 @@ const Kontakt = () => {
 
         <Box sx={{ backgroundColor: '#FFA500', py: isMobile ? 1 : 13, ...getMarginStyle() }}></Box>
 
-        {/* VÅRT FANTASTISKA STYRELSE section */}
-        {isMobile || isIpad ? (
+{/* VÅRT FANTASTISKA STYRELSE section */}
+{isMobile || isIpad ? (
           <Box sx={{ position: 'relative', backgroundColor: '#f0f0f0', ...getMarginStyle() }}>
             <Box 
               sx={{ 
@@ -164,7 +164,7 @@ const Kontakt = () => {
               }} 
             />
             
-            <Container maxWidth={isMobile ? 'xl' : 'lg'} sx={{ position: 'relative', mt: isMobile ? '-50px' : '-150px' }}>
+            <Container maxWidth={isMobile ? 'xl' : 'lg'} sx={{ position: 'relative' }}>
               <Grid container spacing={3} alignItems="flex-start">
                 <Grid item xs={12}>
                   <Box>
@@ -177,7 +177,7 @@ const Kontakt = () => {
                         mb: 1
                       }}
                     >
-                      VÅRT
+                      VÅR
                     </HeaderText>
                     <HeaderText 
                       variant={isMobile ? "h3" : "h2"} 
@@ -190,14 +190,13 @@ const Kontakt = () => {
                     >
                       STYRELSE
                     </HeaderText>
-                    
                   </Box>
                 </Grid>
 
                 {/* Description for mobile and iPad */}
                 <Grid item xs={12}>
                   <Typography variant={isMobile ? "body1" : "h6"}>
-                    Hej! Här är styrelsen för Alby Rådet. Om du har några frågor eller funderingar är du välkommen att <Link href="/kontakta-oss"><span style={{ color: '#FFA500', fontWeight: 'bold' }}>kontakta oss</span></Link>.
+                  Vi är styrelsen för Albyrådet. Om du har några frågor eller funderingar är du välkommen att <Link href="/kontakta-oss"><span style={{ color: 'black', fontWeight: 'bold' }}>kontakta oss</span></Link>!
                   </Typography>
                 </Grid>
               </Grid>
@@ -236,18 +235,17 @@ const Kontakt = () => {
           // Desktop version 
           <Box py={13} sx={{ backgroundColor: '#f0f0f0', marginLeft: '3%', marginRight: '3%', position: 'relative' }}>
             <Container sx={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' }}>
-              <Box sx={{ position: 'relative', top: '-8rem' }}>
+              <Box sx={{ position: 'relative', top: '-2rem' }}>
                 <HeaderText variant="h2" sx={{ fontWeight: 'bold', fontSize: '4rem', color: 'black' }}>
-                  VÅRT
+                  VÅR
                 </HeaderText>
                 <HeaderText variant="h2" sx={{ fontWeight: 'bold', fontSize: '4rem', color: '#FFA500' }}>
                 STYRELSE
                 </HeaderText>
-            
               </Box>
               <Box sx={{ maxWidth: '50%' }}>
                 <Typography variant="h5">
-                  Hej! Här är styrelsen för Alby Rådet. Om du har några frågor eller funderingar är du välkommen att kontakta oss.
+                  Vi är styrelsen för Albyrådet. Om du har några frågor eller funderingar är du välkommen att <Link href="/kontakta-oss"><span style={{ color: 'black', fontWeight: 'bold' }}>kontakta oss</span></Link>!
                 </Typography>
               </Box>
             </Container>

@@ -35,31 +35,31 @@ const members = [
     name: 'Muhammet Tozak',
     title: 'Ordförande',
     email: 'Muhammet@albyradet.se',
-    image: '/sektionen/profile.jpg',
+    image: '/sektionen/tozak.jpg',
   },
   {
     name: 'Anahit Tovmasyan',
     title: 'Vice ordförande',
     email: 'Anahit@albyradet.se',
-    image: '/sektionen/profile.jpg',
+    image: '/sektionen/nr4.jpg',
   },
   {
     name: 'Jessica Mwaura',
     title: 'PR-ansvarig',
     email: 'Jessica@albyradet.se',
-    image: '/sektionen/profile.jpg',
+    image: '/sektionen/nr3.jpg',
   },
   {
     name: 'Sara Dhahri',
     title: 'Styrelseledamot',
     email: 'Sara@albyradet.se',
-    image: '/sektionen/profile.jpg',
+    image: '/sektionen/nr2.jpg',
   },
   {
     name: 'Jalil Saleem',
     title: 'PR-ansvarig',
     email: 'Jalil@albyradet.se',
-    image: '/sektionen/profile.jpg',
+    image: '/sektionen/nr5.jpg',
   },
 ];
 
@@ -271,28 +271,70 @@ const Home = () => {
         </Box>
 
         {/* Carousel Section */}
-        <Box py={0} sx={{ backgroundColor: '#FFA500', height: '100%', ...getMarginStyle() }}>
-          <Box sx={{ width: '100%', margin: '0 auto', height: '100%' }}>
+        <Box py={0} sx={{ backgroundColor: '#FFA500', ...getMarginStyle() }}>
+          <Box sx={{ width: '100%', margin: '0 auto', height: 'auto' }}>
             <Slider {...settings}>
-              <div className="carousel-image-wrapper" style={{ minHeight: `${minHeight}px` }}>
+              <div
+                className="carousel-image-wrapper"
+                style={{
+                  height: '100%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  overflow: 'hidden', // Ensures no extra part of the image is visible
+                }}
+              >
                 <img
                   src="/sektionen/sektionenImage.jpeg"
                   alt="Image 1"
                   className="carousel-image"
+                  style={{
+                    height: '100%',
+                    width: 'auto',
+                    objectFit: 'cover',
+                  }}
                 />
               </div>
-              <div className="carousel-image-wrapper" style={{ minHeight: `${minHeight}px` }}>
+              <div
+                className="carousel-image-wrapper"
+                style={{
+                  height: '100%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  overflow: 'hidden',
+                }}
+              >
                 <img
                   src="/lovaktiviteter/lovaktiviteter2.png"
                   alt="Image 2"
                   className="carousel-image"
+                  style={{
+                    height: '100%',
+                    width: 'auto',
+                    objectFit: 'cover',
+                  }}
                 />
               </div>
-              <div className="carousel-image-wrapper" style={{ minHeight: `${minHeight}px` }}>
+              <div
+                className="carousel-image-wrapper"
+                style={{
+                  height: '100%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  overflow: 'hidden',
+                }}
+              >
                 <img
                   src="/lovaktiviteter/lovaktiviteter3.png"
                   alt="Image 3"
                   className="carousel-image"
+                  style={{
+                    height: '100%',
+                    width: 'auto',
+                    objectFit: 'cover',
+                  }}
                 />
               </div>
               {/* Add more images as needed */}
