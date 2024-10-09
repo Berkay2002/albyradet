@@ -205,7 +205,7 @@ const Home = () => {
               </Grid>
               <Grid item xs={12} md={6}>
                 <Typography variant="h6" gutterBottom>
-                  Albyrådet grundades för snart ett decennium sedan av ett tiotal ungdomar från Alby. Sedan dess har Albyrådet varit en plattform för ungdomar som engagerar sig i området med målet att motverka kriminalitet, mobbning, och diskriminering. Vi utvecklar projekt och koncept som antingen genomförts eller fortsätter bedrivas idag.
+                Albyrådet grundades för snart ett decennium sedan av ett tiotal ungdomar från Alby. Sedan dess har Albyrådet varit en plattform för ungdomar som engagerar sig i föreningen med ändåmålet att motverka, förebygga och stoppa all form av kriminalitet, mobbning samt diskriminering. För att uppnå våra mål har vi utvecklat olika projektkoncept som vi genomfört eller än idag fortsätter bedriva.                
                 </Typography>
               </Grid>
             </Grid>

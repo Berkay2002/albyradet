@@ -41,7 +41,7 @@ const Footer = () => {
               <Link
                 target="_blank"
                 rel="noopener"
-                href="https://sv-se.facebook.com/"
+                href="https://www.facebook.com/profile.php?id=100081907873482"
               >
                 <IconButton color="secondary" aria-label="Facebook">
                   <FacebookRoundedIcon />
@@ -51,7 +51,7 @@ const Footer = () => {
               <Link
                 target="_blank"
                 rel="noopener"
-                href="https://www.instagram.com/"
+                href="https://www.instagram.com/albyradet/"
               >
                 <IconButton color="secondary" aria-label="Instagram">
                   <InstagramIcon />
@@ -61,7 +61,7 @@ const Footer = () => {
               <Link
                 target="_blank"
                 rel="noopener"
-                href="https://www.linkedin.com/"
+                href="https://www.linkedin.com/company/albyrådet/"
               >
                 <IconButton color="secondary" aria-label="LinkedIn">
                   <LinkedInIcon />

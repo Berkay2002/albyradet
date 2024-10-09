@@ -1,4 +1,6 @@
 "use client";
+import Link from 'next/link';
+
 
 import React from 'react';
 import { Container, Box, Typography, Card, CardMedia, CardContent, Button } from '@mui/material';
@@ -6,6 +8,15 @@ import Image from 'next/image'; // Assuming you are using Next.js for image opti
 import Header from '../header'; // Importing the Header component
 import { useContext } from 'react';
 import { MobileStateContext } from '../MobileContext'; // Assuming you are using MobileContext for device detection
+import Carousel from 'react-material-ui-carousel';
+
+
+
+const images = [
+  "/sektionen/sektionenImage.jpeg",
+  "/sektionen/sektionenImage.jpeg",
+  "/sektionen/sektionenImage.jpeg",
+];
 
 const BliMedlem = () => {
   const { isMobile, isIpad } = useContext(MobileStateContext);
@@ -45,14 +56,26 @@ const BliMedlem = () => {
 
           
           {/* Last Image */}
-          <Card sx={{ mb: 5 }}>
-            <CardMedia 
-              component="img" 
-              height="550"
-              image="/sektionen/sektionenImage.jpeg" 
-              alt="Albyrådet medlemmar"
-            />  
-          </Card>
+          <Carousel
+            navButtonsAlwaysVisible={false} // Set to true if you want the navigation buttons to always be visible
+            indicators={true} // Set to true if you want dots indicating the current slide
+            autoPlay={true} // Set to true if you want the slides to auto-rotate
+          >
+            {images.map((image, index) => (
+              <Card key={index} sx={{ mb: 5 }}>
+                <CardMedia
+                  component="img"
+                  sx={{
+                    height: { xs: 200, sm: 400, md: 500 }, // Adjust heights for different screen sizes
+                    objectFit: 'cover', // Ensures the image covers the available space without stretching
+                  }}
+                  image={image}
+                  alt={`Albyrådet medlemmar ${index + 1}`}
+                />
+              </Card>
+            ))}
+          </Carousel>
+
 
           {/* Membership Benefits */}
           <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
@@ -78,13 +101,15 @@ const BliMedlem = () => {
 
           {/* Call to Action Button */}
           <Box sx={{ textAlign: 'center', my: 5 }}>
-            <Button 
-              variant="contained" 
-              sx={{ backgroundColor: '#FFA500', '&:hover': { backgroundColor: '#e59400' } }} 
-              size="large"
-            >
-              Bli Medlem Nu!
-            </Button>
+            <Link href="/medlemansokan" passHref>
+              <Button 
+                variant="contained" 
+                sx={{ backgroundColor: '#FFA500', '&:hover': { backgroundColor: '#e59400' } }} 
+                size="large"
+              >
+                Bli Medlem Nu!
+              </Button>
+            </Link>
           </Box>
 
 

@@ -81,7 +81,7 @@ const Header: React.FC<HeaderProps> = ({ title, description, imageUrl }) => {
             left: 0,
             width: '100%',
             height: '100%',
-            backgroundColor: 'rgba(255, 165, 0, 0.5)', // Orange with 50% opacity
+            backgroundColor: 'rgba(0, 0, 0, 0.1)', // Darker overlay for better text contrast
             zIndex: 1, 
           },
         }}
@@ -89,7 +89,7 @@ const Header: React.FC<HeaderProps> = ({ title, description, imageUrl }) => {
         <HeaderText 
           variant={isMobile ? "h3" : "h2"} 
           sx={{ 
-            color: '#000000', 
+            color: '#00000', 
             fontSize: isSmallMobile ? '2rem' : isMobile ? '2.5rem' : '3.5rem',
             marginBottom: isMobile ? 1.5 : 2,
           }}
@@ -100,8 +100,8 @@ const Header: React.FC<HeaderProps> = ({ title, description, imageUrl }) => {
           <HeaderText 
             variant="body1"
             sx={{ 
-              color: '#000000', 
-              fontSize: isSmallMobile ? '0.9rem' : isMobile ? '1rem' : '1.2rem',
+              color: '#00000', 
+              fontSize: isSmallMobile ? '1rem' : isMobile ? '1rem' : '1.2rem',
               maxWidth: '90%',
               fontWeight: 400,
               textTransform: 'none',
