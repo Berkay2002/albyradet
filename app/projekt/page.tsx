@@ -52,7 +52,7 @@ const Projekt = () => {
             Om BotkyrkaChill
           </Typography>
           <Typography variant="body1" sx={{ mb: 2 }}>
-            BotkyrkaChill är ett etablerat koncept som har funnits ända sedan Albyrådet grundades. Projektet drivs av ungdomar från Albyrådet och syftar till att arrangera sommarlovsaktiviteter för barn och ungdomar i Botkyrka.
+            BotkyrkaChill är ett etablerat koncept som funnits ända sedan Albyrådet grundades. Projektet planeras och genomförs av ungdomar från Albyrådet.          
           </Typography>
 
         {/* Stretched Logo */}
@@ -71,7 +71,9 @@ const Projekt = () => {
             Syfte och Mål
           </Typography>
           <Typography variant="body1" sx={{ mb: 2 }}>
-            Denna projektidé formades fram av Albyrådet då vi såg ett behov av aktiviteter för barn och ungdomar i våra kvartersområden. Vi har tre huvudsakliga mål som vi strävar efter att uppfylla med BotkyrkaChill:
+            Syftet med BotkyrkaChill är att arrangera sommarlovsaktiviteter för framför allt barn, men även ungdomar i Botkyrka. 
+            Denna projektidé bildades av Albyrådet då vi såg ett behov av aktiviteter för barn och ungdomar i våra kvartersområden. 
+            Följande tre mål eftersträvar vi att uppfylla under BotkyrkaChill:
           </Typography>
           <ol>
             <li>
@@ -81,12 +83,12 @@ const Projekt = () => {
             </li>
             <li>
               <Typography variant="body1">
-                <strong>Geografisk tillgänglighet:</strong> Tillse att aktiviteterna sker på olika kvartersområden för att underlätta tillgänglighet för barn och föräldrar.
+                <strong>Geografisk tillgänglighet:</strong> Tillse att dessa aktiviteter sker på olika kvartersområden. Detta i syfte att det blir lättillgängligt för barnen, men även för föräldrar att bevaka aktiviteterna.
               </Typography>
             </li>
             <li>
               <Typography variant="body1">
-                <strong>Socialt fokus:</strong> Förlägga aktiviteterna i socioekonomiskt utsatta områden i Botkyrka.
+                <strong>Socialt fokus:</strong> Tillse att aktiviteterna för och främst sker på socioekonomiskt utsatta områden i Botkyrka.
               </Typography>
             </li>
           </ol>
@@ -115,7 +117,7 @@ const Projekt = () => {
             Om UIA
           </Typography>
           <Typography variant="body1" sx={{ mb: 2 }}>
-            Ung Innovation Alby är ett innovationsprojekt som utvecklades av ungdomar från Albyrådet under första kvartalet av 2024. UIA är en innovationstävling där ungdomar från hela Botkyrka kan tävla och presentera sina idéer.
+          Ung Innovation Alby är ett innovationsprojekt vars koncept arbetats fram av Albyrådets ungdomar under första kvartalet av 2024. UIA är en innovationstävling där ungdomar från hela Botkyrka kan tävla. 
           </Typography>
 
           {/* Purpose and Goals of UIA */}
@@ -123,21 +125,11 @@ const Projekt = () => {
             Syfte och Mål
           </Typography>
           <Typography variant="body1" sx={{ mb: 2 }}>
-            Syftet med Ung Innovation Alby är att främja kreativitet och innovativa idéer, samt att inspirera ungdomar till högre drömmar. Följande mål står i fokus för projektet:
+            Syftet med Ung Innovation Alby är att främja kreativitet och innovativa idéer, samt inspirera till högre drömmar. Under projektet får ungdomar från Botkyrka utveckla och presentera egna innovations idéer. Enda kravet är att innovationsidéerna som ungdomarna framför måste ha samhällsnyttiga aspekter eller bidra till ett mer hållbar Botkyrka/samhälle. 
+            Ungdomar från socioekonomiskt utsatta områden introduceras sällan till innovativt tänkande och skapande. Projektet UIA finns i syfte att öppna en dörr för alla de ungdomar som brinner för att skapa, utveckla och förändra. Ungdomar får under projektet en plattform för att utveckla sina idéer med hjälp av en erfaren innovationscoach som därefter även stöttar ungdomar som vill ta nästa steg inom entreprenörskap.
           </Typography>
-          <ul>
-            <li>
-              <Typography variant="body1">
-                <strong>Främja kreativitet:</strong> Uppmuntra ungdomar att tänka innovativt och bidra med idéer som har samhällsnyttiga aspekter.
-              </Typography>
-            </li>
-            <li>
-              <Typography variant="body1">
-                <strong>Introduktion till entreprenörskap:</strong> Ungdomar får stöd av en innovationscoach och lär sig grunderna i att utveckla sina idéer och ta nästa steg inom entreprenörskap.
-              </Typography>
-            </li>
-          </ul>
 
+          
         </Container>
       </Box>
     </>
