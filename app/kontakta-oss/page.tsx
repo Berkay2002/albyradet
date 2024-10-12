@@ -83,7 +83,7 @@ const Kontakt = () => {
       <Header
         title="KONTAKTA OSS"
         description="Har du några frågor eller funderingar? Kontakta oss här!"
-        imageUrl={isMobile ? '/sektionen/styrelsen-mobil.jpeg' : '/sektionen/styrelsen-mobil.jpeg'}
+        imageUrl={isMobile ? '/sektionen/styrelsen2.jpeg' : '/sektionen/styrelsen2.jpeg'}
       />
       <Box sx={{ backgroundColor: '#FFFFFF' }}>
         <Box py={isMobile ? 5 : 10} sx={{ backgroundColor: '#f0f0f0', ...(isMobile || isIpad ? {} : getMarginStyle()) }}>
@@ -151,10 +151,9 @@ const Kontakt = () => {
           </Container>
         </Box>
 
-        <Box sx={{ backgroundColor: '#FFA500', py: isMobile ? 1 : 13, ...getMarginStyle() }}></Box>
 
-{/* VÅRT FANTASTISKA STYRELSE section */}
-{isMobile || isIpad ? (
+        {/* VÅRT FANTASTISKA STYRELSE section */}
+        {isMobile || isIpad ? (
           <Box sx={{ position: 'relative', backgroundColor: '#f0f0f0', ...getMarginStyle() }}>
             <Box 
               sx={{ 
@@ -164,7 +163,7 @@ const Kontakt = () => {
               }} 
             />
             
-            <Container maxWidth={isMobile ? 'xl' : 'lg'} sx={{ position: 'relative' }}>
+            <Container maxWidth={isMobile ? 'xl' : 'lg'} sx={{ position: 'relative', top: '2rem' }}>
               <Grid container spacing={3} alignItems="flex-start">
                 <Grid item xs={12}>
                   <Box>
@@ -235,7 +234,7 @@ const Kontakt = () => {
           // Desktop version 
           <Box py={13} sx={{ backgroundColor: '#f0f0f0', marginLeft: '3%', marginRight: '3%', position: 'relative' }}>
             <Container sx={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' }}>
-              <Box sx={{ position: 'relative', top: '-2rem' }}>
+              <Box sx={{ position: 'relative', top: '-2.5rem' }}>
                 <HeaderText variant="h2" sx={{ fontWeight: 'bold', fontSize: '4rem', color: 'black' }}>
                   VÅR
                 </HeaderText>

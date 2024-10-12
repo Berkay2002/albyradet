@@ -11,7 +11,7 @@ import Carousel from 'react-material-ui-carousel';
 const botkyrkachill_media = [
   { type: 'image', src: "/botkyrkachill/johannes_sockervadd.jpeg" },
   { type: 'image', src: "/botkyrkachill/IMG_1027_2.jpg" },
-  { type: 'video', src: "/botkyrkachill/vid1.mov" }, // Example .mov video
+  { type: 'video', src: "/botkyrkachill/vid1.mov" }, 
 ];
 const innovation_images = [
   "/ar-innovation/IMG_8652.jpg",
@@ -47,7 +47,7 @@ const Projekt = () => {
       <Header
         title="VÅRA PROJEKT"
         description="Här kan du ta del av våra tidigare och pågående projekt!"
-        imageUrl={isMobile ? '/sektionen/styrelsen-mobil.jpeg' : '/sektionen/styrelsen-mobil.jpeg'}
+        imageUrl={isMobile ? '/botkyrkachill/IMG_1027_2.jpg' : '/botkyrkachill/IMG_1027_2.jpg'}
       />
 
       

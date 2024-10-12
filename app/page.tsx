@@ -271,7 +271,7 @@ const Home = () => {
         </Box>
 
         {/* Carousel Section */}
-        <Box py={0} sx={{ backgroundColor: '#FFA500', ...getMarginStyle() }}>
+        <Box py={0} sx={{ backgroundColor: '#f0f0f0', ...getMarginStyle() }}>
           <Box sx={{ width: '100%', margin: '0 auto', height: 'auto' }}>
             <Slider {...settings}>
               <div
@@ -349,8 +349,7 @@ const Home = () => {
           <Box sx={{ position: 'relative', backgroundColor: '#f0f0f0', ...getMarginStyle() }}>
             <Box 
               sx={{ 
-                backgroundColor: '#FFA500',
-                height: isMobile ? '150px' : '200px',
+                backgroundColor: '#f0f0f0',
                 width: '100%'
               }} 
             />
