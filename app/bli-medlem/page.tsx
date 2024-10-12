@@ -10,8 +10,6 @@ import { useContext } from 'react';
 import { MobileStateContext } from '../MobileContext'; // Assuming you are using MobileContext for device detection
 import Carousel from 'react-material-ui-carousel';
 
-
-
 const images = [
   "/sektionen/sektionenImage.jpeg",
   "/sektionen/sektionenImage.jpeg",

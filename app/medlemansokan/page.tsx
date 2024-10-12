@@ -19,8 +19,25 @@ const Medlemsansokan = () => {
 
 
   const onSubmit = async (data: Record<string, any>) => {
-    console.log(data);
-    alert('Tack för din ansökan! Vi kommer att kontakta dig snart.');
+    try {
+      const response = await fetch('/api/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+      
+      if (response.ok) {
+        alert('Tack för din ansökan! Vi kommer att kontakta dig snart.');
+      } else {
+        const result = await response.json();
+        alert(`Något gick fel: ${result.message}`);
+      }
+    } catch (error) {
+      console.error('Error submitting the application:', error);
+      alert('Ett fel inträffade när ansökan skulle skickas. Försök igen senare.');
+    }
   };
 
   return (

@@ -1,14 +1,39 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Container, Box, Typography, Card, CardMedia, CardContent } from '@mui/material';
-import Image from 'next/image'; // Assuming you are using Next.js for image optimization
+import Image from 'next/image';
 import Header from '../header'; // Importing the Header component
 import { useContext } from 'react';
-import { MobileStateContext } from '../MobileContext'; // Assuming you are using MobileContext for device detection
+import { MobileStateContext } from '../MobileContext'; 
+import Carousel from 'react-material-ui-carousel';
+
+const botkyrkachill_media = [
+  { type: 'image', src: "/botkyrkachill/johannes_sockervadd.jpeg" },
+  { type: 'image', src: "/botkyrkachill/IMG_1027_2.jpg" },
+  { type: 'video', src: "/botkyrkachill/vid1.mov" }, // Example .mov video
+];
+const innovation_images = [
+  "/ar-innovation/IMG_8652.jpg",
+  "/ar-innovation/IMG_8642.jpg",
+  "/ar-innovation/image00006.jpeg",
+];
 
 const Projekt = () => {
   const { isMobile, isIpad } = useContext(MobileStateContext);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]); // Store refs for each video element
+
+  // Handle the slide change and play video if it's in the active slide
+  const handleSlideChange = (now?: number, previous?: number) => {
+    if (now !== undefined && videoRefs.current[now] && botkyrkachill_media[now].type === 'video') {
+      videoRefs.current[now]?.play(); // Play the video when its slide is shown
+    }
+
+    // Pause the previous video if there was a previous slide with a video
+    if (previous !== undefined && videoRefs.current[previous] && botkyrkachill_media[previous].type === 'video') {
+      videoRefs.current[previous]?.pause();
+    }
+  };
 
   // Define the getMarginStyle function based on the isMobile and isIpad values
   const getMarginStyle = () => ({
@@ -26,7 +51,6 @@ const Projekt = () => {
       />
 
       
-      {/* Page content with the same background and structure as the home page */}
       <Box sx={{ backgroundColor: '#F0F0F0', py: 10, ...getMarginStyle() }}>  {/* Matching the home page background */}
         <Container maxWidth="lg">
           {/* BotkyrkaChill Project */}
@@ -34,28 +58,7 @@ const Projekt = () => {
             BotkyrkaChill - Ett Projekt för Samhällsengagemang
           </Typography>
 
-          {/* First Image */}
-          <Card sx={{ mb: 5 }}>
-            <CardMedia 
-              component="img" 
-              height="300"
-              image="/path-to-first-image.jpg" // Replace with actual image paths
-              alt="Botkyrka Chill Event 1"
-            />
-            <CardContent>
-              <Typography variant="body2" sx={{ textAlign: 'center' }}>Sommarlovsaktiviteter - Botkyrka Chill 2021 (Exempelbild)</Typography>
-            </CardContent>
-          </Card>
-
-          {/* Introduction Paragraph */}
-          <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
-            Om BotkyrkaChill
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            BotkyrkaChill är ett etablerat koncept som funnits ända sedan Albyrådet grundades. Projektet planeras och genomförs av ungdomar från Albyrådet.          
-          </Typography>
-
-        {/* Stretched Logo */}
+          {/* Stretched Logo */}
           <Box sx={{ textAlign: 'center', my: 5 }}>
             <Image 
               src="/logo/BC.png" // Replace with the actual path to your logo
@@ -66,12 +69,61 @@ const Projekt = () => {
             />
           </Box>
 
+          
+
+          {/* Introduction Paragraph */}
+          <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
+            Om BotkyrkaChill
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 2 }}>
+          BotkyrkaChill är ett etablerat koncept som funnits ända sedan Albyrådet grundades. Projektet planeras och genomförs av ungdomar från Albyrådet.           </Typography>
+
+          {/* First Carousel */}
+          <Carousel
+            navButtonsAlwaysVisible={false}
+            indicators={true}
+            autoPlay={true}
+            onChange={handleSlideChange} // Trigger slide change and handle video playback
+            >
+            {botkyrkachill_media.map((media, index) => (
+              <Card key={index} sx={{ mb: 5 }}>
+                {media.type === 'image' ? (
+                  <CardMedia
+                    component="img"
+                    sx={{
+                      height: { xs: 400, sm: 500, md: 600 },
+                      objectFit: 'cover',
+                    }}
+                    image={media.src}
+                    alt={`Albyrådet BotkyrkaChill ${index + 1}`}
+                  />
+                ) : (
+                  <CardMedia
+                    component="video"
+                    autoPlay
+                    muted
+                    loop
+                    preload="auto"
+                    playsInline
+                    sx={{
+                      height: { xs: 400, sm: 500, md: 600 },
+                      objectFit: 'cover',
+                    }}
+                    ref={(el: HTMLVideoElement | null) => { videoRefs.current[index] = el; }} // Correctly typing the ref
+                    src={media.src}
+                    // alt={`Albyrådet BotkyrkaChill video ${index + 1}`}
+                  />
+                )}
+              </Card>
+            ))}
+          </Carousel>
+
           {/* Project Purpose and Goals */}
           <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
             Syfte och Mål
           </Typography>
           <Typography variant="body1" sx={{ mb: 2 }}>
-            Syftet med BotkyrkaChill är att arrangera sommarlovsaktiviteter för framför allt barn, men även ungdomar i Botkyrka. 
+            Syftet med BotkyrkaChill är att arrangera sommarlovsaktiviteter för framför allt barn, men även ungdomar i Botkyrka.  
             Denna projektidé bildades av Albyrådet då vi såg ett behov av aktiviteter för barn och ungdomar i våra kvartersområden. 
             Följande tre mål eftersträvar vi att uppfylla under BotkyrkaChill:
           </Typography>
@@ -94,23 +146,30 @@ const Projekt = () => {
           </ol>
 
 
-          {/* Second Image */}
-          <Card sx={{ mb: 5 }}>
-            <CardMedia 
-              component="img" 
-              height="300"
-              image="/path-to-second-image.jpg" // Replace with actual image paths
-              alt="Botkyrka Chill Event 2"
-            />
-            <CardContent>
-              <Typography variant="body2" sx={{ textAlign: 'center' }}>Aktiviteter för ungdomar - Botkyrka Chill 2022 (Exempelbild)</Typography>
-            </CardContent>
-          </Card>
-
           {/* Ung Innovation Alby (UIA) Project */}
           <Typography variant="h4" sx={{ fontWeight: 'bold', mt: 6, mb: 3 }}>
             Ung Innovation Alby (UIA) - Innovationstävling för Ungdomar
           </Typography>
+
+          <Carousel
+            navButtonsAlwaysVisible={false} // Set to true if you want the navigation buttons to always be visible
+            indicators={true} // Set to true if you want dots indicating the current slide
+            autoPlay={true} // Set to true if you want the slides to auto-rotate
+          >
+            {innovation_images.map((image, index) => (
+              <Card key={index} sx={{ mb: 5 }}>
+                <CardMedia
+                  component="img"
+                  sx={{
+                    height: { xs: 300, sm: 400, md: 600 }, // Adjust heights for different screen sizes
+                    objectFit: 'cover', // Ensures the image covers the available space without stretching
+                  }}
+                  image={image}
+                  alt={`Albyrådet Innovation ${index + 1}`}
+                />
+              </Card>
+            ))}
+          </Carousel>
 
           {/* UIA Description */}
           <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
