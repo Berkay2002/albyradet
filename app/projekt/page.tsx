@@ -11,7 +11,7 @@ import Carousel from 'react-material-ui-carousel';
 const botkyrkachill_media = [
   { type: 'image', src: "/botkyrkachill/johannes_sockervadd.jpeg" },
   { type: 'image', src: "/botkyrkachill/IMG_1027_2.jpg" },
-  { type: 'video', src: "/botkyrkachill/vid1.mov" }, 
+  { type: 'video', src: "/botkyrkachill/vid1.mp4" }, 
 ];
 const innovation_images = [
   "/ar-innovation/IMG_8652.jpg",
@@ -83,6 +83,7 @@ const Projekt = () => {
             navButtonsAlwaysVisible={false}
             indicators={true}
             autoPlay={true}
+            interval={5000} // Set the interval between slides in milliseconds
             onChange={handleSlideChange} // Trigger slide change and handle video playback
             >
             {botkyrkachill_media.map((media, index) => (
