@@ -9,7 +9,6 @@ import { MobileStateContext } from '../MobileContext';
 import Carousel from 'react-material-ui-carousel';
 
 const botkyrkachill_media = [
-  { type: 'image', src: "/botkyrkachill/johannes_sockervadd.jpeg" },
   { type: 'image', src: "/botkyrkachill/IMG_1027_2.jpg" },
   { type: 'video', src: "/botkyrkachill/vid1.mp4" }, 
 ];
