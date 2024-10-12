@@ -10,7 +10,7 @@ import Carousel from 'react-material-ui-carousel';
 
 const botkyrkachill_media = [
   { type: 'image', src: "/botkyrkachill/IMG_1027_2.jpg" },
-  { type: 'video', src: "/botkyrkachill/vid1.mp4" }, 
+  { type: 'video', src: "/botkyrkachill/vid.mp4" }, 
 ];
 const innovation_images = [
   "/ar-innovation/IMG_8652.jpg",
@@ -95,7 +95,6 @@ const Projekt = () => {
                       objectFit: 'cover',
                     }}
                     image={media.src}
-                    alt={`Albyrådet BotkyrkaChill ${index + 1}`}
                   />
                 ) : (
                   <CardMedia
@@ -111,7 +110,6 @@ const Projekt = () => {
                     }}
                     ref={(el: HTMLVideoElement | null) => { videoRefs.current[index] = el; }} // Correctly typing the ref
                     src={media.src}
-                    // alt={`Albyrådet BotkyrkaChill video ${index + 1}`}
                   />
                 )}
               </Card>
