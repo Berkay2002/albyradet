@@ -128,6 +128,7 @@ const NavBar = () => {
             backgroundColor: scroll ? 'rgba(0, 0, 0, 0.8)' : 'white',
             transition: 'background-color 0.3s',
             width: isDesktop ? '94%' : '100%',
+            height: isDesktop ? '80px' : '60px', // Set different heights for desktop and other devices
             ...(isDesktop && {
               left: '50%',
               transform: 'translateX(-50%)',
@@ -139,12 +140,12 @@ const NavBar = () => {
             <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
               <Link href="/" passHref legacyBehavior>
                 <a>
-                  <Image
-                    src={scroll ? "/logo/vit.svg" : "/logo/svart.svg"}
-                    alt="Alby Rådet"
-                    width={100}
-                    height={100}
-                  />
+                <Image
+                  src={scroll ? "/logo/vit.svg" : "/logo/svart.svg"}
+                  alt="Alby Rådet"
+                  width={isDesktop ? 80 : 60} // Adjust width for desktop and other devices
+                  height={isDesktop ? 80 : 60} // Adjust height accordingly
+                />
                 </a>
               </Link>
             </Box>
@@ -227,7 +228,7 @@ const NavBar = () => {
             <Box sx={{ textAlign: 'center', mt: "0.5rem" }}>
               <Image
                 alt="Alby Rådet"
-                src="/logo/white.svg"
+                src="/logo/svart.svg"
                 width={150}
                 height={150}
               />
