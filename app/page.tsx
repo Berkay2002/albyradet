@@ -57,7 +57,7 @@ const members = [
   },
   {
     name: 'Jalil Saleem',
-    title: 'PR-ansvarig',
+    title: 'Styrelseledamot',
     email: 'Jalil@albyradet.se',
     image: '/sektionen/nr5.jpg',
   },
@@ -271,82 +271,77 @@ const Home = () => {
         </Box>
 
         {/* Carousel Section */}
-        <Box py={0} sx={{ backgroundColor: '#FFA500', ...getMarginStyle() }}>
-          <Box sx={{ width: '100%', margin: '0 auto', height: 'auto' }}>
-            <Slider {...settings}>
-              <div
-                className="carousel-image-wrapper"
+        <Box sx={{ margin: '0 auto', height: 'auto', ...getMarginStyle(), paddingBottom: 0, backgroundColor: '#f0f0f0' }}>
+          <Slider {...settings}>
+            <div
+              className="carousel-image-wrapper"
+              style={{
+                height: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                overflow: 'hidden', // Ensures no extra part of the image is visible
+              }}
+            >
+              <img
+                src="/sektionen/sektionenImage.jpeg"
+                alt="Image 1"
+                className="carousel-image"
                 style={{
                   height: '100%',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  overflow: 'hidden', // Ensures no extra part of the image is visible
+                  width: 'auto',
+                  objectFit: 'cover',
                 }}
-              >
-                <img
-                  src="/sektionen/sektionenImage.jpeg"
-                  alt="Image 1"
-                  className="carousel-image"
-                  style={{
-                    height: '100%',
-                    width: 'auto',
-                    objectFit: 'cover',
-                  }}
-                />
-              </div>
-              <div
-                className="carousel-image-wrapper"
+              />
+            </div>
+            <div
+              className="carousel-image-wrapper"
+              style={{
+                height: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                overflow: 'hidden',
+              }}
+            >
+              <img
+                src="/sektionen/styrelsen.jpeg"
+                alt="Image 2"
+                className="carousel-image"
                 style={{
                   height: '100%',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  overflow: 'hidden',
+                  width: 'auto',
+                  objectFit: 'cover',
                 }}
-              >
-                <img
-                  src="/lovaktiviteter/lovaktiviteter2.png"
-                  alt="Image 2"
-                  className="carousel-image"
-                  style={{
-                    height: '100%',
-                    width: 'auto',
-                    objectFit: 'cover',
-                  }}
-                />
-              </div>
-              <div
-                className="carousel-image-wrapper"
+              />
+            </div>
+            <div
+              className="carousel-image-wrapper"
+              style={{
+                height: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                overflow: 'hidden',
+              }}
+            >
+              <img
+                src="/lovaktiviteter/lovaktiviteter3.png"
+                alt="Image 3"
+                className="carousel-image"
                 style={{
                   height: '100%',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  overflow: 'hidden',
+                  width: 'auto',
+                  objectFit: 'cover',
                 }}
-              >
-                <img
-                  src="/lovaktiviteter/lovaktiviteter3.png"
-                  alt="Image 3"
-                  className="carousel-image"
-                  style={{
-                    height: '100%',
-                    width: 'auto',
-                    objectFit: 'cover',
-                  }}
-                />
-              </div>
-              {/* Add more images as needed */}
-            </Slider>
-          </Box>
+              />
+            </div>
+            {/* Add more images as needed */}
+          </Slider>
         </Box>
-
-
-
         {/* VÅRT FANTASTISKA STYRELSE section */}
         {isMobile || isIpad ? (
-          <Box sx={{ position: 'relative', backgroundColor: '#f0f0f0', ...getMarginStyle() }}>
+          <Box sx={{ position: 'relative', backgroundColor: '#f0f0f0', ...getMarginStyle(), marginTop: 0 }}>
             <Box 
               sx={{ 
                 backgroundColor: '#FFA500',

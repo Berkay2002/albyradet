@@ -46,7 +46,7 @@ const members = [
   },
   {
     name: 'Jalil Saleem',
-    title: 'PR-ansvarig',
+    title: 'Styrelseledamot',
     email: 'Jalil@albyradet.se',
     image: '/sektionen/nr5.jpg',
   },
