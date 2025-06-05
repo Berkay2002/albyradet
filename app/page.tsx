@@ -144,8 +144,8 @@ const Home = () => {
           {/* Video Background */}
           <video
             autoPlay
-            muted
             loop
+            muted
             playsInline
             style={{
               position: 'absolute',
@@ -155,6 +155,28 @@ const Home = () => {
               height: '100%',
               objectFit: 'cover',
               transform: 'translate(-50%, -50%)',
+            }}
+            ref={(el) => {
+              if (!el) return;
+              // Only set up the observer once
+              if (el.dataset.observerSet) return;
+              el.dataset.observerSet = 'true';
+              
+              // Play/pause based on visibility
+              const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                  if (entry.isIntersecting) {
+                    el.play().catch(() => {});
+                  } else {
+                    el.pause();
+                  }
+                });
+              }, { threshold: 0.1 });
+              
+              observer.observe(el);
+              
+              // Cleanup on unmount
+              return () => observer.disconnect();
             }}
           >
             <source src="/montage480.mp4" type="video/mp4" />
