@@ -73,9 +73,27 @@ const Kontakt = () => {
   });
 
   const onSubmit = async (data: FormValues) => {
-    // Handle form submission
-    console.log(data);
-    alert('Tack för ditt meddelande! Vi kommer att kontakta dig snart.');
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+      
+      if (response.ok) {
+        alert('Tack för ditt meddelande! Vi kommer att kontakta dig snart.');
+      } else {
+        console.error('Error submitting form:', result);
+        alert('Något gick fel när meddelandet skulle skickas. Försök igen senare.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Ett oväntat fel uppstod. Vänligen försök igen senare.');
+    }
   };
 
   return (
