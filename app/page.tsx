@@ -1,509 +1,356 @@
-// app/page.tsx
-// The main file for the home page of the Kliv Idrottsförening website
+'use client';
 
-'use client'; 
-// Indicates that this file is client-side code, a Next.js directive
-
-import React, { useContext, useEffect, useState } from 'react';
-import { Container, Grid, Typography, Card, CardMedia, CardContent, Box, Button, Link, useTheme, useMediaQuery } from '@mui/material';
+import React from 'react';
+import ClientLayout from './ClientLayout';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
-import AOS from 'aos';
-import 'aos/dist/aos.css'; // Import AOS styles
-import Slider from 'react-slick';
-import "slick-carousel/slick/slick.css"; 
-import "slick-carousel/slick/slick-theme.css";
-import { MobileStateContext } from './MobileContext';
-import { styled } from '@mui/system';
-import './globals.css';
-import { calculateMinHeight } from './CalculateMinHeight';
-
+import Link from 'next/link';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 // Import icons
-import SecurityIcon from '@mui/icons-material/Security';
-import GavelIcon from '@mui/icons-material/Gavel';
-import LightbulbIcon from '@mui/icons-material/Lightbulb';
-import GroupIcon from '@mui/icons-material/Group';
-import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
-import SchoolIcon from '@mui/icons-material/School';
-import GroupWorkIcon from '@mui/icons-material/GroupWork';
+import { 
+  Shield as SecurityIcon,
+  Gavel as GavelIcon,
+  Lightbulb as LightbulbIcon,
+  Users as GroupIcon,
+  Mail as MailIcon,
+  ArrowRight as ArrowRightIcon,
+  Play as PlayIcon
+} from 'lucide-react';
 
+// Custom hook for responsive design
+const useResponsive = () => {
+  const [isMobile, setIsMobile] = React.useState(false);
+  const [isTablet, setIsTablet] = React.useState(false);
+  const [isDesktop, setIsDesktop] = React.useState(false);
 
+  React.useEffect(() => {
+    // Only run on client-side
+    if (typeof window !== 'undefined') {
+      const checkScreenSize = () => {
+        const width = window.innerWidth;
+        setIsMobile(width < 768);
+        setIsTablet(width >= 768 && width < 1024);
+        setIsDesktop(width >= 1024);
+      };
 
+      // Initial check
+      checkScreenSize();
 
-const members = [
+      // Add event listener for window resize
+      window.addEventListener('resize', checkScreenSize);
+
+      // Clean up
+      return () => window.removeEventListener('resize', checkScreenSize);
+    }
+  }, []);
+
+  return { isMobile, isTablet, isDesktop };
+};
+
+// Type definitions
+interface Member {
+  id: number;
+  name: string;
+  role: string;
+  image: string;
+  description: string;
+  email?: string;
+}
+
+interface FeatureCardProps {
+  icon: React.ReactElement<React.SVGProps<SVGSVGElement>>;
+  title: string;
+  description: string;
+}
+
+// FeatureCard component
+const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, description }) => {
+  // Create a properly typed icon element with the correct props
+  const IconWithProps = React.cloneElement(icon, { 
+    className: 'w-10 h-10 text-primary',
+    'aria-hidden': true
+  });
+  
+  return (
+    <Card className="h-full transition-transform duration-300 hover:scale-105 hover:shadow-md">
+      <CardContent className="p-6">
+        <div className="mb-4">
+          {IconWithProps}
+        </div>
+        <h3 className="mb-2 text-xl font-semibold text-foreground">{title}</h3>
+        <p className="text-muted-foreground">{description}</p>
+      </CardContent>
+    </Card>
+  );
+};
+
+// MemberCard component props
+interface MemberCardProps {
+  name: string;
+  role: string;
+  image: string;
+  description: string;
+  email?: string;
+}
+
+// MemberCard component
+const MemberCard: React.FC<MemberCardProps> = ({ name, role, image, description, email }) => (
+  <Card className="h-full overflow-hidden transition-shadow duration-300 hover:shadow-lg border-border">
+    <div className="relative h-64 overflow-hidden">
+      <Image
+        src={image}
+        alt={name}
+        fill
+        className="object-cover"
+        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+      />
+    </div>
+    <CardHeader className="border-t border-border">
+      <CardTitle className="text-xl text-foreground">{name}</CardTitle>
+      <CardDescription className="text-primary">{role}</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <p className="text-muted-foreground mb-4">{description}</p>
+      {email && (
+        <a 
+          href={`mailto:${email}`} 
+          className="text-primary hover:underline flex items-center transition-colors"
+        >
+          Kontakta mig <MailIcon className="ml-2 h-4 w-4" />
+        </a>
+      )}
+    </CardContent>
+  </Card>
+);
+
+const members: Member[] = [
   {
+    id: 1,
     name: 'Muhammet Tozak',
-    title: 'Ordförande',
-    email: 'Muhammet@albyradet.se',
+    role: 'Ordförande',
     image: '/sektionen/tozak.jpg',
+    description: 'Ordförande',
   },
   {
+    id: 2,
     name: 'Anahit Tovmasyan',
-    title: 'Vice ordförande',
-    email: 'Anahit@albyradet.se',
+    role: 'Vice ordförande',
     image: '/sektionen/nr4.jpg',
+    description: 'Vice ordförande',
   },
   {
+    id: 3,
     name: 'Jessica Mwaura',
-    title: 'PR-ansvarig',
-    email: 'Jessica@albyradet.se',
+    role: 'PR-ansvarig',
     image: '/sektionen/nr3.jpg',
+    description: 'PR-ansvarig',
   },
   {
+    id: 4,
     name: 'Sara Dhahri',
-    title: 'Styrelseledamot',
-    email: 'Sara@albyradet.se',
+    role: 'Styrelseledamot',
     image: '/sektionen/nr2.jpg',
+    description: 'Styrelseledamot',
   },
   {
+    id: 5,
     name: 'Jalil Saleem',
-    title: 'Styrelseledamot',
-    email: 'Jalil@albyradet.se',
+    role: 'Styrelseledamot',
     image: '/sektionen/nr5.jpg',
+    description: 'Styrelseledamot',
   },
 ];
 
-
-const HeaderText = styled(Typography)(({ theme }) => ({
-  fontFamily: `"Oswald", "Arial Narrow", sans-serif`,
-  fontWeight: 800,
-  letterSpacing: '-0.02em',
-  textTransform: 'uppercase',
-  lineHeight: 1,
-}));
-
-const Home = () => {
-  const theme = useTheme();
-  const { isMobile, isIpad } = useContext(MobileStateContext);
-  const [minHeight, setMinHeight] = useState<number>(0);
-
-
-  useEffect(() => {
-    if (!isMobile) {
-      AOS.init({
-        duration: 1000,
-        once: true,
-      });
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut"
     }
-  }, [isMobile]);
+  }
+};
 
-  useEffect(() => {
-    const imageSources = [
-      '/lovaktiviteter/lovaktiviteter1.png',
-      '/lovaktiviteter/lovaktiviteter2.png',
-      '/lovaktiviteter/lovaktiviteter3.png',
-    ];
+function HomePage() {
+  const { isMobile, isTablet, isDesktop } = useResponsive();
 
-    calculateMinHeight(imageSources).then((minHeight) => {
-      setMinHeight(minHeight);
-    });
-  }, []);
-
-  const settings = {
-    dots: false,
-    arrows: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 4000,
-    pauseOnHover: true
-  };
-
-    // Helper function to apply margins consistently
-    const getMarginStyle = () => ({
-      marginLeft: isMobile ? 0 : '3%',
-      marginRight: isMobile ? 0 : '3%',
-  });
+  const features = [
+    {
+      icon: <SecurityIcon aria-hidden="true" />,
+      title: 'Säkerhet',
+      description: 'Vi prioriterar din säkerhet och integritet genom avancerade skyddsåtgärder och kontinuerlig övervakning.'
+    },
+    {
+      icon: <GavelIcon aria-hidden="true" />,
+      title: 'Rättssäkerhet',
+      description: 'Våra lösningar bygger på en solid juridisk grund för att säkerställa långsiktig hållbarhet.'
+    },
+    {
+      icon: <LightbulbIcon aria-hidden="true" />,
+      title: 'Innovation',
+      description: 'Vi kombinerar branschkunskap med ny teknik för att skapa banbrytande lösningar.'
+    },
+    {
+      icon: <GroupIcon aria-hidden="true" />,
+      title: 'Samarbete',
+      description: 'Tillsammans med våra kunder utvecklar vi skräddarsydda lösningar som verkligen gör skillnad.'
+    }
+  ];
 
   return (
-    <>
+    <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <Box
-        sx={{
-          position: 'relative',
-          width: '100%',
-          height: '100vh',
-          overflow: 'hidden',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        {/* Box Container with Margin */}
-        <Box
-          sx={{
-            position: 'relative',
-            width: '100%',
-            height: '100%',
-            ...getMarginStyle(), // Apply margin to the box
-            overflow: 'hidden',
-          }}
-        >
-          {/* Video Background */}
+      <section className="relative h-screen flex items-center justify-center text-center text-foreground overflow-hidden">
+        {/* Background Video */}
+        <div className="absolute inset-0">
           <video
             autoPlay
             loop
             muted
             playsInline
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              transform: 'translate(-50%, -50%)',
-            }}
-            ref={(el) => {
-              if (!el) return;
-              // Only set up the observer once
-              if (el.dataset.observerSet) return;
-              el.dataset.observerSet = 'true';
-              
-              // Play/pause based on visibility
-              const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                  if (entry.isIntersecting) {
-                    el.play().catch(() => {});
-                  } else {
-                    el.pause();
-                  }
-                });
-              }, { threshold: 0.1 });
-              
-              observer.observe(el);
-              
-              // Cleanup on unmount
-              return () => observer.disconnect();
-            }}
+            className="absolute inset-0 w-full h-full object-cover"
           >
             <source src="/montage480.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
+          <div className="absolute inset-0 bg-black/70" />
+        </div>
 
-          {/* Content with Yellow Overlay */}
-          <Box
-            sx={{
-              position: 'relative',
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              textAlign: 'center',
-              backgroundColor: 'rgba(255, 165, 0, 0.3)', // Orange with 50% opacity
-              zIndex: 1,
-              padding: '3%',
-            }}
-          >
-            {/* Logo Image Instead of ALBY RÅDET */}
-            <Image
-              src="/logo/Vit transparant-header.png" // Replace with the actual logo path
-              alt="Alby Rådet Logo"
-              width={isMobile ? 100 : 300} // Adjust width for mobile and desktop
-              height={isMobile ? 100 : 300} // Adjust height for mobile and desktop
-            />
+        {/* Hero Content */}
+        <div className="relative z-10 container mx-auto px-4">
+          <div className="flex flex-col items-center justify-center h-full">
+            {/* Logo */}
+            <div className="mb-8">
+              <Image
+                src="/logo/Vit transparant-header.png"
+                alt="Alby Rådet Logo"
+                width={isMobile ? 150 : 300}
+                height={isMobile ? 150 : 300}
+                className="w-auto h-auto"
+                priority
+              />
+            </div>
             
-            {/* Subheading Text */}
-            <HeaderText variant={isMobile ? 'h3' : 'h2'} sx={{ color: '#ffffff', mt: 4 , fontSize: isMobile ? '2rem' : isIpad ? '3rem' : '4rem' }}>
+            {/* Tagline */}
+            <motion.h1 
+              className={`text-3xl md:text-5xl lg:text-6xl font-bold mb-8 ${isMobile ? 'text-4xl' : 'text-6xl'}`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
               Av unga, för unga
-            </HeaderText>
-          </Box>
-        </Box>
-      </Box>
-
-
-      <Box sx={{ backgroundColor: 'white' }}>
-        {/* VEM ÄR VI section */}
-        <Box py={isMobile ? 5 : 10} sx={{ backgroundColor: '#f0f0f0', ...getMarginStyle() }}>
-          <Container maxWidth={isMobile ? 'xl' : 'lg'}>
-            <Grid container spacing={5} direction={isMobile ? 'column' : 'row'}>
-              <Grid item xs={12} md={6}>
-                <HeaderText variant={isMobile ? "h3" : "h2"} gutterBottom sx={{ color: '#000000' }}>
-                  VILKA VI ÄR
-                </HeaderText>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Typography variant="h6" gutterBottom>
-                Albyrådet grundades för snart ett decennium sedan av ett tiotal ungdomar från Alby. Sedan dess har Albyrådet varit en plattform för ungdomar som engagerar sig i föreningen med ändåmålet att motverka, förebygga och stoppa all form av kriminalitet, mobbning samt diskriminering. För att uppnå våra mål har vi utvecklat olika projektkoncept som vi genomfört eller än idag fortsätter bedriva.                
-                </Typography>
-              </Grid>
-            </Grid>
-          </Container>
-        </Box>
-
-        {/* VÅR VISION section */}
-        <Box sx={{ backgroundColor: '#FFA500', py: isMobile ? 5 : 10, ...getMarginStyle() }}>
-          <Container maxWidth={isMobile ? 'xl' : 'lg'}>
-            <Grid container spacing={5} direction={isMobile ? 'column' : 'row'}>
-              <Grid item xs={12} md={4}>
-                <HeaderText variant={isMobile ? "h3" : "h2"} gutterBottom sx={{ color: 'white' }}>
-                  VÅR VISION
-                </HeaderText>
-              </Grid>
-              <Grid item xs={12} md={8}>
-                <Grid container spacing={5}>
-                  <Grid item xs={12} sm={6} md={3} textAlign="center">
-                    <SecurityIcon sx={{ fontSize: '3rem', mb: 1, color: 'white' }} />
-                    <Typography variant="h6" sx={{ color: 'white' }}>
-                      Skapa en trygg och säker miljö för ungdomar
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={3} textAlign="center">
-                    <GavelIcon sx={{ fontSize: '3rem', mb: 1, color: 'white' }} />
-                    <Typography variant="h6" sx={{ color: 'white' }}>
-                      Motverka kriminalitet, mobbning och diskriminering
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={3} textAlign="center">
-                    <LightbulbIcon sx={{ fontSize: '3rem', mb: 1, color: 'white' }} />
-                    <Typography variant="h6" sx={{ color: 'white' }}>
-                      Stimulera kreativitet och ledarskap bland unga
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={3} textAlign="center">
-                    <GroupIcon sx={{ fontSize: '3rem', mb: 1, color: 'white' }} />
-                    <Typography variant="h6" sx={{ color: 'white' }}>
-                      Främja inkludering och gemenskap
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Container>
-        </Box>
-
-        {/* VÅR STRÄVAN section */}
-        <Box py={isMobile ? 5 : 10} sx={{ backgroundColor: '#f0f0f0', ...getMarginStyle() }}>
-          <Container maxWidth={isMobile ? 'xl' : 'lg'}>
-            <Grid container spacing={5} direction={isMobile ? 'column' : 'row'}>
-              <Grid item xs={12} md={6}>
-                <HeaderText variant={isMobile ? "h3" : "h2"} gutterBottom sx={{ color: '#000000' }}>
-                  VÅR STRÄVAN
-                </HeaderText>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Typography variant="h6" gutterBottom>
-                Vi strävar efter att bedriva en oberoende plattform för ungdomar i Alby där det finns möjlighet för varje ungdom att engagera sig och göra skillnad. Detta med ändamålet att motverka, förebygga och stoppa all form av kriminalitet, mobbning samt diskriminering.                </Typography>
-              </Grid>
-            </Grid>
-          </Container>
-        </Box>
-
-        {/* Carousel Section */}
-        <Box sx={{ margin: '0 auto', height: 'auto', ...getMarginStyle(), paddingBottom: 0, backgroundColor: '#f0f0f0' }}>
-          <Slider {...settings}>
-            <div
-              className="carousel-image-wrapper"
-              style={{
-                height: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                overflow: 'hidden', // Ensures no extra part of the image is visible
-              }}
-            >
-              <img
-                src="/sektionen/sektionenImage.jpeg"
-                alt="Image 1"
-                className="carousel-image"
-                style={{
-                  height: '100%',
-                  width: 'auto',
-                  objectFit: 'cover',
-                }}
-              />
-            </div>
-            <div
-              className="carousel-image-wrapper"
-              style={{
-                height: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                overflow: 'hidden',
-              }}
-            >
-              <img
-                src="/sektionen/styrelsen.jpeg"
-                alt="Image 2"
-                className="carousel-image"
-                style={{
-                  height: '100%',
-                  width: 'auto',
-                  objectFit: 'cover',
-                }}
-              />
-            </div>
-            <div
-              className="carousel-image-wrapper"
-              style={{
-                height: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                overflow: 'hidden',
-              }}
-            >
-              <img
-                src="/lovaktiviteter/lovaktiviteter3.png"
-                alt="Image 3"
-                className="carousel-image"
-                style={{
-                  height: '100%',
-                  width: 'auto',
-                  objectFit: 'cover',
-                }}
-              />
-            </div>
-            {/* Add more images as needed */}
-          </Slider>
-        </Box>
-        {/* VÅRT FANTASTISKA STYRELSE section */}
-        {isMobile || isIpad ? (
-          <Box sx={{ position: 'relative', backgroundColor: '#f0f0f0', ...getMarginStyle(), marginTop: 0 }}>
-            <Box 
-              sx={{ 
-                backgroundColor: '#f0f0f0',
-                width: '100%'
-              }} 
-            />
+            </motion.h1>
             
-            <Container maxWidth={isMobile ? 'xl' : 'lg'} sx={{ position: 'relative' }}>
-              <Grid container spacing={3} alignItems="flex-start">
-                <Grid item xs={12}>
-                  <Box>
-                    <HeaderText 
-                      variant={isMobile ? "h3" : "h2"} 
-                      sx={{ 
-                        fontWeight: 'bold', 
-                        fontSize: isMobile ? '2.5rem' : '3.5rem',
-                        color: 'black',
-                        mb: 1
-                      }}
-                    >
-                      VÅR
-                    </HeaderText>
-                    <HeaderText 
-                      variant={isMobile ? "h3" : "h2"} 
-                      sx={{ 
-                        fontWeight: 'bold', 
-                        fontSize: isMobile ? '2.5rem' : '3.5rem',
-                        color: '#FFA500',
-                        mb: 1
-                      }}
-                    >
-                      STYRELSE
-                    </HeaderText>
-                  </Box>
-                </Grid>
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 mt-8">
+              <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg">
+                <Link href="/contact" className="flex items-center">
+                  Kontakta oss <ArrowRightIcon className="ml-2 h-5 w-5" />
+                </Link>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="text-foreground border-foreground hover:bg-foreground/10 text-lg">
+                <Link href="/about">
+                  Läs mer om oss
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
 
-                {/* Description for mobile and iPad */}
-                <Grid item xs={12}>
-                  <Typography variant={isMobile ? "body1" : "h6"}>
-                  Vi är styrelsen för Albyrådet. Om du har några frågor eller funderingar är du välkommen att <Link href="/kontakta-oss"><span style={{ color: 'black', fontWeight: 'bold' }}>kontakta oss</span></Link>!
-                  </Typography>
-                </Grid>
-              </Grid>
+      {/* About Section */}
+      <section className="py-16 md:py-24 bg-muted/50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-8 text-foreground">Vilka vi är</h2>
+            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-8">
+              Albyrådet grundades för snart ett decennium sedan av ett tiotal ungdomar från Alby. Sedan dess har Albyrådet varit en plattform för ungdomar som engagerar sig i föreningen med ändamålet att motverka, förebygga och stoppa all form av kriminalitet, mobbning samt diskriminering.
+            </p>
+            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+              För att uppnå våra mål har vi utvecklat olika projektkoncept som vi genomfört eller än idag fortsätter bedriva.
+            </p>
+          </div>
+        </div>
+      </section>
 
-              {/* Member cards for mobile and iPad */}
-              <Grid container spacing={2} justifyContent="center" sx={{ mt: 4 }}>
-                {members.map((member, index) => (
-                  <Grid item key={index} xs={12} sm={6}>
-                    <Card>
-                      <CardMedia>
-                        <Image
-                          src={member.image}
-                          alt={member.name}
-                          width={250}
-                          height={312}
-                          layout="responsive"
-                          style={{ objectFit: 'cover' }}
-                        />
-                      </CardMedia>
-                      <CardContent sx={{ textAlign: 'center' }}>
-                        <Typography variant="h6">{member.name}</Typography>
-                        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-                          {member.title}
-                        </Typography>
-                        <Typography variant="body2" color="textPrimary">
-                          {member.email}
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
-            </Container>
-          </Box>
-        ) : (
-          // Desktop version 
-          <Box py={13} sx={{ backgroundColor: '#f0f0f0', marginLeft: '3%', marginRight: '3%', position: 'relative' }}>
-            <Container sx={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' }}>
-              <Box sx={{ position: 'relative', top: '-2rem' }}>
-                <HeaderText variant="h2" sx={{ fontWeight: 'bold', fontSize: '4rem', color: 'black' }}>
-                  VÅR
-                </HeaderText>
-                <HeaderText variant="h2" sx={{ fontWeight: 'bold', fontSize: '4rem', color: '#FFA500' }}>
-                STYRELSE
-                </HeaderText>
-              </Box>
-              <Box sx={{ maxWidth: '50%' }}>
-                <Typography variant="h5">
-                  Vi är styrelsen för Albyrådet. Om du har några frågor eller funderingar är du välkommen att <Link href="/kontakta-oss"><span style={{ color: 'black', fontWeight: 'bold' }}>kontakta oss</span></Link>!
-                </Typography>
-              </Box>
-            </Container>
+      {/* Features Section */}
+      <section className="py-16 md:py-24 bg-background">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-foreground">Våra fokusområden</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {features.map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <FeatureCard 
+                  icon={feature.icon}
+                  title={feature.title}
+                  description={feature.description}
+                />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            <Container>
-              <Grid container spacing={2} justifyContent="center">
-              {members.map((member, index) => (
-                <Grid 
-                  item 
-                  key={index} 
-                  xs={12} 
-                  sm={6} 
-                  md={4} 
-                  lg={2.4}
-                  sx={{
-                    mb: isMobile && index === members.length - 1 ? 5 : 0, // Add margin bottom for the last card on mobile
-                  }}
-                >
-                    <Card>
-                      <CardMedia>
-                        <Image
-                          src={member.image}
-                          alt={member.name}
-                          width={250}
-                          height={312}
-                          layout="responsive"
-                          style={{ objectFit: 'cover' }}
-                        />
-                      </CardMedia>
-                      <CardContent sx={{ textAlign: 'center' }}>
-                        <Typography variant="h6">{member.name}</Typography>
-                        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-                          {member.title}
-                        </Typography>
-                        <Typography variant="body2" color="textPrimary">
-                          {member.email}
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
-            </Container>
-            
-          </Box>
-        )}
+      {/* Team Section */}
+      <section className="py-16 md:py-24 bg-muted/50">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-foreground">Vårt Team</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {members.map((member) => (
+              <motion.div
+                key={member.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+              >
+                <MemberCard 
+                key={member.id}
+                name={member.name}
+                role={member.role}
+                image={member.image}
+                description={member.description}
+                email={member.email}
+              />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-        
-      </Box>
-    </>
+      {/* CTA Section */}
+      <section className="py-16 md:py-24 bg-primary text-primary-foreground">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">Vill du vara med och göra skillnad?</h2>
+          <p className="text-xl mb-8 max-w-3xl mx-auto text-primary-foreground/90">
+            Gå med i vår förening och var en del av en positiv förändring i samhället.
+          </p>
+          <Button asChild size="lg" className="bg-foreground text-background hover:bg-foreground/90 text-lg">
+            <Link href="/join">
+              Gå med nu <ArrowRightIcon className="ml-2 h-5 w-5" />
+            </Link>
+          </Button>
+        </div>
+      </section>
+    </div>
   );
-};
+}
 
-export default Home;
+export default function Home() {
+  return (
+    <ClientLayout>
+      <HomePage />
+    </ClientLayout>
+  );
+}

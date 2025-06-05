@@ -1,107 +1,76 @@
-// app/Footer.tsx
-'use client';
+import Link from "next/link"
+import Image from "next/image"
+import { Facebook, Instagram, Linkedin } from "lucide-react"
 
-import React, { useContext } from 'react';
-import { Grid, IconButton, Typography, Link, Box } from '@mui/material';
-import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import Image from 'next/image';
-import LinkedInIcon from '@mui/icons-material/LinkedIn'; 
-import { MobileStateContext } from './MobileContext';
-
-
-
-const Footer = () => {
-  const { isMobile, isIpad, isDesktop } = useContext(MobileStateContext);
-
-  // Helper function to apply margins consistently
-  const getMarginStyle = () => ({
-    marginLeft: isMobile ? 0 : '3%',
-    marginRight: isMobile ? 0 : '3%',
-  });
-
+export default function Footer() {
   return (
-    <Box sx={{ ...getMarginStyle() }}>
-      <Grid
-        container
-        sx={{
-          backgroundColor: 'black',
-          p: 3,
-          paddingTop: '60px',
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
-        {/* Logo Section */}
-        <Grid item xs={12} md={4}>
-          <Grid container justifyContent="center" alignItems="center">
-              <Image src="/logo/Vit transparant.png" height={200} width={200} alt="Logo" />
-            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', mb: 0 }}>
-              {/* Facebook Link */}
+    <footer className="bg-alby-gray-darker text-alby-gray-light py-8 px-4 md:px-8">
+      <div className="container mx-auto">
+        <div className="flex flex-col md:flex-row items-stretch justify-between gap-8">
+          {/* Logo and Social Media Section */}
+          <div className="flex flex-col items-center justify-center">
+            <div className="relative w-64 h-24">
+              <div className="h-full w-full">
+                <Image
+                  src="/logo/Vit transparant.png"
+                  alt="Albyrådet Logo"
+                  fill
+                  className="object-contain object-center"
+                  sizes="(max-width: 768px) 600px, 800px"
+                  priority
+                />
+              </div>
+            </div>
+
+            {/* Social Media Icons */}
+            <div className="flex space-x-4 mt-4 ml-1">
               <Link
-                target="_blank"
-                rel="noopener"
-                href="https://www.facebook.com/profile.php?id=100081907873482"
+                href="#"
+                className="p-2 rounded-full bg-alby-gray-dark hover:bg-alby-orange transition-colors duration-200"
               >
-                <IconButton color="secondary" aria-label="Facebook">
-                  <FacebookRoundedIcon />
-                </IconButton>
+                <Facebook size={20} />
+                <span className="sr-only">Facebook</span>
               </Link>
-              {/* Instagram Link */}
               <Link
-                target="_blank"
-                rel="noopener"
-                href="https://www.instagram.com/albyradet/"
+                href="#"
+                className="p-2 rounded-full bg-alby-gray-dark hover:bg-alby-orange transition-colors duration-200"
               >
-                <IconButton color="secondary" aria-label="Instagram">
-                  <InstagramIcon />
-                </IconButton>
+                <Instagram size={20} />
+                <span className="sr-only">Instagram</span>
               </Link>
-              {/* LinkedIn Link */}
               <Link
-                target="_blank"
-                rel="noopener"
-                href="https://www.linkedin.com/company/albyrådet/"
+                href="#"
+                className="p-2 rounded-full bg-alby-gray-dark hover:bg-alby-orange transition-colors duration-200"
               >
-                <IconButton color="secondary" aria-label="LinkedIn">
-                  <LinkedInIcon />
-                </IconButton>
+                <Linkedin size={20} />
+                <span className="sr-only">LinkedIn</span>
               </Link>
-            </Grid>
-          </Grid>
-        </Grid>
+            </div>
+          </div>
 
-        {/* Contact Information Section */}
-        <Grid item xs={12} md={4} sx={{mt:3}}>
-          <Typography color="white" align={isMobile ? 'center' : 'left'}>
-            Org-nummer: 802513-0421 <br />
-            Albyrådet <br />
-            Alhagsvägen 42, tr 5 <br />
-            145 59 Norsborg <br />
-            kontakt@albyradet.se
-          </Typography>
-          <br />
-        </Grid>
+          {/* Contact Information */}
+          <div className="flex flex-col justify-center text-center md:text-left text-sm md:text-base">
+            <h3 className="text-xl font-medium mb-3 text-alby-orange">Kontakt</h3>
+            <div className="space-y-1 text-alby-gray-light">
+              <p>Org-nummer: 802513-0421</p>
+              <p className="font-medium text-alby-gray-light">Albyrådet</p>
+              <p>Alhagsvägen 42, tr 5</p>
+              <p>145 59 Norsborg</p>
+              <Link
+                href="mailto:kontakt@albyradet.se"
+                className="inline-block mt-2 text-alby-orange hover:text-alby-orange-light transition-colors duration-200 hover:underline"
+              >
+                kontakt@albyradet.se
+              </Link>
+            </div>
+          </div>
+        </div>
 
-
-        {/* Social Media Section */}
-        <Grid
-          item
-          xs={12}
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '50%',
-            padding: 1,
-            m: 2,
-          }}
-        >
-        </Grid>
-      </Grid>
-    </Box>
-  );
-};
-
-export default Footer;
+        {/* Optional bottom border or copyright section */}
+        <div className="mt-8 pt-6 border-t border-alby-gray-dark text-center text-sm text-alby-gray-light">
+          <p>&copy; 2024 Albyrådet. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  )
+}

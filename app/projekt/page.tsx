@@ -1,25 +1,364 @@
 "use client";
 
-import React, { useEffect, useRef } from 'react';
-import { Container, Box, Typography, Card, CardMedia, CardContent } from '@mui/material';
+import React, { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
-import Header from '../header'; // Importing the Header component
-import { useContext } from 'react';
-import { MobileStateContext } from '../MobileContext'; 
-import Carousel from 'react-material-ui-carousel';
+import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Card, CardContent } from "@/components/ui/card";
+import { Typography } from "@/components/ui/typography";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, ArrowLeft, Play } from 'lucide-react';
+import { cn } from "@/lib/utils";
+import NavBar from '../NavBar';
+import Footer from '../Footer';
+import Head from 'next/head';
 
-const botkyrkachill_media = [
-  { type: 'image', src: "/botkyrkachill/IMG_1027_2.jpg" },
-  { type: 'video', src: "/botkyrkachill/vid.mp4" }, 
-];
-const innovation_images = [
-  "/ar-innovation/IMG_8652.jpg",
-  "/ar-innovation/IMG_8642.jpg",
-  "/ar-innovation/image00006.jpeg",
+// Custom Carousel Component
+const Carousel = ({ children, className }: { children: React.ReactNode; className?: string }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const items = React.Children.toArray(children);
+  const [direction, setDirection] = useState<'left' | 'right'>('right');
+
+  const nextSlide = () => {
+    setDirection('right');
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
+  };
+
+  const prevSlide = () => {
+    setDirection('left');
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + items.length) % items.length);
+  };
+
+  // Auto-rotate slides
+  useEffect(() => {
+    const timer = setInterval(() => {
+      nextSlide();
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const variants = {
+    enter: (direction: 'left' | 'right') => ({
+      x: direction === 'right' ? '100%' : '-100%',
+      opacity: 0
+    }),
+    center: {
+      x: 0,
+      opacity: 1
+    },
+    exit: (direction: 'left' | 'right') => ({
+      x: direction === 'right' ? '-100%' : '100%',
+      opacity: 0
+    })
+  };
+
+  return (
+    <div className={cn("relative w-full overflow-hidden rounded-lg", className)}>
+      <AnimatePresence mode="wait" custom={direction} initial={false}>
+        <motion.div
+          key={currentIndex}
+          custom={direction}
+          variants={variants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{
+            x: { type: "spring", stiffness: 300, damping: 30 },
+            opacity: { duration: 0.2 }
+          }}
+          className="w-full"
+        >
+          {items[currentIndex]}
+        </motion.div>
+      </AnimatePresence>
+      
+      <button 
+        onClick={prevSlide}
+        className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-foreground p-2 rounded-full shadow-md transition-all hover:scale-110"
+        aria-label="Föregående bild"
+      >
+        <ArrowLeft className="h-5 w-5" />
+      </button>
+      <button 
+        onClick={nextSlide}
+        className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-foreground p-2 rounded-full shadow-md transition-all hover:scale-110"
+        aria-label="Nästa bild"
+      >
+        <ArrowRight className="h-5 w-5" />
+      </button>
+      
+      <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+        {items.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentIndex(index)}
+            className={`h-1.5 rounded-full transition-all ${
+              currentIndex === index ? 'w-6 bg-primary' : 'w-4 bg-foreground/20'
+            }`}
+            aria-label={`Gå till bild ${index + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+type MediaItem = {
+  type: 'image' | 'video';
+  src: string;
+  alt: string;
+};
+
+interface ProjectCardProps {
+  title: string;
+  description: string;
+  media: MediaItem[];
+  goals: Array<{ title: string; description: string }>;
+  className?: string;
+}
+
+interface InnovationItem {
+  src: string;
+  alt: string;
+  title: string;
+  description: string;
+}
+
+const arInnovation_media: MediaItem[] = [
+  { 
+    type: 'image', 
+    src: "/ar-innovation/IMG_8642.jpg",
+    alt: "Deltagare diskuterar innovationer"
+  },
+  { 
+    type: 'image', 
+    src: "/ar-innovation/IMG_8654.jpg",
+    alt: "Workshop för unga innovatörer"
+  },
+  { 
+    type: 'image', 
+    src: "/ar-innovation/IMG_8660.jpg",
+    alt: "Presentation av projektidéer"
+  },
+  { 
+    type: 'video', 
+    src: "/ar-innovation/Min film.mov",
+    alt: "Inspelning från AR Innovation workshop"
+  },
 ];
 
-const Projekt = () => {
-  const { isMobile, isIpad } = useContext(MobileStateContext);
+const botkyrkachill_media: MediaItem[] = [
+  { 
+    type: 'image', 
+    src: "/botkyrkachill/IMG_1027_2.jpg",
+    alt: "Barn deltar i aktiviteter under BotkyrkaChill"
+  },
+  { 
+    type: 'image', 
+    src: "/botkyrkachill/johannes_sockervadd.jpg",
+    alt: "Johannes visar hur man gör sockervadd"
+  },
+  { 
+    type: 'video', 
+    src: "/botkyrkachill/IMG_1001.MOV",
+    alt: "Aktiviteter och stämning från BotkyrkaChill"
+  },
+  { 
+    type: 'video', 
+    src: "/botkyrkachill/vid.mp4",
+    alt: "Sammanfattning av BotkyrkaChill evenemanget"
+  },
+];
+
+const innovationItems = [
+  {
+    src: "/ar-innovation/IMG_8642.jpg",
+    alt: "Unga Innovatörer Alby tävling",
+    title: "Unga Innovatörer Alby",
+    description: "En årlig tävling där unga får chansen att utveckla och presentera sina innovativa idéer."
+  },
+  {
+    src: "/ar-innovation/IMG_8654.jpg",
+    alt: "Workshop vid UIA",
+    title: "Kreativt samarbete",
+    description: "Deltagare arbetar tillsammans för att utveckla sina idéer under handledning."
+  },
+  {
+    src: "/ar-innovation/IMG_8660.jpg",
+    alt: "Prisutdelning UIA",
+    title: "Firande av framgång",
+    description: "Vinnarna hyllas för sina innovativa bidrag under den stora finalen."
+  },
+];
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut"
+    }
+  }
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  }
+};
+
+const ProjectMedia = ({ media, index }: { media: MediaItem, index: number }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  
+  useEffect(() => {
+    const video = videoRef.current;
+    if (media.type === 'video' && video) {
+      video.currentTime = 0;
+      const playPromise = video.play();
+      
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          console.log("Autoplay prevented:", error);
+        });
+      }
+    }
+    
+    return () => {
+      if (video) {
+        video.pause();
+      }
+    };
+  }, [media.type]);
+
+  if (media.type === 'image') {
+    return (
+      <div className="relative w-full aspect-video">
+        <Image
+          src={media.src}
+          alt={media.alt}
+          fill
+          className="object-cover rounded-lg"
+          priority={index === 0}
+        />
+      </div>
+    );
+  }
+  
+  return (
+    <div className="relative w-full aspect-video group">
+      <video
+        ref={videoRef}
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="w-full h-full object-cover rounded-lg"
+      >
+        <source src={media.src} type="video/mp4" />
+        Din webbläsare stödjer inte video-taggen.
+      </video>
+      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="bg-black/50 rounded-full p-3 text-white">
+          <Play className="h-6 w-6" />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ProjectCard: React.FC<ProjectCardProps> = ({ 
+  title, 
+  description, 
+  media, 
+  goals,
+  className = ''
+}) => (
+  <motion.div 
+    variants={fadeInUp}
+    className={cn("bg-white dark:bg-card text-card-foreground rounded-2xl shadow-sm overflow-hidden border border-border/20 hover:shadow-md transition-shadow", className)}
+  >
+    <div className="p-6 md:p-8">
+      <Typography variant="h3" className="text-3xl font-bold mb-6 text-primary">
+        {title}
+      </Typography>
+      
+      <Typography variant="p" className="text-lg mb-8 text-muted-foreground">
+        {description}
+      </Typography>
+      
+      <div className="space-y 6">
+        <Typography variant="h4" className="text-xl font-semibold mb-4">
+          Våra mål
+        </Typography>
+        <ul className="space-y-4">
+          {goals.map((goal, index) => (
+            <motion.li 
+              key={index}
+              variants={fadeInUp}
+              className="flex items-start gap-4"
+            >
+              <div className="flex-shrink-0 mt-1">
+                <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/10 text-primary">
+                  <span className="text-sm font-bold">{index + 1}</span>
+                </div>
+              </div>
+              <div>
+                <h4 className="font-medium text-foreground">{goal.title}</h4>
+                <p className="text-muted-foreground">{goal.description}</p>
+              </div>
+            </motion.li>
+          ))}
+        </ul>
+      </div>
+    </div>
+    
+    <div className="mt-8">
+      <Carousel>
+        {media.map((item, index) => (
+          <div key={index} className="w-full">
+            <ProjectMedia media={item} index={index} />
+          </div>
+        ))}
+      </Carousel>
+    </div>
+  </motion.div>
+);
+
+const InnovationShowcase: React.FC<{ items: InnovationItem[] }> = ({ items }) => (
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {items.map((item, index) => (
+      <motion.div
+        key={index}
+        variants={fadeInUp}
+        className="bg-white dark:bg-card rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-border/20"
+      >
+        <div className="aspect-video bg-muted/20 relative">
+          <Image
+            src={item.src}
+            alt={item.alt}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            priority={index < 3} // Only preload first 3 images
+          />
+        </div>
+        <div className="p-6">
+          <h3 className="text-lg font-semibold mb-2 text-foreground">{item.title}</h3>
+          <p className="text-muted-foreground text-sm">{item.description}</p>
+        </div>
+      </motion.div>
+    ))}
+  </div>
+);
+
+function Projekt() {  
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]); // Store refs for each video element
 
   // Handle the slide change and play video if it's in the active slide
@@ -34,163 +373,150 @@ const Projekt = () => {
     }
   };
 
-  // Define the getMarginStyle function based on the isMobile and isIpad values
-  const getMarginStyle = () => ({
-    marginLeft: isMobile || isIpad ? 0 : '3%',
-    marginRight: isMobile || isIpad ? 0 : '3%',
-  });
-
   return (
-    <>
-      {/* Use the Header component */}
-      <Header
-        title="VÅRA PROJEKT"
-        description="Här kan du ta del av våra tidigare och pågående projekt!"
-        imageUrl={isMobile ? '/botkyrkachill/IMG_1027_2.jpg' : '/botkyrkachill/IMG_1027_2.jpg'}
-      />
-
-      
-      <Box sx={{ backgroundColor: '#F0F0F0', py: 10, ...getMarginStyle() }}>  {/* Matching the home page background */}
-        <Container maxWidth="lg">
-          {/* BotkyrkaChill Project */}
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 3 }}>
-            BotkyrkaChill - Ett Projekt för Samhällsengagemang
-          </Typography>
-
-          {/* Stretched Logo */}
-          <Box sx={{ textAlign: 'center', my: 5 }}>
-            <Image 
-              src="/logo/BC.png" // Replace with the actual path to your logo
-              alt="Botkyrka Chill Logo" 
-              width={1000} // Stretching the logo to fit the width
-              height={320} // Adjust height accordingly to maintain aspect ratio
-              style={{ maxWidth: '100%', height: 'auto' }} // Ensures responsive resizing
-            />
-          </Box>
-
-          
-
-          {/* Introduction Paragraph */}
-          <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
-            Om BotkyrkaChill
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-          BotkyrkaChill är ett etablerat koncept som funnits ända sedan Albyrådet grundades. Projektet planeras och genomförs av ungdomar från Albyrådet.           </Typography>
-
-          {/* First Carousel */}
-          <Carousel
-            navButtonsAlwaysVisible={false}
-            indicators={true}
-            autoPlay={true}
-            interval={5000} // Set the interval between slides in milliseconds
-            onChange={handleSlideChange} // Trigger slide change and handle video playback
+    <div className="min-h-screen bg-background flex flex-col">
+      <Head>
+        <title>Projekt - Alby Rådet</title>
+        <meta name="description" content="Upptäck våra projekt och initiativ i Alby, Botkyrka. Vi arbetar för en bättre framtid för ungdomar i vårt samhälle." />
+      </Head>
+      <NavBar />
+      <main className="flex-1">
+        {/* Hero Section */}
+        <div className="relative bg-gradient-to-b from-primary/5 to-background/50">
+          <div className="container mx-auto px-4 py-16 md:py-24 relative z-10">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-center max-w-4xl mx-auto"
             >
-            {botkyrkachill_media.map((media, index) => (
-              <Card key={index} sx={{ mb: 5 }}>
-                {media.type === 'image' ? (
-                  <CardMedia
-                    component="img"
-                    sx={{
-                      height: { xs: 400, sm: 500, md: 600 },
-                      objectFit: 'cover',
-                    }}
-                    image={media.src}
-                  />
-                ) : (
-                  <CardMedia
-                    component="video"
-                    autoPlay
-                    muted
-                    loop
-                    preload="auto"
-                    playsInline
-                    sx={{
-                      height: { xs: 400, sm: 500, md: 600 },
-                      objectFit: 'cover',
-                    }}
-                    ref={(el: HTMLVideoElement | null) => { videoRefs.current[index] = el; }} // Correctly typing the ref
-                    src={media.src}
-                  />
-                )}
-              </Card>
-            ))}
-          </Carousel>
+              <h1 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">
+                Våra Projekt
+              </h1>
+              <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+                Upptäck våra pågående och tidigare projekt som skapats för att stärka och inspirera vår gemenskap.
+              </p>
+            </motion.div>
+          </div>
+        </div>
 
-          {/* Project Purpose and Goals */}
-          <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
-            Syfte och Mål
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            Syftet med BotkyrkaChill är att arrangera sommarlovsaktiviteter för framför allt barn, men även ungdomar i Botkyrka.  
-            Denna projektidé bildades av Albyrådet då vi såg ett behov av aktiviteter för barn och ungdomar i våra kvartersområden. 
-            Följande tre mål eftersträvar vi att uppfylla under BotkyrkaChill:
-          </Typography>
-          <ol>
-            <li>
-              <Typography variant="body1">
-                <strong>Kostnadsfria aktiviteter:</strong> Erbjuda barn och unga kostnadsfria ledarledda aktiviteter inom idrott och kultur.
-              </Typography>
-            </li>
-            <li>
-              <Typography variant="body1">
-                <strong>Geografisk tillgänglighet:</strong> Tillse att dessa aktiviteter sker på olika kvartersområden. Detta i syfte att det blir lättillgängligt för barnen, men även för föräldrar att bevaka aktiviteterna.
-              </Typography>
-            </li>
-            <li>
-              <Typography variant="body1">
-                <strong>Socialt fokus:</strong> Tillse att aktiviteterna för och främst sker på socioekonomiskt utsatta områden i Botkyrka.
-              </Typography>
-            </li>
-          </ol>
+      {/* BotkyrkaChill Project */}
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto px-4 max-w-7xl">
+          <ProjectCard
+            title="BotkyrkaChill - Ett Projekt för Samhällsengagemang"
+            description="BotkyrkaChill är ett etablerat koncept som funnits ända sedan Albyrådet grundades. Projektet planeras och genomförs av ungdomar från Albyrådet med fokus på att skapa meningsfulla aktiviteter för barn och unga i Botkyrka."
+            media={botkyrkachill_media}
+            goals={[
+              {
+                title: "Kostnadsfria aktiviteter",
+                description: "Erbjuda barn och unga kostnadsfria ledarledda aktiviteter inom idrott och kultur."
+              },
+              {
+                title: "Geografisk tillgänglighet",
+                description: "Tillse att aktiviteterna sker på olika kvartersområden för att vara lättillgängliga för alla."
+              },
+              {
+                title: "Socialt fokus",
+                description: "Fokusera på att nå ut till socioekonomiskt utsatta områden i Botkyrka."
+              }
+            ]}
+          />
+        </div>
+      </section>
 
+      {/* UIA Project */}
+      <section className="py-16 md:py-24 bg-muted/50">
+        <div className="container mx-auto px-4 max-w-7xl">
+          <div className="text-center mb-12">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="inline-flex items-center justify-center px-4 py-2 rounded-full bg-primary/10 text-primary font-medium mb-4"
+            >
+              Innovation & Utveckling
+            </motion.div>
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-3xl md:text-5xl font-bold tracking-tight mb-6"
+            >
+              Ung Innovation Alby (UIA)
+            </motion.h2>
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-xl text-muted-foreground max-w-3xl mx-auto"
+            >
+              En innovationstävling där ungdomar från hela Botkyrka får chansen att utveckla och presentera sina idéer.
+            </motion.p>
+          </div>
 
-          {/* Ung Innovation Alby (UIA) Project */}
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mt: 6, mb: 3 }}>
-            Ung Innovation Alby (UIA) - Innovationstävling för Ungdomar
-          </Typography>
-
-          <Carousel
-            navButtonsAlwaysVisible={false} // Set to true if you want the navigation buttons to always be visible
-            indicators={true} // Set to true if you want dots indicating the current slide
-            autoPlay={true} // Set to true if you want the slides to auto-rotate
+          <motion.div 
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="space-y-12"
           >
-            {innovation_images.map((image, index) => (
-              <Card key={index} sx={{ mb: 5 }}>
-                <CardMedia
-                  component="img"
-                  sx={{
-                    height: { xs: 300, sm: 400, md: 600 }, // Adjust heights for different screen sizes
-                    objectFit: 'cover', // Ensures the image covers the available space without stretching
-                  }}
-                  image={image}
-                  alt={`Albyrådet Innovation ${index + 1}`}
+            <motion.div variants={fadeInUp} className="grid md:grid-cols-2 gap-8 items-center">
+              <div>
+                <h3 className="text-2xl font-bold mb-4">Om UIA</h3>
+                <p className="text-muted-foreground mb-6">
+                  Ung Innovation Alby är ett innovationsprojekt vars koncept arbetats fram av Albyrådets ungdomar under första kvartalet av 2024. UIA är en innovationstävling där ungdomar från hela Botkyrka kan tävla.
+                </p>
+                <h4 className="text-xl font-semibold mb-3">Vår vision</h4>
+                <p className="text-muted-foreground">
+                  Att skapa en plattform där unga innovatörer får möjlighet att utveckla sina idéer, träffa likasinnade och få stöd för att förverkliga sina drömmar.
+                </p>
+              </div>
+              <div className="relative aspect-video rounded-2xl overflow-hidden shadow-xl">
+                <Image
+                  src="/ar-innovation/IMG_8645.jpg"
+                  alt="Unga deltagare vid UIA tävlingen"
+                  fill
+                  className="object-cover"
+                  priority
                 />
-              </Card>
-            ))}
-          </Carousel>
+              </div>
+            </motion.div>
 
-          {/* UIA Description */}
-          <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
-            Om UIA
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-          Ung Innovation Alby är ett innovationsprojekt vars koncept arbetats fram av Albyrådets ungdomar under första kvartalet av 2024. UIA är en innovationstävling där ungdomar från hela Botkyrka kan tävla. 
-          </Typography>
+            <motion.div variants={fadeInUp} className="mt-16">
+              <h3 className="text-2xl font-bold mb-6 text-center">Tidigare tävlingar</h3>
+              <InnovationShowcase items={innovationItems} />
+            </motion.div>
 
-          {/* Purpose and Goals of UIA */}
-          <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
-            Syfte och Mål
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            Syftet med Ung Innovation Alby är att främja kreativitet och innovativa idéer, samt inspirera till högre drömmar. Under projektet får ungdomar från Botkyrka utveckla och presentera egna innovations idéer. Enda kravet är att innovationsidéerna som ungdomarna framför måste ha samhällsnyttiga aspekter eller bidra till ett mer hållbar Botkyrka/samhälle. 
-            Ungdomar från socioekonomiskt utsatta områden introduceras sällan till innovativt tänkande och skapande. Projektet UIA finns i syfte att öppna en dörr för alla de ungdomar som brinner för att skapa, utveckla och förändra. Ungdomar får under projektet en plattform för att utveckla sina idéer med hjälp av en erfaren innovationscoach som därefter även stöttar ungdomar som vill ta nästa steg inom entreprenörskap.
-          </Typography>
-
-          
-        </Container>
-      </Box>
-    </>
+            <motion.div variants={fadeInUp} className="bg-card p-8 rounded-2xl shadow-lg mt-12">
+              <h3 className="text-2xl font-bold mb-4">Vill du delta?</h3>
+              <p className="text-muted-foreground mb-6">
+                Är du mellan 13-25 år och har en innovativ idé som kan göra skillnad i samhället? Anmäl dig till nästa tävling och få chansen att vinna priser och handledning för att förverkliga din idé.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Button size="lg" asChild>
+                  <Link href="/kontakta-oss">
+                    Anmäl intresse
+                  </Link>
+                </Button>
+                <Button size="lg" variant="outline" asChild>
+                  <Link href="/projekt/ung-innovation-alby">
+                    Läs mer om tävlingen
+                  </Link>
+                </Button>
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+      </main>
+      <Footer />
+    </div>
   );
-};
+}
 
 export default Projekt;

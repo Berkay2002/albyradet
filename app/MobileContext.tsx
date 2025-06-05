@@ -1,63 +1,94 @@
-// app/MobileContext.tsx
-'use client';
+"use client"
 
-import React, { useEffect, useState } from "react";
+import * as React from "react"
 
-const initialState: MobileState = {
+// Match Tailwind's default breakpoints
+const breakpoints = {
+  sm: 640,
+  md: 768,
+  lg: 1024,
+  xl: 1280,
+  '2xl': 1536,
+} as const
+
+type Breakpoint = keyof typeof breakpoints
+
+type ResponsiveState = {
+  isMobile: boolean
+  isTablet: boolean
+  isDesktop: boolean
+  currentBreakpoint: Breakpoint | null
+}
+
+const initialState: ResponsiveState = {
   isMobile: false,
-  isIpad: false,
+  isTablet: false,
   isDesktop: false,
-};
-
-export const MobileStateContext = React.createContext(initialState);
-
-interface MobileStateProviderProps {
-  children: React.ReactElement;
+  currentBreakpoint: null,
 }
 
-interface MobileState {
-  isMobile: boolean;
-  isIpad: boolean;
-  isDesktop: boolean;
+const ResponsiveContext = React.createContext<ResponsiveState>(initialState)
+
+interface ResponsiveProviderProps {
+  children: React.ReactNode
 }
 
-export function MobileStateProvider({ children }: MobileStateProviderProps) {
-  const [isMobile, setIsMobile] = useState<boolean>(false);
-  const [isIpad, setIsIpad] = useState<boolean>(false);
-  const [isDesktop, setIsDesktop] = useState<boolean>(false);
+export function ResponsiveProvider({ children }: ResponsiveProviderProps) {
+  const [state, setState] = React.useState<ResponsiveState>(initialState)
 
-  useEffect(setupViewSizeListener, []);
-  useEffect(checkView, []);
+  React.useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth
+      let currentBreakpoint: Breakpoint | null = null
+      let isMobile = false
+      let isTablet = false
+      let isDesktop = false
 
-  function setupViewSizeListener() {
-    window.addEventListener("resize", checkView);
-  }
+      if (width >= breakpoints['2xl']) {
+        currentBreakpoint = '2xl'
+        isDesktop = true
+      } else if (width >= breakpoints.xl) {
+        currentBreakpoint = 'xl'
+        isDesktop = true
+      } else if (width >= breakpoints.lg) {
+        currentBreakpoint = 'lg'
+        isDesktop = true
+      } else if (width >= breakpoints.md) {
+        currentBreakpoint = 'md'
+        isTablet = true
+      } else if (width >= breakpoints.sm) {
+        currentBreakpoint = 'sm'
+        isMobile = true
+      }
 
-  function checkView() {
-    if (window.innerWidth <= 768) {
-      setIsMobile(true);
-      setIsIpad(false);
-      setIsDesktop(false);
-    } else if (window.innerWidth < 1212 && window.innerWidth > 768) {
-      setIsMobile(false);
-      setIsIpad(true);
-      setIsDesktop(false);
-    } else {
-      setIsMobile(false);
-      setIsIpad(false);
-      setIsDesktop(true);
+      setState({
+        isMobile,
+        isTablet,
+        isDesktop,
+        currentBreakpoint,
+      })
     }
-  }
+
+    // Set initial values
+    handleResize()
+
+    // Add event listener
+    window.addEventListener('resize', handleResize, { passive: true })
+
+    // Cleanup
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   return (
-    <MobileStateContext.Provider
+    <ResponsiveContext.Provider
       value={{
-        isMobile,
-        isIpad,
-        isDesktop,
+        isMobile: state.isMobile,
+        isTablet: state.isTablet,
+        isDesktop: state.isDesktop,
+        currentBreakpoint: state.currentBreakpoint,
       }}
     >
       {children}
-    </MobileStateContext.Provider>
+    </ResponsiveContext.Provider>
   );
 }

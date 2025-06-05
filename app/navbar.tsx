@@ -1,244 +1,126 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
-import { ListItem, List, Grid, Drawer, AppBar, Toolbar, Button, Box, IconButton } from '@mui/material';
-import Link from 'next/link';
-import Image from 'next/image';
-import { usePathname } from 'next/navigation';
-import { MobileStateContext } from './MobileContext';
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
-import SocialMediaIcons from './SocialMediaIcons';
-import MenuOutlined from '@mui/icons-material/MenuOutlined';
+"use client";
 
+import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Menu, ChevronDown } from "lucide-react";
+import React from "react";
 
-const NavBar = () => {
-  const [isOpen, setOpen] = useState(false);
-  const [scroll, setScroll] = useState(false);
-  const [visible, setVisible] = useState(true);
-  const { isMobile, isIpad, isDesktop } = useContext(MobileStateContext);
+const navItems = [
+  { name: "Hem", href: "/" },
+  { name: "Våra Projekt", href: "/projekt" },
+  { name: "Kontakta Oss", href: "/kontakta-oss" },
+  { name: "Bli Medlem", href: "/bli-medlem" },
+];
+
+export default function NavBar() {
+  const [isScrolled, setIsScrolled] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
   const pathname = usePathname();
-  const underlineRef = useRef(null);
-  const [underlineStyle, setUnderlineStyle] = useState({ width: 0, left: 0 });
-  const lastScrollY = useRef(0);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY > 50) {
-        setScroll(true);
-      } else {
-        setScroll(false);
-      }
-      
-      if (isMobile) {
-        if (currentScrollY > lastScrollY.current) {
-          setVisible(false);
-        } else {
-          setVisible(true);
-        }
-      }
-      
-      lastScrollY.current = currentScrollY;
+      setIsScrolled(window.scrollY > 10);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [isMobile]);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-  useEffect(() => {
-    if (isDesktop && underlineRef.current) {
-      const activeButton = document.querySelector(`a[href="${pathname}"] button`);
-      if (activeButton) {
-        const { offsetWidth, offsetLeft } = activeButton as HTMLElement;
-        setUnderlineStyle({ width: offsetWidth, left: offsetLeft });
-      }
-    }
-  }, [pathname, isDesktop]);
-
-  const pages = [
-    { name: 'HEM', path: '/' },
-    { name: 'VÅRA PROJEKT', path: '/projekt' },
-    { name: 'KONTAKTA OSS', path: '/kontakta-oss' },
-    { name: 'BLI MEDLEM', path: '/bli-medlem' },
-  ];
-
-  const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
-    if (event.type === 'keydown' && ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')) {
-      return;
-    }
-    setOpen(open);
-  };
+  const closeSheet = () => setIsOpen(false);
 
   return (
-    <>
-      {isMobile ? (
-        // Mobile Navbar
-        <>
-          {/* Fixed Logo */}
-          <Box 
-            sx={{ 
-              position: 'absolute',
-              top: '10px',
-              left: '10px',
-              zIndex: 1100,
-            }}
-          >
-            <Link href="/" passHref legacyBehavior>
-              <a>
-                <Image
-                  src="/logo/Vit.png" // Always use the black variant of the logo
-                  alt="Alby Rådet"
-                  width={75}
-                  height={75}
-                />
-              </a>
-            </Link>
-          </Box>
-          
-          {/* Menu Icon */}
-          <Box
-            sx={{
-              position: 'fixed',
-              top: '20px',
-              right: '10px',
-              zIndex: 1200,
-              display: 'flex',
-              justifyContent: 'flex-start',
-              width: '50px',
-            }}
-          >
-            <MenuOutlined 
-              onClick={toggleDrawer(!isOpen)}
-              style={{
-                fontSize: '50px',
-                color: 'black', // Set color to black at all times
-                transition: 'transform 0.3s',
-                transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-                cursor: 'pointer',
-              }}
-            />
-          </Box>
-        </>
-      ) : (
-        // Desktop Navbar
-        <AppBar
-          position="fixed"
-          sx={{
-            backgroundColor: scroll ? 'rgba(0, 0, 0, 0.8)' : 'white',
-            transition: 'background-color 0.3s',
-            width: isDesktop ? '94%' : '100%',
-            height: isDesktop ? '80px' : '60px', // Set different heights for desktop and other devices
-            ...(isDesktop && {
-              left: '50%',
-              transform: 'translateX(-50%)',
-            }),
-            boxShadow: 'none',
-          }}
-        >
-          <Toolbar sx={{ padding: '0', width: '100%', margin: '0 auto' }}>
-            <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
-              <Link href="/" passHref legacyBehavior>
-                <a>
-                <Image
-                  src={scroll ? "/logo/vit.svg" : "/logo/svart.svg"}
-                  alt="Alby Rådet"
-                  width={isDesktop ? 80 : 60} // Adjust width for desktop and other devices
-                  height={isDesktop ? 80 : 60} // Adjust height accordingly
-                />
-                </a>
-              </Link>
-            </Box>
-            <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', position: 'relative' }}>
-              {pages.map((page) => (
-                <Link href={page.path} key={page.name} passHref legacyBehavior>
-                  <a>
-                    <Button
-                      color="inherit"
-                      sx={{
-                        color: scroll ? 'white' : 'black',
-                        fontSize: '1.1rem',
-                      }}
-                    >
-                      {page.name}
-                    </Button>
-                  </a>
-                </Link>
-              ))}
-              <Box
-                ref={underlineRef}
-                sx={{
-                  position: 'absolute',
-                  bottom: 0,
-                  height: '2px',
-                  backgroundColor: scroll ? 'white' : 'black',
-                  transition: 'width 0.3s ease-in-out, left 0.3s ease-in-out',
-                  ...underlineStyle,
-                }}
-              />
-            </Box>
-          </Toolbar>
-        </AppBar>
+    <header
+      className={cn(
+        "fixed top-0 z-50 w-full transition-all duration-300 border-b border-transparent",
+        isScrolled 
+          ? "bg-background/90 backdrop-blur-md shadow-sm border-border/10" 
+          : "bg-background/80"
       )}
+    >
+      <div className="container flex h-16 items-center justify-between px-4">
+        <Link href="/" className="flex items-center h-full py-2" onClick={closeSheet}>
+          <Image
+            src="/logo/Albyradet-vit-text.png"
+            alt="Albyrådet"
+            width={180}
+            height={50}
+            className="h-full w-auto max-h-10 object-contain transition-transform hover:scale-105"
+            priority
+          />
+        </Link>
+        
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center space-x-1">
+          {navItems.map((item) => (
+            <Button
+              key={item.href}
+              asChild
+              variant="ghost"
+              className={cn(
+                "text-sm font-medium transition-all duration-200 rounded-md",
+                pathname === item.href 
+                  ? "text-primary bg-primary/10" 
+                  : "text-foreground/80 hover:text-primary hover:bg-accent/50"
+              )}
+            >
+              <Link href={item.href}>
+                {item.name}
+              </Link>
+            </Button>
+          ))}
+        </nav>
 
-      {/* Drawer for mobile menu */}
-      <Drawer
-        anchor="right"
-        sx={{ zIndex: 101 }}
-        open={isOpen}
-        onClose={toggleDrawer(false)}
-        transitionDuration={600}
-        PaperProps={{
-          sx: isMobile
-            ? { width: "100%", backgroundColor: "white" }
-            : { width: "50%", backgroundColor: "white" },
-        }}
-      >
-        <Grid
-          container
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-          sx={{ height: '100%', p: 3 }}
-        >
-          <Box
-            sx={{ width: isMobile ? '100%' : 250 }}
-            role="presentation"
-            onClick={toggleDrawer(false)}
-            onKeyDown={toggleDrawer(false)}
-          >
-            <List>
-              {pages.map((page, index) => (
-                <ListItem key={index} sx={{ justifyContent: 'center' }}>
-                  <Link href={page.path} passHref>
-                    <Button
-                      color="inherit"
-                      sx={{
-                        borderBottom: pathname === page.path ? '2px solid black' : 'none',
-                        color: 'black',
-                        fontSize: '1.25rem',
-                      }}
-                    >
-                      {page.name}
-                    </Button>
+        {/* Mobile Navigation */}
+        <div className="md:hidden">
+          <Sheet open={isOpen} onOpenChange={setIsOpen}>
+            <SheetTrigger asChild>
+              <Button variant="outline" size="icon" className="relative">
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Toggle menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[300px] sm:w-[400px] p-0">
+              <div className="flex flex-col h-full">
+                <div className="p-6 border-b">
+                  <Link href="/" className="flex items-center space-x-2" onClick={closeSheet}>
+                    <Image
+                      src="/logo.png"
+                      alt="Alby Rådet"
+                      width={120}
+                      height={40}
+                      className="h-8 w-auto"
+                    />
                   </Link>
-                </ListItem>
-              ))}
-            </List>
-            <Box sx={{ textAlign: 'center', mt: "0.5rem" }}>
-              <Image
-                alt="Alby Rådet"
-                src="/logo/svart.svg"
-                width={150}
-                height={150}
-              />
-              <SocialMediaIcons />
-            </Box>
-          </Box>
-        </Grid>
-      </Drawer>
-    </>
+                </div>
+                <div className="flex-1 p-4 space-y-1">
+                  {navItems.map((item) => (
+                    <Button
+                      key={item.href}
+                      asChild
+                      variant="ghost"
+                      className={cn(
+                        "w-full justify-start text-base h-14 px-4",
+                        pathname === item.href
+                          ? "bg-accent text-accent-foreground"
+                          : "hover:bg-accent/50"
+                      )}
+                      onClick={closeSheet}
+                    >
+                      <Link href={item.href}>
+                        {item.name}
+                      </Link>
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
+      </div>
+    </header>
   );
-};
-
-export default NavBar;
+}

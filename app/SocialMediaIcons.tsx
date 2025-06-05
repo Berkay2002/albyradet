@@ -1,40 +1,47 @@
-import { Grid, IconButton, Typography, Link } from "@mui/material";
-import FacebookRoundedIcon from "@mui/icons-material/FacebookRounded";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import { useContext } from "react";
-import { MobileStateContext } from "./MobileContext";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Facebook, Instagram } from "lucide-react";
+import Link from "next/link";
 
-export default function SocialMediaIcons() {
-  const { isMobile, isIpad, isDesktop } = useContext(MobileStateContext);
-
+export default function SocialMediaIcons({
+  className,
+  iconSize = 20,
+}: {
+  className?: string;
+  iconSize?: number;
+}) {
   return (
-    <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
-      <Link
-        target="_blank"
-        rel="noopener"
-        href="https://sv-se.facebook.com//"
+    <div className={cn("flex items-center justify-center gap-4", className)}>
+      <Button
+        asChild
+        variant="ghost"
+        size="icon"
+        className="h-10 w-10 rounded-full hover:bg-muted"
+        aria-label="Visit our Facebook page"
       >
-        <IconButton
-          color="secondary"
-          aria-label="upload picture"
-          component="label"
+        <Link
+          href="https://sv-se.facebook.com/"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          <FacebookRoundedIcon />
-        </IconButton>
-      </Link>
-      <Link
-        target="_blank"
-        rel="noopener"
-        href="https://www.instagram.com/?hl=en"
+          <Facebook size={iconSize} />
+        </Link>
+      </Button>
+      <Button
+        asChild
+        variant="ghost"
+        size="icon"
+        className="h-10 w-10 rounded-full hover:bg-muted"
+        aria-label="Visit our Instagram page"
       >
-        <IconButton
-          color="secondary"
-          aria-label="upload picture"
-          component="label"
+        <Link
+          href="https://www.instagram.com/"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          <InstagramIcon />
-        </IconButton>
-      </Link>
-    </Grid>
+          <Instagram size={iconSize} />
+        </Link>
+      </Button>
+    </div>
   );
 }
