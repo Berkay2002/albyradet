@@ -5,14 +5,26 @@ export async function POST(req) {
     // Parse the request body
     const { name, personalNumber, address, phone, email, occupation, howFound, greeting } = await req.json();
 
-    // Create a transporter with Nodemailer using Gmail's SMTP settings
+    // Verify environment variables are set
+    if (!process.env.STRATO_EMAIL || !process.env.STRATO_EMAIL_PASSWORD) {
+      console.error('Email credentials not properly configured');
+      return new Response(JSON.stringify({ message: 'Server configuration error' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    console.log('Using email:', process.env.STRATO_EMAIL);
+    
+    // Create a transporter with Nodemailer using Strato's SMTP settings
     const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true, // Use true for SSL (port 465)
+      host: 'smtp.strato.com',
+      port: 587, // Alternative port with STARTTLS
+      secure: false, // Use STARTTLS
+      requireTLS: true, // Requires TLS
       auth: {
-        user: process.env.GMAIL,
-        pass: process.env.GMAIL_APP_PASSWORD,
+        user: process.env.STRATO_EMAIL,
+        pass: process.env.STRATO_EMAIL_PASSWORD,
       },
       connectionTimeout: 20000, // 20 seconds
       socketTimeout: 30000, // 30 seconds
@@ -20,14 +32,29 @@ export async function POST(req) {
       logger: true,
     });
     
+    // Verify connection configuration
+    try {
+      await transporter.verify();
+      console.log('Server is ready to take our messages');
+    } catch (error) {
+      console.error('SMTP connection error:', error);
+      return new Response(JSON.stringify({ 
+        message: 'Failed to connect to email server',
+        error: error.message 
+      }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+    
     
 
 
     // Define the email content
     const mailOptions = {
-      from: 'webmaster.albyradet@gmail.com',
-      to: 'admin@albyradet.se', // Primary recipient
-      cc: 'kontakt@albyradet.se', // Additional recipient(s)
+      from: 'admin@albyradet.se',
+      to: 'kontakt@albyradet.se', // Primary recipient
+      cc: '', // Additional recipient(s)
       subject: `Ny medlemsansökan från ${name}`,
       text: `
         Namn: ${name}
