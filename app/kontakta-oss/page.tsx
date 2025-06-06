@@ -1,287 +1,439 @@
-'use client';
+"use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { Card, CardContent } from "@/components/ui/card";
+import { Typography } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Container } from "@/components/ui/container";
-import { Box } from "@/components/ui/box";
-import { Grid } from "@/components/ui/grid";
-import { HeaderText } from "@/components/ui/header-text";
-import { Header } from '../header';
+import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin, Send, CheckCircle } from 'lucide-react';
+import { cn } from "@/lib/utils";
+import Head from 'next/head';
+import TeamSection from '@/components/TeamSection';
 
-const members = [
+interface Member {
+  id: number;
+  name: string;
+  role: string;
+  email: string;
+  image: string;
+  description: string;
+}
+
+const members: Member[] = [
   {
+    id: 1,
     name: 'Muhammet Tozak',
-    title: 'Ordförande',
+    role: 'Ordförande',
     email: 'Muhammet@albyradet.se',
     image: '/sektionen/tozak.jpg',
+    description: 'Ordförande',
   },
   {
+    id: 2,
     name: 'Anahit Tovmasyan',
-    title: 'Vice ordförande',
+    role: 'Vice ordförande',
     email: 'Anahit@albyradet.se',
     image: '/sektionen/nr4.jpg',
+    description: 'Vice ordförande',
   },
   {
+    id: 3,
     name: 'Jessica Mwaura',
-    title: 'PR-ansvarig',
+    role: 'PR-ansvarig',
     email: 'Jessica@albyradet.se',
     image: '/sektionen/nr3.jpg',
+    description: 'PR-ansvarig',
   },
   {
+    id: 4,
     name: 'Sara Dhahri',
-    title: 'Styrelseledamot',
+    role: 'Styrelseledamot',
     email: 'Sara@albyradet.se',
     image: '/sektionen/nr2.jpg',
+    description: 'Styrelseledamot',
   },
   {
+    id: 5,
     name: 'Jalil Saleem',
-    title: 'Styrelseledamot',
+    role: 'Styrelseledamot',
     email: 'Jalil@albyradet.se',
     image: '/sektionen/nr5.jpg',
+    description: 'Styrelseledamot',
   },
 ];
 
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut"
+    }
+  }
+};
 
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  }
+};
 
-interface FormValues {
+interface FormData {
   name: string;
   email: string;
   phone: string;
   message: string;
 }
 
-const Kontakt = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm<FormValues>();
-  
-  // Remove unused variables and functions
-  const isMobile = typeof window !== 'undefined' ? window.innerWidth < 640 : false;
-  const isIpad = typeof window !== 'undefined' ? window.innerWidth >= 640 && window.innerWidth <= 1024 : false;
+function ContactPage() {
+  const [formData, setFormData] = useState<FormData>({
+    name: '',
+    email: '',
+    phone: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errors, setErrors] = useState<Partial<FormData>>({});
 
-  const onSubmit = async (data: FormValues) => {
+  const validateForm = () => {
+    const newErrors: Partial<FormData> = {};
+    
+    if (!formData.name.trim()) {
+      newErrors.name = 'Namn är obligatoriskt';
+    }
+    
+    if (!formData.email.trim()) {
+      newErrors.email = 'E-post är obligatoriskt';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Ogiltig e-postadress';
+    }
+    
+    if (!formData.phone.trim()) {
+      newErrors.phone = 'Telefonnummer är obligatoriskt';
+    }
+    
+    if (!formData.message.trim()) {
+      newErrors.message = 'Meddelande är obligatoriskt';
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateForm()) return;
+    
+    setIsSubmitting(true);
+    
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(formData),
       });
 
-      const result = await response.json();
-      
       if (response.ok) {
-        alert('Tack för ditt meddelande! Vi kommer att kontakta dig snart.');
+        setIsSubmitted(true);
+        setFormData({ name: '', email: '', phone: '', message: '' });
       } else {
-        console.error('Error submitting form:', result);
-        alert('Något gick fel när meddelandet skulle skickas. Försök igen senare.');
+        throw new Error('Failed to send message');
       }
     } catch (error) {
       console.error('Error:', error);
       alert('Ett oväntat fel uppstod. Vänligen försök igen senare.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleInputChange = (field: keyof FormData, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+    if (errors[field]) {
+      setErrors(prev => ({ ...prev, [field]: undefined }));
     }
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header
-        title="KONTAKTA OSS"
-        description="Har du frågor eller funderingar? Vi finns här för dig!"
-        imageUrl="/sektionen/styrelsen2.jpeg"
-      />
-
-      {/* Contact Form Section */}
-      <section className="py-16 md:py-24 bg-background">
-        <Container className="px-4">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="max-w-4xl mx-auto"
-          >
-            <HeaderText className="text-3xl md:text-4xl font-bold text-center mb-12">
-              Skicka oss ett meddelande
-            </HeaderText>
-            
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium mb-2">Namn</label>
-                  <Input
-                    id="name"
-                    {...register('name', { required: 'Namn är obligatoriskt' })}
-                    className={`w-full ${errors.name ? 'border-red-500' : ''}`}
-                  />
-                  {errors.name && (
-                    <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
-                  )}
-                </div>
-                
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium mb-2">E-postadress</label>
-                  <Input
-                    id="email"
-                    type="email"
-                    {...register('email', { 
-                      required: 'E-post är obligatoriskt', 
-                      pattern: { 
-                        value: /^\S+@\S+\.\S+$/, 
-                        message: 'Ange en giltig e-postadress' 
-                      } 
-                    })}
-                    className={`w-full ${errors.email ? 'border-red-500' : ''}`}
-                  />
-                  {errors.email && (
-                    <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
-                  )}
-                </div>
-              </div>
-              
-              <div>
-                <label htmlFor="phone" className="block text-sm font-medium mb-2">Telefonnummer (valfritt)</label>
-                <Input
-                  id="phone"
-                  {...register('phone')}
-                  className="w-full"
-                />
-              </div>
-              
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium mb-2">Meddelande</label>
-                <Textarea
-                  id="message"
-                  rows={5}
-                  {...register('message', { required: 'Meddelande är obligatoriskt' })}
-                  className={`w-full ${errors.message ? 'border-red-500' : ''}`}
-                />
-                {errors.message && (
-                  <p className="mt-1 text-sm text-red-600">{errors.message.message}</p>
-                )}
-              </div>
-              
-              <div className="flex justify-center">
-                <Button 
-                  type="submit" 
-                  className="bg-alby-orange hover:bg-alby-orange/90 text-white px-8 py-6 text-lg"
-                >
-                  <Send className="mr-2 h-5 w-5" />
-                  Skicka meddelande
-                </Button>
-              </div>
-            </form>
-          </motion.div>
-        </Container>
-      </section>
-
-      {/* Contact Info Section */}
-      <section className="py-16 bg-alby-gray-light/30">
-        <Container className="px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                <div className="bg-alby-orange/10 w-14 h-14 rounded-full flex items-center justify-center mb-4">
-                  <Mail className="h-7 w-7 text-alby-orange" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">E-post</h3>
-                <p className="text-alby-gray-dark">
-                  <a href="mailto:kontakt@albyradet.se" className="hover:text-alby-orange transition-colors">
-                    kontakt@albyradet.se
-                  </a>
-                </p>
-              </div>
-              
-              <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                <div className="bg-alby-orange/10 w-14 h-14 rounded-full flex items-center justify-center mb-4">
-                  <Phone className="h-7 w-7 text-alby-orange" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Telefon</h3>
-                <p className="text-alby-gray-dark">
-                  <a href="tel:+46701234567" className="hover:text-alby-orange transition-colors">
-                    +46 70 123 45 67
-                  </a>
-                </p>
-              </div>
-              
-              <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                <div className="bg-alby-orange/10 w-14 h-14 rounded-full flex items-center justify-center mb-4">
-                  <MapPin className="h-7 w-7 text-alby-orange" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Besöksadress</h3>
-                <p className="text-alby-gray-dark">
-                  Alby Allé 1<br />
-                  146 46 Tumba
-                </p>
-              </div>
-            </div>
+    <div className="min-h-screen bg-background flex flex-col">
+      <Head>
+        <title>Kontakta Oss - Alby Rådet</title>
+        <meta name="description" content="Har du frågor eller vill komma i kontakt med Albyrådet? Kontakta oss här eller träffa vårt team." />
+      </Head>
+      
+      <main className="flex-1 relative">
+        <div className="relative h-[300px] md:h-auto">
+          {/* Orange to black gradient for mobile, image for md+ */}
+          <div className="block md:hidden absolute inset-0 -z-10 bg-gradient-to-b from-orange-400 via-orange-700 to-black" />
+          <div className="hidden md:block absolute inset-0 -z-10">
+            <Image
+              src="/sektionen/styrelsen-16to9-ratio.jpeg"
+              alt="Albyrådet team"
+              fill
+              priority
+              quality={100}
+              className="object-cover object-top"
+              style={{ objectPosition: '0 15%' }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/80 to-background/95" />
           </div>
-        </Container>
-      </section>
+        </div>
+        {/* Hero Section */}
+        <div className="relative">
+          <div className="container mx-auto px-4 py-16 md:py-24 relative z-10">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-center max-w-4xl mx-auto"
+            >
+              <h1 className="text-3xl md:text-5xl font-bold tracking-tight mb-6 text-white [text-shadow:_0_2px_8px_rgba(0,0,0,0.8)]">
+                Kontakta Oss
+              </h1>
+              <p className="text-lg text-white/95 font-medium mb-8 max-w-2xl mx-auto [text-shadow:_0_1px_4px_rgba(0,0,0,0.8)]">
+                Har du några frågor eller funderingar? Vi är här för att hjälpa dig. Kontakta oss genom formuläret nedan eller direkt via våra kontaktuppgifter.
+              </p>
+            </motion.div>
+          </div>
+        </div>
 
-      {/* Board Members Section */}
-      <section className="py-16 bg-white">
-        <Container className="px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
+        {/* Contact Form and Info Section */}
+        <section className="relative py-16 md:py-24 bg-transparent z-10">
+          <div className="container mx-auto px-4 max-w-7xl">
+            <div className="flex flex-col lg:flex-row gap-12 items-stretch">
+              
+              {/* Contact Form */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+                className="bg-alby-gray-dark/90 rounded-2xl shadow-md p-6 sm:p-8 border border-alby-orange-muted/10 w-full lg:w-1/2 flex-1"
               >
-                <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                  <span className="block">VÅR</span>
-                  <span className="text-alby-orange">STYRELSE</span>
-                </h2>
-                <p className="mt-4 text-lg text-alby-gray-dark max-w-2xl mx-auto">
-                  Vi är styrelsen för Albyrådet. Om du har några frågor eller funderingar är du välkommen att kontakta oss!
+                <h2 className="text-2xl font-bold mb-2 text-foreground">Skicka oss ett meddelande</h2>
+                <p className="text-muted-foreground mb-8">
+                  Fyll i formuläret nedan så hör vi av oss så snart som möjligt.
                 </p>
-              </motion.div>
-            </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
-              {members.map((member, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="group"
-                >
-                  <div className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow h-full flex flex-col">
-                    <div className="relative pt-[125%] overflow-hidden">
-                      <Image
-                        src={member.image}
-                        alt={member.name}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
+                {isSubmitted ? (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="text-center py-8"
+                  >
+                    <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
+                    <h3 className="text-xl font-semibold mb-2 text-foreground">Tack för ditt meddelande!</h3>
+                    <p className="text-muted-foreground">Vi kommer att kontakta dig snart.</p>
+                  </motion.div>
+                ) : (
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div>
+                        <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
+                          Namn *
+                        </label>
+                        <Input
+                          id="name"
+                          type="text"
+                          value={formData.name}
+                          onChange={(e) => handleInputChange('name', e.target.value)}
+                          className={cn(
+                            "w-full",
+                            errors.name && "border-alby-red focus:border-alby-red"
+                          )}
+                          placeholder="Ditt fullständiga namn"
+                        />
+                        {errors.name && (
+                          <p className="text-alby-red text-sm mt-1">{errors.name}</p>
+                        )}
+                      </div>
+
+                      <div>
+                        <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
+                          Telefonnummer *
+                        </label>
+                        <Input
+                          id="phone"
+                          type="tel"
+                          value={formData.phone}
+                          onChange={(e) => handleInputChange('phone', e.target.value)}
+                          className={cn(
+                            "w-full",
+                            errors.phone && "border-alby-red focus:border-alby-red"
+                          )}
+                          placeholder="Ditt telefonnummer"
+                        />
+                        {errors.phone && (
+                          <p className="text-alby-red text-sm mt-1">{errors.phone}</p>
+                        )}
+                      </div>
                     </div>
-                    <div className="p-6 flex-1 flex flex-col">
-                      <h3 className="text-xl font-bold text-gray-900">{member.name}</h3>
-                      <p className="text-alby-orange font-medium mb-2">{member.title}</p>
-                      <a 
-                        href={`mailto:${member.email}`}
-                        className="mt-auto text-alby-gray-dark hover:text-alby-orange transition-colors text-sm"
-                      >
-                        {member.email}
-                      </a>
+
+                    <div>
+                      <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
+                        E-postadress *
+                      </label>
+                      <Input
+                        id="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={(e) => handleInputChange('email', e.target.value)}
+                        className={cn(
+                          "w-full",
+                          errors.email && "border-alby-red focus:border-alby-red"
+                        )}
+                        placeholder="din.email@example.com"
+                      />
+                      {errors.email && (
+                        <p className="text-alby-red text-sm mt-1">{errors.email}</p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
+                        Meddelande *
+                      </label>
+                      <Textarea
+                        id="message"
+                        value={formData.message}
+                        onChange={(e) => handleInputChange('message', e.target.value)}
+                        className={cn(
+                          "w-full min-h-[120px] resize-none",
+                          errors.message && "border-alby-red focus:border-alby-red"
+                        )}
+                        placeholder="Skriv ditt meddelande här..."
+                      />
+                      {errors.message && (
+                        <p className="text-alby-red text-sm mt-1">{errors.message}</p>
+                      )}
+                    </div>
+
+                    <Button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-medium py-3 px-6 rounded-lg transition-colors"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                          Skickar...
+                        </>
+                      ) : (
+                        <>
+                          <Send className="h-4 w-4 mr-2" />
+                          Skicka meddelande
+                        </>
+                      )}
+                    </Button>
+                  </form>
+                )}
+              </motion.div>
+ 
+              {/* Contact Information */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="w-full lg:w-1/2 flex-1"
+              >
+                <div className="bg-alby-gray-dark/90 rounded-2xl shadow-md p-6 sm:p-8 border border-alby-orange-muted/10 h-full">
+                  <h2 className="text-2xl font-bold mb-6 text-foreground">Kontaktinformation</h2>
+                  
+                  <div className="space-y-6">
+                    <div className="flex items-start gap-4">
+                      <div className="flex-shrink-0 p-3 bg-primary/10 rounded-lg">
+                        <Mail className="h-5 w-5 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-foreground mb-1">E-post</h3>
+                        <Link 
+                          href="mailto:kontakt@albyradet.se"
+                          className="text-primary hover:text-primary/80 transition-colors"
+                        >
+                          kontakt@albyradet.se
+                        </Link>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-4">
+                      <div className="flex-shrink-0 p-3 bg-primary/10 rounded-lg">
+                        <MapPin className="h-5 w-5 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-foreground mb-1">Adress</h3>
+                        <div className="text-muted-foreground">
+                          <p>Albyrådet</p>
+                          <p>Alhagsvägen 42, tr 5</p>
+                          <p>145 59 Norsborg</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-4">
+                      <div className="flex-shrink-0 p-3 bg-primary/10 rounded-lg">
+                        <Phone className="h-5 w-5 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-foreground mb-1">Organisationsnummer</h3>
+                        <p className="text-muted-foreground">802513-0421</p>
+                      </div>
                     </div>
                   </div>
-                </motion.div>
-              ))}
+
+                  {/* Social Media */}
+                  <div className="mt-8 pt-6 border-t border-border/20">
+                    <h3 className="font-semibold text-foreground mb-4">Följ oss</h3>
+                    <div className="flex gap-4">
+                      <Link
+                        href="#"
+                        className="p-3 bg-muted hover:bg-primary hover:text-primary-foreground transition-colors rounded-lg"
+                        aria-label="Facebook"
+                      >
+                        <Facebook className="h-5 w-5" />
+                      </Link>
+                      <Link
+                        href="#"
+                        className="p-3 bg-muted hover:bg-primary hover:text-primary-foreground transition-colors rounded-lg"
+                        aria-label="Instagram"
+                      >
+                        <Instagram className="h-5 w-5" />
+                      </Link>
+                      <Link
+                        href="#"
+                        className="p-3 bg-muted hover:bg-primary hover:text-primary-foreground transition-colors rounded-lg"
+                        aria-label="LinkedIn"
+                      >
+                        <Linkedin className="h-5 w-5" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
             </div>
           </div>
-        </Container>
-      </section>
+          {/* Gradient overlay for smooth transition to TeamSection */}
+          <div className="pointer-events-none absolute bottom-0 left-0 w-full h-32 sm:h-40 bg-gradient-to-b from-transparent to-muted/50 z-20" />
+        </section>
+
+      </main>
+      <TeamSection members={members} />
+      
     </div>
   );
-};
+}
 
-export default Kontakt;
+export default ContactPage;

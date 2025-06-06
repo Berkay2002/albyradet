@@ -54,39 +54,42 @@ export default function NavBar() {
         </Link>
         
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-1">
+        <nav
+          className="hidden lg:flex items-center space-x-1"
+          aria-label="Main navigation"
+        >
           {navItems.map((item) => (
             <Button
               key={item.href}
               asChild
               variant="ghost"
               className={cn(
-                "text-sm font-medium transition-all duration-200 rounded-md",
+                "text-sm font-medium transition-all duration-200 rounded-md focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
                 pathname === item.href 
                   ? "text-primary bg-primary/10" 
                   : "text-foreground/80 hover:text-primary hover:bg-accent/50"
               )}
             >
-              <Link href={item.href}>
+              <Link href={item.href} tabIndex={0} aria-current={pathname === item.href ? "page" : undefined}>
                 {item.name}
               </Link>
             </Button>
           ))}
         </nav>
 
-        {/* Mobile Navigation */}
-        <div className="md:hidden">
+        {/* Mobile & Tablet Navigation */}
+        <div className="lg:hidden">
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
-              <Button variant="outline" size="icon" className="relative">
-                <Menu className="h-5 w-5" />
+              <Button variant="outline" size="icon" className="relative focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2" aria-label="Open menu">
+                <Menu className="h-5 w-5" aria-hidden="true" />
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] sm:w-[400px] p-0">
+            <SheetContent side="right" className="w-[80vw] max-w-xs sm:max-w-sm p-0 focus:outline-none" aria-label="Mobile navigation menu">
               <div className="flex flex-col h-full">
                 <div className="p-6 border-b">
-                  <Link href="/" className="flex items-center space-x-2" onClick={closeSheet}>
+                  <Link href="/" className="flex items-center space-x-2" onClick={closeSheet} tabIndex={0} aria-label="Go to homepage">
                     <Image
                       src="/logo.png"
                       alt="Alby Rådet"
@@ -103,14 +106,13 @@ export default function NavBar() {
                       asChild
                       variant="ghost"
                       className={cn(
-                        "w-full justify-start text-base h-14 px-4",
+                        "w-full justify-start text-base h-14 px-4 rounded-md focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
                         pathname === item.href
-                          ? "bg-accent text-accent-foreground"
-                          : "hover:bg-accent/50"
+                          ? "bg-accent text-accent-foreground" : "hover:bg-accent/50"
                       )}
                       onClick={closeSheet}
                     >
-                      <Link href={item.href}>
+                      <Link href={item.href} tabIndex={0} aria-current={pathname === item.href ? "page" : undefined}>
                         {item.name}
                       </Link>
                     </Button>

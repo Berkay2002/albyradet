@@ -9,8 +9,6 @@ import { Typography } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowLeft, Play } from 'lucide-react';
 import { cn } from "@/lib/utils";
-import NavBar from '../NavBar';
-import Footer from '../Footer';
 import Head from 'next/head';
 
 // Custom Carousel Component
@@ -54,50 +52,50 @@ const Carousel = ({ children, className }: { children: React.ReactNode; classNam
 
   return (
     <div className={cn("relative w-full overflow-hidden rounded-lg", className)}>
-      <AnimatePresence mode="wait" custom={direction} initial={false}>
-        <motion.div
-          key={currentIndex}
-          custom={direction}
-          variants={variants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          transition={{
-            x: { type: "spring", stiffness: 300, damping: 30 },
-            opacity: { duration: 0.2 }
-          }}
-          className="w-full"
+      <div className="relative w-full aspect-video">
+        <AnimatePresence custom={direction} initial={false}>
+          <motion.div
+            key={currentIndex}
+            custom={direction}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+              x: { type: "spring", stiffness: 180, damping: 24 }
+            }}
+            className="absolute inset-0 w-full h-full"
+            style={{ zIndex: 1 }}
+          >
+            {items[currentIndex]}
+          </motion.div>
+        </AnimatePresence>
+        <button 
+          onClick={prevSlide}
+          className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-foreground p-2 rounded-full shadow-md transition-all hover:scale-110"
+          aria-label="Föregående bild"
         >
-          {items[currentIndex]}
-        </motion.div>
-      </AnimatePresence>
-      
-      <button 
-        onClick={prevSlide}
-        className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-foreground p-2 rounded-full shadow-md transition-all hover:scale-110"
-        aria-label="Föregående bild"
-      >
-        <ArrowLeft className="h-5 w-5" />
-      </button>
-      <button 
-        onClick={nextSlide}
-        className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-foreground p-2 rounded-full shadow-md transition-all hover:scale-110"
-        aria-label="Nästa bild"
-      >
-        <ArrowRight className="h-5 w-5" />
-      </button>
-      
-      <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
-        {items.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentIndex(index)}
-            className={`h-1.5 rounded-full transition-all ${
-              currentIndex === index ? 'w-6 bg-primary' : 'w-4 bg-foreground/20'
-            }`}
-            aria-label={`Gå till bild ${index + 1}`}
-          />
-        ))}
+          <ArrowLeft className="h-5 w-5" />
+        </button>
+        <button 
+          onClick={nextSlide}
+          className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-foreground p-2 rounded-full shadow-md transition-all hover:scale-110"
+          aria-label="Nästa bild"
+        >
+          <ArrowRight className="h-5 w-5" />
+        </button>
+        <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+          {items.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentIndex(index)}
+              className={`h-1.5 rounded-full transition-all ${
+                currentIndex === index ? 'w-6 bg-primary' : 'w-4 bg-foreground/20'
+              }`}
+              aria-label={`Gå till bild ${index + 1}`}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -282,7 +280,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 }) => (
   <motion.div 
     variants={fadeInUp}
-    className={cn("bg-white dark:bg-card text-card-foreground rounded-2xl shadow-sm overflow-hidden border border-border/20 hover:shadow-md transition-shadow", className)}
+    className={cn("bg-muted/50 text-card-foreground rounded-2xl shadow-md overflow-hidden border border-alby-orange-muted/10 transition-shadow", className)}
   >
     <div className="p-6 md:p-8">
       <Typography variant="h3" className="text-3xl font-bold mb-6 text-primary">
@@ -337,9 +335,9 @@ const InnovationShowcase: React.FC<{ items: InnovationItem[] }> = ({ items }) =>
       <motion.div
         key={index}
         variants={fadeInUp}
-        className="bg-white dark:bg-card rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-border/20"
+        className="bg-foreground/5 rounded-xl overflow-hidden shadow-md border border-alby-orange-muted/10 transition-shadow"
       >
-        <div className="aspect-video bg-muted/20 relative">
+        <div className="aspect-video bg-muted/40 relative">
           <Image
             src={item.src}
             alt={item.alt}
@@ -379,11 +377,22 @@ function Projekt() {
         <title>Projekt - Alby Rådet</title>
         <meta name="description" content="Upptäck våra projekt och initiativ i Alby, Botkyrka. Vi arbetar för en bättre framtid för ungdomar i vårt samhälle." />
       </Head>
-      <NavBar />
       <main className="flex-1">
         {/* Hero Section */}
         <div className="relative bg-gradient-to-b from-primary/5 to-background/50">
-          <div className="container mx-auto px-4 py-16 md:py-24 relative z-10">
+          {/* Orange to black gradient for mobile, image for md+ */}
+          <div className="block md:hidden absolute inset-0 -z-10 bg-gradient-to-b from-orange-400 via-orange-700 to-black" />
+            <div className="hidden md:block absolute inset-0 -z-10">
+              <Image
+                src="/ar-innovation/IMG_8645.jpg"
+                alt="Unga deltagare vid UIA tävlingen"
+                fill
+                className="object-cover object-center"
+                priority
+              />
+              <div className="absolute inset-0 bg-black/60" />
+            </div>
+          <div className="container mx-auto px-4 py-8 md:py-16 relative z-10">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -401,7 +410,7 @@ function Projekt() {
         </div>
 
       {/* BotkyrkaChill Project */}
-      <section className="py-16 md:py-24">
+      <section className="py-8 md:py-16">
         <div className="container mx-auto px-4 max-w-7xl">
           <ProjectCard
             title="BotkyrkaChill - Ett Projekt för Samhällsengagemang"
@@ -425,19 +434,13 @@ function Projekt() {
         </div>
       </section>
 
+      {/* Gradient transition from dark to gray using theme colors */}
+      <div className="h-4 md:h-8 w-full bg-gradient-to-b from-background via-alby-gray-darker to-muted/50" />
+
       {/* UIA Project */}
       <section className="py-16 md:py-24 bg-muted/50">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="text-center mb-12">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="inline-flex items-center justify-center px-4 py-2 rounded-full bg-primary/10 text-primary font-medium mb-4"
-            >
-              Innovation & Utveckling
-            </motion.div>
             <motion.h2 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -465,8 +468,9 @@ function Projekt() {
             viewport={{ once: true }}
             className="space-y-12"
           >
-            <motion.div variants={fadeInUp} className="grid md:grid-cols-2 gap-8 items-center">
-              <div>
+            <motion.div variants={fadeInUp} className="grid md:grid-cols-2 gap-8 items-center md:bg-foreground/5 md:rounded-2xl md:shadow-xl md:p-8 md:relative">
+              {/* Text Section */}
+              <div className="md:pr-8 md:border-r md:border-border/20">
                 <h3 className="text-2xl font-bold mb-4">Om UIA</h3>
                 <p className="text-muted-foreground mb-6">
                   Ung Innovation Alby är ett innovationsprojekt vars koncept arbetats fram av Albyrådets ungdomar under första kvartalet av 2024. UIA är en innovationstävling där ungdomar från hela Botkyrka kan tävla.
@@ -476,7 +480,8 @@ function Projekt() {
                   Att skapa en plattform där unga innovatörer får möjlighet att utveckla sina idéer, träffa likasinnade och få stöd för att förverkliga sina drömmar.
                 </p>
               </div>
-              <div className="relative aspect-video rounded-2xl overflow-hidden shadow-xl">
+              {/* Image Section (hidden on mobile) */}
+              <div className="hidden md:block relative aspect-video rounded-2xl overflow-hidden shadow-xl md:ml-8">
                 <Image
                   src="/ar-innovation/IMG_8645.jpg"
                   alt="Unga deltagare vid UIA tävlingen"
@@ -488,11 +493,10 @@ function Projekt() {
             </motion.div>
 
             <motion.div variants={fadeInUp} className="mt-16">
-              <h3 className="text-2xl font-bold mb-6 text-center">Tidigare tävlingar</h3>
               <InnovationShowcase items={innovationItems} />
             </motion.div>
 
-            <motion.div variants={fadeInUp} className="bg-card p-8 rounded-2xl shadow-lg mt-12">
+            <motion.div variants={fadeInUp} className="bg-foreground/5 p-8 rounded-2xl shadow-lg mt-12">
               <h3 className="text-2xl font-bold mb-4">Vill du delta?</h3>
               <p className="text-muted-foreground mb-6">
                 Är du mellan 13-25 år och har en innovativ idé som kan göra skillnad i samhället? Anmäl dig till nästa tävling och få chansen att vinna priser och handledning för att förverkliga din idé.
@@ -514,7 +518,6 @@ function Projekt() {
         </div>
       </section>
       </main>
-      <Footer />
     </div>
   );
 }

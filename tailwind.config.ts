@@ -54,26 +54,28 @@ const config = {
         },
         // Custom color palette
         alby: {
-          // Primary orange colors
           orange: {
             DEFAULT: "#FF6B00",  // Main orange color
             light: "#FF8C42",   // Lighter shade for hover states
             dark: "#E65C00",    // Darker shade for active states
             muted: "#FFE0C2",   // Very light for backgrounds
           },
-          // Neutral colors
           gray: {
             light: "#F5F5F5",   // Light gray for light mode backgrounds
             DEFAULT: "#9E9E9E",  // Medium gray for text/UI elements
             dark: "#424242",     // Dark gray for dark mode text
             darker: "#212121"    // Very dark for dark mode backgrounds
           },
-          // Accent colors
           blue: "#1976D2",       // For links and interactive elements
           green: "#388E3C",      // For success states
           red: "#D32F2F",        // For errors and destructive actions
           yellow: "#FBC02D"      // For warnings
-        }
+        },
+        // Top-level keys for Tailwind utility compatibility
+        'alby-orange': '#FF6B00',
+        'alby-orange-light': '#FF8C42',
+        'alby-orange-dark': '#E65C00',
+        'alby-orange-muted': '#FFE0C2',
       },
       borderRadius: {
         lg: "var(--radius)",

@@ -1,13 +1,13 @@
 'use client';
 
 import React from 'react';
-import ClientLayout from './ClientLayout';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import TeamSection from '@/components/TeamSection';
 
 // Import icons
 import { 
@@ -75,13 +75,13 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, description }) =
   });
   
   return (
-    <Card className="h-full transition-transform duration-300 hover:scale-105 hover:shadow-md">
-      <CardContent className="p-6">
-        <div className="mb-4">
+    <Card className="h-full transition-transform duration-300 md:hover:scale-105 md:hover:shadow-md md:focus-within:scale-105 md:focus-within:shadow-md focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 outline-none">
+      <CardContent className="p-4 sm:p-6">
+        <div className="mb-4 flex items-center justify-center">
           {IconWithProps}
         </div>
-        <h3 className="mb-2 text-xl font-semibold text-foreground">{title}</h3>
-        <p className="text-muted-foreground">{description}</p>
+        <h3 className="mb-2 text-lg sm:text-xl font-semibold text-foreground text-center">{title}</h3>
+        <p className="text-muted-foreground text-center text-sm sm:text-base">{description}</p>
       </CardContent>
     </Card>
   );
@@ -183,22 +183,22 @@ function HomePage() {
     {
       icon: <SecurityIcon aria-hidden="true" />,
       title: 'Säkerhet',
-      description: 'Vi prioriterar din säkerhet och integritet genom avancerade skyddsåtgärder och kontinuerlig övervakning.'
+      description: 'Skapa en trygg och säker miljö för ungdomar'
     },
     {
       icon: <GavelIcon aria-hidden="true" />,
       title: 'Rättssäkerhet',
-      description: 'Våra lösningar bygger på en solid juridisk grund för att säkerställa långsiktig hållbarhet.'
+      description: 'Motverka kriminalitet, mobbning och diskriminering'
     },
     {
       icon: <LightbulbIcon aria-hidden="true" />,
       title: 'Innovation',
-      description: 'Vi kombinerar branschkunskap med ny teknik för att skapa banbrytande lösningar.'
+      description: 'Stimulera kreativitet och ledarskap bland unga'
     },
     {
       icon: <GroupIcon aria-hidden="true" />,
       title: 'Samarbete',
-      description: 'Tillsammans med våra kunder utvecklar vi skräddarsydda lösningar som verkligen gör skillnad.'
+      description: 'Främja inkludering och gemenskap'
     }
   ];
 
@@ -229,13 +229,12 @@ function HomePage() {
               <Image
                 src="/logo/Vit transparant-header.png"
                 alt="Alby Rådet Logo"
-                width={isMobile ? 150 : 300}
-                height={isMobile ? 150 : 300}
+                width={isMobile ? 120 : 300}
+                height={isMobile ? 120 : 300}
                 className="w-auto h-auto"
                 priority
               />
             </div>
-            
             {/* Tagline */}
             <motion.h1 
               className={`text-3xl md:text-5xl lg:text-6xl font-bold mb-8 ${isMobile ? 'text-4xl' : 'text-6xl'}`}
@@ -245,16 +244,15 @@ function HomePage() {
             >
               Av unga, för unga
             </motion.h1>
-            
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 mt-8">
-              <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg">
-                <Link href="/contact" className="flex items-center">
-                  Kontakta oss <ArrowRightIcon className="ml-2 h-5 w-5" />
+            <div className="flex flex-col sm:flex-row gap-4 mt-8 w-full max-w-xs sm:max-w-none mx-auto justify-center items-center">
+              <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg w-full sm:w-auto focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2" aria-label="Kontakta oss">
+                <Link href="/contact" className="flex items-center justify-center">
+                  Kontakta oss <ArrowRightIcon className="ml-2 h-5 w-5" aria-hidden="true" />
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="text-foreground border-foreground hover:bg-foreground/10 text-lg">
-                <Link href="/about">
+              <Button asChild variant="outline" size="lg" className="text-foreground border-foreground hover:bg-foreground/10 text-lg w-full sm:w-auto focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2" aria-label="Läs mer om oss">
+                <Link href="/about" className="flex items-center justify-center">
                   Läs mer om oss
                 </Link>
               </Button>
@@ -262,6 +260,8 @@ function HomePage() {
           </div>
         </div>
       </section>
+
+      <div className="h-4 md:h-8 w-full bg-gradient-to-b from-background via-alby-gray-darker to-muted/50" />
 
       {/* About Section */}
       <section className="py-16 md:py-24 bg-muted/50">
@@ -278,11 +278,15 @@ function HomePage() {
         </div>
       </section>
 
+      <div className="h-8 md:h-16 w-full bg-gradient-to-b from-muted/50 via-alby-gray-darker to-background" />
+
+
+
       {/* Features Section */}
       <section className="py-16 md:py-24 bg-background">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-foreground">Våra fokusområden</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="container mx-auto px-2 sm:px-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 md:mb-16 text-foreground">Våra fokusområden</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
             {features.map((feature, index) => (
               <motion.div
                 key={index}
@@ -302,55 +306,17 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Team Section */}
-      <section className="py-16 md:py-24 bg-muted/50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-foreground">Vårt Team</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {members.map((member) => (
-              <motion.div
-                key={member.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-              >
-                <MemberCard 
-                key={member.id}
-                name={member.name}
-                role={member.role}
-                image={member.image}
-                description={member.description}
-                email={member.email}
-              />
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <div className="h-8 md:h-16 w-full bg-gradient-to-b from-background via-alby-gray-darker to-muted/50" />
 
-      {/* CTA Section */}
-      <section className="py-16 md:py-24 bg-primary text-primary-foreground">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">Vill du vara med och göra skillnad?</h2>
-          <p className="text-xl mb-8 max-w-3xl mx-auto text-primary-foreground/90">
-            Gå med i vår förening och var en del av en positiv förändring i samhället.
-          </p>
-          <Button asChild size="lg" className="bg-foreground text-background hover:bg-foreground/90 text-lg">
-            <Link href="/join">
-              Gå med nu <ArrowRightIcon className="ml-2 h-5 w-5" />
-            </Link>
-          </Button>
-        </div>
-      </section>
+      {/* Team Section */}
+      <TeamSection members={members} />
+
     </div>
   );
 }
 
 export default function Home() {
   return (
-    <ClientLayout>
-      <HomePage />
-    </ClientLayout>
+    <HomePage />
   );
 }
