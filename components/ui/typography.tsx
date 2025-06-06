@@ -1,3 +1,5 @@
+import * as React from "react";
+import type { JSX } from "react";
 import { cn } from "@/lib/utils"
 import { ComponentProps, ElementType } from "react"
 
