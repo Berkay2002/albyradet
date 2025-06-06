@@ -9,14 +9,14 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row items-stretch justify-between gap-8 md:gap-12 lg:gap-20">
           {/* Logo and Social Media Section */}
           <div className="flex flex-col items-center justify-center mb-8 md:mb-0">
-            <div className="relative w-48 h-16 sm:w-64 sm:h-24">
+            <div className="relative w-56 h-20 sm:w-64 sm:h-24">
               <div className="h-full w-full">
                 <Image
                   src="/logo/Vit transparant.png"
                   alt="Albyrådet Logo"
                   fill
                   className="object-contain object-center"
-                  sizes="(max-width: 768px) 300px, 600px"
+                  sizes="(max-width: 640px) 220px, (max-width: 768px) 300px, 600px"
                   priority
                 />
               </div>
