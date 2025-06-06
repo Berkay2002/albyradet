@@ -16,7 +16,7 @@ const navItems = [
   { name: "Bli Medlem", href: "/bli-medlem" },
 ];
 
-export default function NavBar() {
+export default function Navigation() {
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [isOpen, setIsOpen] = React.useState(false);
   const pathname = usePathname();

@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google"
 import { Providers } from "./providers"
 import "./globals.css"
-import NavBar from "./NavBar"
+import Navigation from "./navigationbar"
 import Footer from "./Footer"
 
 const inter = Inter({ 
@@ -36,8 +36,8 @@ export default function RootLayout({
     <html lang="sv" suppressHydrationWarning>
       <body className={`${inter.variable} font-sans min-h-screen flex flex-col bg-background text-foreground`}>
         <Providers>
-          <NavBar />
-          <main className="flex-1 pt-16">{/* pt-16 for fixed NavBar height */}
+          <Navigation />
+          <main className="flex-1 pt-16">{/* pt-16 for fixed Navigation height */}
             {children}
           </main>
           <div className="h-12 md:h-16 w-full bg-gradient-to-b from-muted/50 via-background to-alby-gray-darker" />
