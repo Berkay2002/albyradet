@@ -14,9 +14,10 @@ export default function Footer() {
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  // Get the appropriate logo based on theme
-  const logoSrc = mounted && theme === 'dark' 
+  // Get the appropriate logo based on theme with fallback
+  const logoSrc = !mounted 
+    ? "/logo/Vit transparant.png" // Default to dark theme logo during SSR
+    : theme === 'dark' 
     ? "/logo/Vit transparant.png" 
     : "/logo/Svart transparant.png";
 

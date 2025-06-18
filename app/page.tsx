@@ -1,9 +1,10 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -149,6 +150,20 @@ const fadeInUp = {
 };
 
 function HomePage() {
+  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  // Ensure component is mounted before accessing theme
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Get the appropriate header logo based on theme
+  const headerLogoSrc = !mounted 
+    ? "/logo/Vit transparant-header.png" // Default to dark theme logo during SSR
+    : theme === 'dark' 
+    ? "/logo/Vit transparant-header.png" 
+    : "/logo/Svart transparant-header.png";
 
   const features = [
     {
@@ -194,18 +209,17 @@ function HomePage() {
 
         {/* Hero Content */}
         <div className="relative z-10 container mx-auto px-4">
-          <div className="flex flex-col items-center justify-center h-full">            
-            {/* Logo */}
+          <div className="flex flex-col items-center justify-center h-full">              {/* Logo */}
             <div className="mb-8">
               <Image
-                src="/logo/Vit transparant-header.png"
+                src={headerLogoSrc}
                 alt="Alby Rådet Logo"
                 width={300}
                 height={300}
                 className="w-30 h-30 md:w-auto md:h-auto"
                 priority
               />
-            </div>            
+            </div>
             {/* Tagline */}
             <motion.h1 
               className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 text-white"

@@ -39,9 +39,10 @@ export default function Navigation() {
   }, []);
 
   const closeSheet = () => setIsOpen(false);
-
-  // Get the appropriate logo based on theme
-  const logoSrc = mounted && theme === 'dark' 
+  // Get the appropriate logo based on theme with fallback
+  const logoSrc = !mounted 
+    ? "/logo/Albyradet-vit-text.png" // Default to dark theme logo during SSR
+    : theme === 'dark' 
     ? "/logo/Albyradet-vit-text.png" 
     : "/logo/Albyradet-svart-text.png";
 
