@@ -13,10 +13,19 @@ export default function Medlemsansokan() {
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
   const [status, setStatus] = useState<null | "success" | "error">(null);
   const [loading, setLoading] = useState(false);
+  const [lastSubmission, setLastSubmission] = useState<number>(0);
 
   const onSubmit = async (data: Record<string, any>) => {
+    // Prevent submissions within 3 seconds of each other
+    const now = Date.now();
+    if (now - lastSubmission < 3000) {
+      return;
+    }
+    
     setLoading(true);
     setStatus(null);
+    setLastSubmission(now);
+    
     try {
       const response = await fetch("/api/", {
         method: "POST",
@@ -48,7 +57,7 @@ export default function Medlemsansokan() {
           className="object-cover object-center"
         />
         <div className="absolute inset-0 bg-black/70" />
-        <div className="pointer-events-none absolute bottom-0 left-0 w-full h-16 sm:h-24 bg-gradient-to-b from-transparent to-muted/50 z-20" />
+        <div className="pointer-events-none absolute bottom-0 left-0 w-full h-16 sm:h-24 bg-gradient-to-b from-transparent to-alby-beige-subtle/50 dark:to-muted/50 z-20" />
         <div className="relative z-10 w-full flex flex-col items-center justify-center px-4">
           <h1 className="text-2xl md:text-5xl font-extrabold mb-2 text-primary-foreground drop-shadow-lg">Medlemsansökan</h1>
           <p className="text-sm md:text-xl text-primary-foreground/90 font-medium mb-2 max-w-2xl mx-auto drop-shadow">
@@ -58,7 +67,7 @@ export default function Medlemsansokan() {
       </section>
 
       {/* Gradient transition from dark to gray */}
-      <div className="h-2 md:h-8 w-full bg-gradient-to-b from-background via-alby-gray-darker to-muted/50" />
+      <div className="h-2 md:h-8 w-full bg-gradient-to-b from-background via-alby-beige-soft to-alby-beige-subtle dark:from-background dark:via-alby-gray-darker dark:to-muted/50" />
 
       <main className="flex-1 flex flex-col items-center justify-center min-h-[calc(100vh-56px-40vh)] py-2 md:py-8 bg-muted/50">
         <Card className="w-11/12 max-w-md mx-auto px-2 sm:px-4 py-4 sm:py-8 rounded-2xl shadow-xl border border-alby-orange-muted/30 bg-card">
@@ -152,9 +161,15 @@ export default function Medlemsansokan() {
                   rows={3}
                   className="text-base md:text-lg"
                 />
-              </div>
-              <Button type="submit" className="w-full mt-2 text-base md:text-lg py-3" disabled={loading}>
-                {loading ? "Skickar..." : "Skicka ansökan"}
+              </div>              <Button type="submit" className="w-full mt-2 text-base md:text-lg py-3" disabled={loading}>
+                {loading ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                    Skickar ansökan...
+                  </>
+                ) : (
+                  "Skicka ansökan"
+                )}
               </Button>
               {status === "success" && (
                 <div className="mt-2 text-green-600 text-center font-medium text-base">Tack för din ansökan! Vi kommer att kontakta dig snart.</div>

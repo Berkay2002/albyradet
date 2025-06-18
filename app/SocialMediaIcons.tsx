@@ -18,9 +18,8 @@ export default function SocialMediaIcons({
         size="icon"
         className="h-10 w-10 rounded-full hover:bg-muted"
         aria-label="Visit our Facebook page"
-      >
-        <Link
-          href="https://sv-se.facebook.com/"
+      >        <Link
+          href="https://www.facebook.com/people/Albyr%C3%A5det/100081907873482/"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -33,9 +32,8 @@ export default function SocialMediaIcons({
         size="icon"
         className="h-10 w-10 rounded-full hover:bg-muted"
         aria-label="Visit our Instagram page"
-      >
-        <Link
-          href="https://www.instagram.com/"
+      >        <Link
+          href="https://www.instagram.com/albyradet/"
           target="_blank"
           rel="noopener noreferrer"
         >

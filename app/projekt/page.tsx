@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -9,31 +9,48 @@ import { Typography } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowLeft, Play } from 'lucide-react';
 import { cn } from "@/lib/utils";
+import { getCombinedBotkyrkachillMedia } from "@/lib/media-utils";
 import Head from 'next/head';
+
+// Hook for mobile detection
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768); // md breakpoint
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  return isMobile;
+};
 
 // Custom Carousel Component
 const Carousel = ({ children, className }: { children: React.ReactNode; className?: string }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const items = React.Children.toArray(children);
+  const items = React.Children.toArray(children).filter(Boolean); // Filter out any null/undefined items
   const [direction, setDirection] = useState<'left' | 'right'>('right');
-
-  const nextSlide = () => {
+  const nextSlide = useCallback(() => {
     setDirection('right');
     setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
-  };
+  }, [items.length]);
 
-  const prevSlide = () => {
+  const prevSlide = useCallback(() => {
     setDirection('left');
     setCurrentIndex((prevIndex) => (prevIndex - 1 + items.length) % items.length);
-  };
-
+  }, [items.length]);
   // Auto-rotate slides
   useEffect(() => {
     const timer = setInterval(() => {
       nextSlide();
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [nextSlide]);
 
   const variants = {
     enter: (direction: 'left' | 'right') => ({
@@ -48,11 +65,9 @@ const Carousel = ({ children, className }: { children: React.ReactNode; classNam
       x: direction === 'right' ? '-100%' : '100%',
       opacity: 0
     })
-  };
-
-  return (
-    <div className={cn("relative w-full overflow-hidden rounded-lg", className)}>
-      <div className="relative w-full aspect-video">
+  };  return (
+    <div className={cn("relative overflow-hidden rounded-none md:rounded-lg", className)}>
+      <div className="relative aspect-[2/3] md:aspect-video">
         <AnimatePresence custom={direction} initial={false}>
           <motion.div
             key={currentIndex}
@@ -64,37 +79,41 @@ const Carousel = ({ children, className }: { children: React.ReactNode; classNam
             transition={{
               x: { type: "spring", stiffness: 180, damping: 24 }
             }}
-            className="absolute inset-0 w-full h-full"
+            className="absolute inset-0 h-full"
             style={{ zIndex: 1 }}
           >
             {items[currentIndex]}
           </motion.div>
         </AnimatePresence>
+        {/* Hide arrows on mobile using Tailwind */}
         <button 
           onClick={prevSlide}
-          className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-foreground p-2 rounded-full shadow-md transition-all hover:scale-110"
+          className="hidden md:block absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-foreground p-2 rounded-full shadow-md transition-all hover:scale-110"
           aria-label="Föregående bild"
         >
           <ArrowLeft className="h-5 w-5" />
         </button>
         <button 
           onClick={nextSlide}
-          className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-foreground p-2 rounded-full shadow-md transition-all hover:scale-110"
+          className="hidden md:block absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-foreground p-2 rounded-full shadow-md transition-all hover:scale-110"
           aria-label="Nästa bild"
         >
           <ArrowRight className="h-5 w-5" />
-        </button>
+        </button>        
         <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
-          {items.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentIndex(index)}
-              className={`h-1.5 rounded-full transition-all ${
-                currentIndex === index ? 'w-6 bg-primary' : 'w-4 bg-foreground/20'
-              }`}
-              aria-label={`Gå till bild ${index + 1}`}
-            />
-          ))}
+          {items.length <= 10 && (
+            // Show individual dots for small carousels only
+            items.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+                className={`h-1.5 rounded-full transition-all ${
+                  currentIndex === index ? 'w-6 bg-primary' : 'w-4 bg-foreground/20'
+                }`}
+                aria-label={`Gå till bild ${index + 1}`}
+              />
+            ))
+          )}
         </div>
       </div>
     </div>
@@ -105,6 +124,8 @@ type MediaItem = {
   type: 'image' | 'video';
   src: string;
   alt: string;
+  deviceType?: 'mobile' | 'desktop';
+  rotation?: number; // For rotating images (0, 90, 180, 270 degrees)
 };
 
 interface ProjectCardProps {
@@ -113,6 +134,7 @@ interface ProjectCardProps {
   media: MediaItem[];
   goals: Array<{ title: string; description: string }>;
   className?: string;
+  isMobile: boolean;
 }
 
 interface InnovationItem {
@@ -142,29 +164,6 @@ const arInnovation_media: MediaItem[] = [
     type: 'video', 
     src: "/ar-innovation/Min film.mov",
     alt: "Inspelning från AR Innovation workshop"
-  },
-];
-
-const botkyrkachill_media: MediaItem[] = [
-  { 
-    type: 'image', 
-    src: "/botkyrkachill/IMG_1027_2.jpg",
-    alt: "Barn deltar i aktiviteter under BotkyrkaChill"
-  },
-  { 
-    type: 'image', 
-    src: "/botkyrkachill/johannes_sockervadd.jpg",
-    alt: "Johannes visar hur man gör sockervadd"
-  },
-  { 
-    type: 'video', 
-    src: "/botkyrkachill/IMG_1001.MOV",
-    alt: "Aktiviteter och stämning från BotkyrkaChill"
-  },
-  { 
-    type: 'video', 
-    src: "/botkyrkachill/vid.mp4",
-    alt: "Sammanfattning av BotkyrkaChill evenemanget"
   },
 ];
 
@@ -212,17 +211,22 @@ const staggerContainer = {
   }
 };
 
-const ProjectMedia = ({ media, index }: { media: MediaItem, index: number }) => {
+const ProjectMedia = ({ media, index, isMobile }: { media: MediaItem, index: number, isMobile: boolean }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   
   useEffect(() => {
+    // Handle undefined media gracefully
+    if (!media || !media.type) {
+      return;
+    }
+    
     const video = videoRef.current;
     if (media.type === 'video' && video) {
       video.currentTime = 0;
       const playPromise = video.play();
       
       if (playPromise !== undefined) {
-        playPromise.catch(error => {
+        playPromise.catch((error: any) => {
           console.log("Autoplay prevented:", error);
         });
       }
@@ -233,31 +237,35 @@ const ProjectMedia = ({ media, index }: { media: MediaItem, index: number }) => 
         video.pause();
       }
     };
-  }, [media.type]);
+  }, [media.type, media]);
 
-  if (media.type === 'image') {
+  // Handle undefined media gracefully
+  if (!media || !media.type) {
+    console.warn(`Media item at index ${index} is undefined or missing type`);
+    return null;
+  }  if (media.type === 'image') {
     return (
-      <div className="relative w-full aspect-video">
+      <div className="relative overflow-hidden rounded-none md:rounded-lg w-full aspect-[2/3] md:aspect-video">
         <Image
           src={media.src}
           alt={media.alt}
           fill
-          className="object-cover rounded-lg"
-          priority={index === 0}
+          className="object-cover"
+          priority={index < 6} // Prioritize first few images
+          loading={index < 6 ? "eager" : "lazy"}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
         />
       </div>
     );
-  }
-  
-  return (
-    <div className="relative w-full aspect-video group">
+  }return (
+    <div className="relative w-full aspect-square md:aspect-video group">
       <video
         ref={videoRef}
         autoPlay
         muted
         loop
         playsInline
-        className="w-full h-full object-cover rounded-lg"
+        className="w-full h-full object-cover rounded-none md:rounded-lg"
       >
         <source src={media.src} type="video/mp4" />
         Din webbläsare stödjer inte video-taggen.
@@ -276,11 +284,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   description, 
   media, 
   goals,
-  className = ''
+  className = '',
+  isMobile
 }) => (
   <motion.div 
     variants={fadeInUp}
-    className={cn("bg-muted/50 text-card-foreground rounded-2xl shadow-md overflow-hidden border border-alby-orange-muted/10 transition-shadow", className)}
+    className={cn("bg-card text-card-foreground rounded-2xl shadow-md overflow-hidden border border-border transition-shadow", className)}
   >
     <div className="p-6 md:p-8">
       <Typography variant="h3" className="text-3xl font-bold mb-6 text-primary">
@@ -315,17 +324,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           ))}
         </ul>
       </div>
-    </div>
-    
-    <div className="mt-8">
-      <Carousel>
+    </div>      <Carousel className="h-full w-full">
         {media.map((item, index) => (
-          <div key={index} className="w-full">
-            <ProjectMedia media={item} index={index} />
-          </div>
+          <ProjectMedia key={`${item.src}-${index}`} media={item} index={index} isMobile={isMobile} />
         ))}
       </Carousel>
-    </div>
   </motion.div>
 );
 
@@ -358,6 +361,17 @@ const InnovationShowcase: React.FC<{ items: InnovationItem[] }> = ({ items }) =>
 
 function Projekt() {  
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]); // Store refs for each video element
+  const isMobile = useIsMobile(); // Use the custom hook for device detection
+  
+  // Get media based on device type using the hook
+  const botkyrkachill_media: MediaItem[] = getCombinedBotkyrkachillMedia().filter(item => {
+    // Filter images based on device type
+    if (isMobile) {
+      return item.deviceType === 'mobile';
+    } else {
+      return item.deviceType === 'desktop';
+    }
+  });
 
   // Handle the slide change and play video if it's in the active slide
   const handleSlideChange = (now?: number, previous?: number) => {
@@ -411,11 +425,11 @@ function Projekt() {
 
       {/* BotkyrkaChill Project */}
       <section className="py-8 md:py-16">
-        <div className="container mx-auto px-4 max-w-7xl">
-          <ProjectCard
+        <div className="container mx-auto px-4 max-w-7xl">          <ProjectCard
             title="BotkyrkaChill - Ett Projekt för Samhällsengagemang"
             description="BotkyrkaChill är ett etablerat koncept som funnits ända sedan Albyrådet grundades. Projektet planeras och genomförs av ungdomar från Albyrådet med fokus på att skapa meningsfulla aktiviteter för barn och unga i Botkyrka."
             media={botkyrkachill_media}
+            isMobile={isMobile}
             goals={[
               {
                 title: "Kostnadsfria aktiviteter",
@@ -435,10 +449,8 @@ function Projekt() {
       </section>
 
       {/* Gradient transition from dark to gray using theme colors */}
-      <div className="h-4 md:h-8 w-full bg-gradient-to-b from-background via-alby-gray-darker to-muted/50" />
-
-      {/* UIA Project */}
-      <section className="py-16 md:py-24 bg-muted/50">
+      <div className="h-4 md:h-8 w-full bg-gradient-to-b from-background via-alby-beige-soft to-alby-beige-light dark:from-background dark:via-alby-gray-darker dark:to-muted/50" />      {/* UIA Project */}
+      <section className="py-16 md:py-24 bg-alby-beige-light dark:bg-muted/50">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="text-center mb-12">
             <motion.h2 

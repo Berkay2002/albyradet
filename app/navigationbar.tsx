@@ -3,9 +3,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Menu, ChevronDown } from "lucide-react";
 import React from "react";
 
@@ -19,7 +21,13 @@ const navItems = [
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [isOpen, setIsOpen] = React.useState(false);
+  const [mounted, setMounted] = React.useState(false);
   const pathname = usePathname();
+  const { theme } = useTheme();
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -32,6 +40,11 @@ export default function Navigation() {
 
   const closeSheet = () => setIsOpen(false);
 
+  // Get the appropriate logo based on theme
+  const logoSrc = mounted && theme === 'dark' 
+    ? "/logo/Albyradet-vit-text.png" 
+    : "/logo/Albyradet-svart-text.png";
+
   return (
     <header
       className={cn(
@@ -41,10 +54,10 @@ export default function Navigation() {
           : "bg-background/80"
       )}
     >
-      <div className="container flex h-16 items-center justify-between px-4">
+      <div className="container flex h-16 items-center justify-between px-4">        
         <Link href="/" className="flex items-center h-full py-2" onClick={closeSheet}>
           <Image
-            src="/logo/Albyradet-vit-text.png"
+            src={logoSrc}
             alt="Albyrådet"
             width={180}
             height={50}
@@ -52,33 +65,34 @@ export default function Navigation() {
             priority
           />
         </Link>
-        
-        {/* Desktop Navigation */}
-        <nav
-          className="hidden lg:flex items-center space-x-1"
-          aria-label="Main navigation"
-        >
-          {navItems.map((item) => (
-            <Button
-              key={item.href}
-              asChild
-              variant="ghost"
-              className={cn(
-                "text-sm font-medium transition-all duration-200 rounded-md focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
-                pathname === item.href 
-                  ? "text-primary bg-primary/10" 
-                  : "text-foreground/80 hover:text-primary hover:bg-accent/50"
-              )}
-            >
-              <Link href={item.href} tabIndex={0} aria-current={pathname === item.href ? "page" : undefined}>
-                {item.name}
-              </Link>
-            </Button>
-          ))}
-        </nav>
-
-        {/* Mobile & Tablet Navigation */}
-        <div className="lg:hidden">
+          {/* Desktop Navigation */}
+        <div className="hidden lg:flex items-center space-x-2">
+          <nav
+            className="flex items-center space-x-1"
+            aria-label="Main navigation"
+          >
+            {navItems.map((item) => (
+              <Button
+                key={item.href}
+                asChild
+                variant="ghost"
+                className={cn(
+                  "text-sm font-medium transition-all duration-200 rounded-md focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+                  pathname === item.href 
+                    ? "text-primary bg-primary/10" 
+                    : "text-foreground/80 hover:text-primary hover:bg-accent/50"
+                )}
+              >
+                <Link href={item.href} tabIndex={0} aria-current={pathname === item.href ? "page" : undefined}>
+                  {item.name}
+                </Link>
+              </Button>
+            ))}
+          </nav>
+          <ThemeToggle />
+        </div>        {/* Mobile & Tablet Navigation */}
+        <div className="lg:hidden flex items-center space-x-2">
+          <ThemeToggle />
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
               <Button variant="outline" size="icon" className="relative focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2" aria-label="Open menu">
@@ -87,19 +101,17 @@ export default function Navigation() {
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-[80vw] max-w-xs sm:max-w-sm p-0 focus:outline-none" aria-label="Mobile navigation menu">
-              <div className="flex flex-col h-full">
-                <div className="p-6 border-b">
+              <div className="flex flex-col h-full">                <div className="p-6 border-b">
                   <Link href="/" className="flex items-center space-x-2" onClick={closeSheet} tabIndex={0} aria-label="Go to homepage">
                     <Image
-                      src="/logo.png"
-                      alt="Alby Rådet"
+                      src={logoSrc}
+                      alt="Albyrådet"
                       width={120}
                       height={40}
                       className="h-8 w-auto"
                     />
                   </Link>
-                </div>
-                <div className="flex-1 p-4 space-y-1">
+                </div><div className="flex-1 p-4 space-y-1">
                   {navItems.map((item) => (
                     <Button
                       key={item.href}
@@ -117,6 +129,14 @@ export default function Navigation() {
                       </Link>
                     </Button>
                   ))}
+                </div>
+                
+                {/* Theme toggle at bottom of mobile menu */}
+                <div className="p-4 border-t">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium text-muted-foreground">Tema</span>
+                    <ThemeToggle />
+                  </div>
                 </div>
               </div>
             </SheetContent>

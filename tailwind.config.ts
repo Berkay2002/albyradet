@@ -51,14 +51,20 @@ const config = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
-        },
-        // Custom color palette
+        },        // Custom color palette
         alby: {
           orange: {
             DEFAULT: "#FF6B00",  // Main orange color
             light: "#FF8C42",   // Lighter shade for hover states
             dark: "#E65C00",    // Darker shade for active states
             muted: "#FFE0C2",   // Very light for backgrounds
+          },          beige: {
+            light: "#F7F3E9",   // Very light beige for main backgrounds
+            DEFAULT: "#E8DCC6", // Medium beige for sections
+            dark: "#D4C4A8",    // Darker beige for borders/dividers
+            warm: "#F0E6D2",    // Warm beige for cards
+            subtle: "#F5F1E8",  // Subtle beige for muted sections (between light and warm)
+            soft: "#F2EDE4",    // Soft beige for better contrast sections
           },
           gray: {
             light: "#F5F5F5",   // Light gray for light mode backgrounds
@@ -75,7 +81,12 @@ const config = {
         'alby-orange': '#FF6B00',
         'alby-orange-light': '#FF8C42',
         'alby-orange-dark': '#E65C00',
-        'alby-orange-muted': '#FFE0C2',
+        'alby-orange-muted': '#FFE0C2',        'alby-beige-light': '#F7F3E9',
+        'alby-beige': '#E8DCC6',
+        'alby-beige-dark': '#D4C4A8',
+        'alby-beige-warm': '#F0E6D2',
+        'alby-beige-subtle': '#F5F1E8',
+        'alby-beige-soft': '#F2EDE4',
       },
       borderRadius: {
         lg: "var(--radius)",

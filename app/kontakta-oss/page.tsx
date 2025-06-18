@@ -106,6 +106,7 @@ function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errors, setErrors] = useState<Partial<FormData>>({});
+  const [lastSubmission, setLastSubmission] = useState<number>(0);
 
   const validateForm = () => {
     const newErrors: Partial<FormData> = {};
@@ -131,13 +132,19 @@ function ContactPage() {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!validateForm()) return;
     
+    // Prevent submissions within 3 seconds of each other
+    const now = Date.now();
+    if (now - lastSubmission < 3000) {
+      return;
+    }
+    
     setIsSubmitting(true);
+    setLastSubmission(now);
     
     try {
       const response = await fetch('/api/contact', {
@@ -175,9 +182,8 @@ function ContactPage() {
         <title>Kontakta Oss - Alby Rådet</title>
         <meta name="description" content="Har du frågor eller vill komma i kontakt med Albyrådet? Kontakta oss här eller träffa vårt team." />
       </Head>
-      
-      <main className="flex-1 relative">
-        <div className="relative h-[300px] md:h-auto">
+        <main className="flex-1 relative">
+        <div className="relative h-auto md:h-auto">
           {/* Orange to black gradient for mobile, image for md+ */}
           <div className="block md:hidden absolute inset-0 -z-10 bg-gradient-to-b from-orange-400 via-orange-700 to-black" />
           <div className="hidden md:block absolute inset-0 -z-10">
@@ -190,22 +196,21 @@ function ContactPage() {
               className="object-cover object-top"
               style={{ objectPosition: '0 15%' }}
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/80 to-background/95" />
+            <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/85 to-background/95" />
           </div>
         </div>
         {/* Hero Section */}
         <div className="relative">
-          <div className="container mx-auto px-4 py-16 md:py-24 relative z-10">
+          <div className="container mx-auto px-4 py-8 md:py-24 relative z-10">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               className="text-center max-w-4xl mx-auto"
-            >
-              <h1 className="text-3xl md:text-5xl font-bold tracking-tight mb-6 text-white [text-shadow:_0_2px_8px_rgba(0,0,0,0.8)]">
+            >              <h1 className="text-3xl md:text-5xl font-bold tracking-tight mb-6 text-foreground [text-shadow:_0_2px_8px_rgba(0,0,0,0.3)]">
                 Kontakta Oss
               </h1>
-              <p className="text-lg text-white/95 font-medium mb-8 max-w-2xl mx-auto [text-shadow:_0_1px_4px_rgba(0,0,0,0.8)]">
+              <p className="text-lg text-muted-foreground font-medium mb-8 max-w-2xl mx-auto [text-shadow:_0_1px_4px_rgba(0,0,0,0.2)]">
                 Har du några frågor eller funderingar? Vi är här för att hjälpa dig. Kontakta oss genom formuläret nedan eller direkt via våra kontaktuppgifter.
               </p>
             </motion.div>
@@ -396,26 +401,31 @@ function ContactPage() {
 
                   {/* Social Media */}
                   <div className="mt-8 pt-6 border-t border-border/20">
-                    <h3 className="font-semibold text-foreground mb-4">Följ oss</h3>
-                    <div className="flex gap-4">
+                    <h3 className="font-semibold text-foreground mb-4">Följ oss</h3>                    <div className="flex gap-4">
                       <Link
-                        href="#"
+                        href="https://www.facebook.com/people/Albyr%C3%A5det/100081907873482/"
                         className="p-3 bg-muted hover:bg-primary hover:text-primary-foreground transition-colors rounded-lg"
                         aria-label="Facebook"
+                        target="_blank"
+                        rel="noopener noreferrer"
                       >
                         <Facebook className="h-5 w-5" />
                       </Link>
                       <Link
-                        href="#"
+                        href="https://www.instagram.com/albyradet/"
                         className="p-3 bg-muted hover:bg-primary hover:text-primary-foreground transition-colors rounded-lg"
                         aria-label="Instagram"
+                        target="_blank"
+                        rel="noopener noreferrer"
                       >
                         <Instagram className="h-5 w-5" />
                       </Link>
                       <Link
-                        href="#"
+                        href="https://www.linkedin.com/company/albyr%C3%A5det/"
                         className="p-3 bg-muted hover:bg-primary hover:text-primary-foreground transition-colors rounded-lg"
                         aria-label="LinkedIn"
+                        target="_blank"
+                        rel="noopener noreferrer"
                       >
                         <Linkedin className="h-5 w-5" />
                       </Link>
@@ -426,7 +436,7 @@ function ContactPage() {
             </div>
           </div>
           {/* Gradient overlay for smooth transition to TeamSection */}
-          <div className="pointer-events-none absolute bottom-0 left-0 w-full h-32 sm:h-40 bg-gradient-to-b from-transparent to-muted/50 z-20" />
+          <div className="pointer-events-none absolute bottom-0 left-0 w-full h-32 sm:h-40 bg-gradient-to-b from-transparent to-alby-beige-subtle/50 dark:to-muted/50 z-20" />
         </section>
 
       </main>

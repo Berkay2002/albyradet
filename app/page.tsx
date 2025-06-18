@@ -20,35 +20,7 @@ import {
   Play as PlayIcon
 } from 'lucide-react';
 
-// Custom hook for responsive design
-const useResponsive = () => {
-  const [isMobile, setIsMobile] = React.useState(false);
-  const [isTablet, setIsTablet] = React.useState(false);
-  const [isDesktop, setIsDesktop] = React.useState(false);
 
-  React.useEffect(() => {
-    // Only run on client-side
-    if (typeof window !== 'undefined') {
-      const checkScreenSize = () => {
-        const width = window.innerWidth;
-        setIsMobile(width < 768);
-        setIsTablet(width >= 768 && width < 1024);
-        setIsDesktop(width >= 1024);
-      };
-
-      // Initial check
-      checkScreenSize();
-
-      // Add event listener for window resize
-      window.addEventListener('resize', checkScreenSize);
-
-      // Clean up
-      return () => window.removeEventListener('resize', checkScreenSize);
-    }
-  }, []);
-
-  return { isMobile, isTablet, isDesktop };
-};
 
 // Type definitions
 interface Member {
@@ -177,27 +149,26 @@ const fadeInUp = {
 };
 
 function HomePage() {
-  const { isMobile, isTablet, isDesktop } = useResponsive();
 
   const features = [
     {
       icon: <SecurityIcon aria-hidden="true" />,
-      title: 'Säkerhet',
+      title: '',
       description: 'Skapa en trygg och säker miljö för ungdomar'
     },
     {
       icon: <GavelIcon aria-hidden="true" />,
-      title: 'Rättssäkerhet',
+      title: '',
       description: 'Motverka kriminalitet, mobbning och diskriminering'
     },
     {
       icon: <LightbulbIcon aria-hidden="true" />,
-      title: 'Innovation',
+      title: '',
       description: 'Stimulera kreativitet och ledarskap bland unga'
     },
     {
       icon: <GroupIcon aria-hidden="true" />,
-      title: 'Samarbete',
+      title: '',
       description: 'Främja inkludering och gemenskap'
     }
   ];
@@ -206,7 +177,7 @@ function HomePage() {
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center text-center text-foreground overflow-hidden">
-        {/* Background Video */}
+        {/* Background Video */}        
         <div className="absolute inset-0">
           <video
             autoPlay
@@ -215,7 +186,7 @@ function HomePage() {
             playsInline
             className="absolute inset-0 w-full h-full object-cover"
           >
-            <source src="/montage480.mp4" type="video/mp4" />
+            <source src="/botkyrkachill/ar-video.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
           <div className="absolute inset-0 bg-black/70" />
@@ -223,21 +194,21 @@ function HomePage() {
 
         {/* Hero Content */}
         <div className="relative z-10 container mx-auto px-4">
-          <div className="flex flex-col items-center justify-center h-full">
+          <div className="flex flex-col items-center justify-center h-full">            
             {/* Logo */}
             <div className="mb-8">
               <Image
                 src="/logo/Vit transparant-header.png"
                 alt="Alby Rådet Logo"
-                width={isMobile ? 120 : 300}
-                height={isMobile ? 120 : 300}
-                className="w-auto h-auto"
+                width={300}
+                height={300}
+                className="w-30 h-30 md:w-auto md:h-auto"
                 priority
               />
-            </div>
+            </div>            
             {/* Tagline */}
             <motion.h1 
-              className={`text-3xl md:text-5xl lg:text-6xl font-bold mb-8 ${isMobile ? 'text-4xl' : 'text-6xl'}`}
+              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 text-white"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
@@ -259,12 +230,8 @@ function HomePage() {
             </div>
           </div>
         </div>
-      </section>
-
-      <div className="h-4 md:h-8 w-full bg-gradient-to-b from-background via-alby-gray-darker to-muted/50" />
-
-      {/* About Section */}
-      <section className="py-16 md:py-24 bg-muted/50">
+      </section>      <div className="h-4 md:h-8 w-full bg-gradient-to-b from-background via-alby-beige-soft to-alby-beige-subtle dark:from-background dark:via-alby-gray-darker dark:to-muted/50" />      {/* About Section */}
+      <section className="py-16 md:py-24 bg-alby-beige-subtle dark:bg-muted/50">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-8 text-foreground">Vilka vi är</h2>
@@ -278,14 +245,10 @@ function HomePage() {
         </div>
       </section>
 
-      <div className="h-8 md:h-16 w-full bg-gradient-to-b from-muted/50 via-alby-gray-darker to-background" />
-
-
-
-      {/* Features Section */}
+      <div className="h-8 md:h-16 w-full bg-gradient-to-b from-alby-beige-subtle via-alby-beige-soft to-background dark:from-muted/50 dark:via-alby-gray-darker dark:to-background" />      {/* Features Section */}
       <section className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-2 sm:px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 md:mb-16 text-foreground">Våra fokusområden</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 md:mb-16 text-foreground">Vår Vision</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
             {features.map((feature, index) => (
               <motion.div
@@ -301,12 +264,25 @@ function HomePage() {
                   description={feature.description}
                 />
               </motion.div>
-            ))}
+            ))}          </div>
+        </div>
+      </section>
+
+      <div className="h-8 md:h-16 w-full bg-gradient-to-b from-background via-alby-beige-soft to-background dark:from-background dark:via-alby-gray-darker dark:to-background" />
+
+      {/* Our Mission Section */}
+      <section className="py-16 md:py-24 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-8 text-foreground">Vår Strävan</h2>
+            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+              Vi strävar efter att bedriva en oberoende plattform för ungdomar i Alby där det finns möjlighet för varje ungdom att engagera sig och göra skillnad. Detta med ändamålet att motverka, förebygga och stoppa all form av kriminalitet, mobbning samt diskriminering.
+            </p>
           </div>
         </div>
       </section>
 
-      <div className="h-8 md:h-16 w-full bg-gradient-to-b from-background via-alby-gray-darker to-muted/50" />
+      <div className="h-8 md:h-16 w-full bg-gradient-to-b from-background via-alby-beige-soft to-alby-beige-soft dark:from-background dark:via-alby-gray-darker dark:to-muted/50" />
 
       {/* Team Section */}
       <TeamSection members={members} />

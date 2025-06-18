@@ -14,10 +14,6 @@ const inter = Inter({
 export const metadata = {
   title: "Alby Rådet",
   description: "Alby Rådets officiella webbplats",
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#111827' },
-  ],
 }
 
 export const viewport = {
@@ -25,6 +21,10 @@ export const viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#111827' },
+  ],
 }
 
 export default function RootLayout({
@@ -40,7 +40,7 @@ export default function RootLayout({
           <main className="flex-1 pt-16">{/* pt-16 for fixed Navigation height */}
             {children}
           </main>
-          <div className="h-12 md:h-16 w-full bg-gradient-to-b from-muted/50 via-background to-alby-gray-darker" />
+          <div className="h-12 md:h-16 w-full bg-gradient-to-b from-alby-beige-subtle/70 via-alby-beige-soft/50 to-alby-beige/30 dark:from-muted/50 dark:via-muted/30 dark:to-muted/30" />
 
           <Footer />
         </Providers>

@@ -47,7 +47,7 @@ export default function BliMedlem() {
         />
         <div className="absolute inset-0 bg-black/70" />
         {/* Gradient overlay for smooth transition to next section */}
-        <div className="pointer-events-none absolute bottom-0 left-0 w-full h-32 sm:h-40 bg-gradient-to-b from-transparent to-muted/50 z-20" />
+        <div className="pointer-events-none absolute bottom-0 left-0 w-full h-32 sm:h-40 bg-gradient-to-b from-transparent to-alby-beige-warm/50 dark:to-muted/50 z-20" />
         <div className="relative z-10 w-full flex flex-col items-center justify-center px-4">
           <motion.h1
             className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 text-primary-foreground drop-shadow-lg"
@@ -69,22 +69,16 @@ export default function BliMedlem() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.4 }}
-          >
-            <Link href="/medlemansokan" passHref legacyBehavior>
+          >            <Link href="/medlemansokan">
               <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg px-8 py-4 rounded-lg shadow flex items-center gap-2">
                 Bli medlem nu <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
           </motion.div>
         </div>
-      </section>
-
-      {/* Gradient transition from dark to gray */}
-      <div className="h-4 md:h-8 w-full bg-gradient-to-b from-background via-alby-gray-darker to-muted/50" />
-
-
-      {/* Why Join Section */}
-      <section className="bg-muted/50 py-16">
+      </section>      {/* Gradient transition from dark to gray */}
+      <div className="h-4 md:h-8 w-full bg-gradient-to-b from-background via-alby-beige-soft to-alby-beige-warm dark:from-background dark:via-alby-gray-darker dark:to-muted/50" />      {/* Why Join Section */}
+      <section className="bg-alby-beige-warm dark:bg-muted/50 py-16">
         <div className="container mx-auto px-4 max-w-5xl">
           <motion.div variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.5 }}>
             <motion.h2 variants={fadeInUp} className="text-3xl md:text-4xl font-bold mb-12 text-center text-primary">
@@ -109,11 +103,8 @@ export default function BliMedlem() {
             </div>
           </motion.div>
         </div>
-      </section>
-
-
-      {/* Gradient transition from dark to gray */}
-      <div className="h-8 md:h-16 w-full bg-gradient-to-b from-muted/50 via-alby-gray-darker to-background" />
+      </section>      {/* Gradient transition from gray to white */}
+      <div className="h-8 md:h-16 w-full bg-gradient-to-b from-alby-beige-warm via-alby-beige-soft to-background dark:from-muted/50 dark:via-alby-gray-darker dark:to-background" />
 
 
       {/* Gallery/Carousel Section */}
@@ -184,7 +175,7 @@ export default function BliMedlem() {
       </section>
 
       {/* Gradient transition from dark to gray */}
-      <div className="h-8 md:h-16 w-full bg-gradient-to-b from-background via-alby-gray-darker to-muted/50" />
+      <div className="h-8 md:h-16 w-full bg-gradient-to-b from-background via-alby-beige-soft to-alby-beige-warm dark:from-background dark:via-alby-gray-darker dark:to-muted/50" />
 
 
       {/* How to Join Section */}
