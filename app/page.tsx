@@ -249,8 +249,7 @@ function HomePage() {
                 priority
               />
             </div>
-            {/* Tagline */}
-            <motion.h1 
+            {/* Tagline */}            <motion.h1 
               className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 text-white"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -276,13 +275,12 @@ function HomePage() {
       </section>      <div className="h-4 md:h-8 w-full bg-gradient-to-b from-background via-alby-beige-soft to-alby-beige-subtle dark:from-background dark:via-alby-gray-darker dark:to-muted/50" />      {/* About Section */}
       <section className="py-16 md:py-24 bg-alby-beige-subtle dark:bg-muted/50">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-8 text-foreground">Vilka vi är</h2>
+          <div className="max-w-4xl mx-auto text-center">            <h2 className="text-3xl md:text-4xl font-bold mb-8 text-foreground">Vilka vi är</h2>
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-8">
-              Albyrådet grundades för snart ett decennium sedan av ett tiotal ungdomar från Alby. Sedan dess har Albyrådet varit en plattform för ungdomar som engagerar sig i föreningen med ändamålet att motverka, förebygga och stoppa all form av kriminalitet, mobbning samt diskriminering.
+              Albyrådet grundades för snart ett decennium sedan av ungdomar från Alby. Vi arbetar i hela Botkyrka för att skapa trygghet, gemenskap och positiva förändringar i vår ort. Vårt mål är att motverka, förebygga och stoppa all form av kriminalitet, mobbning samt diskriminering.
             </p>
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-              För att uppnå våra mål har vi utvecklat olika projektkoncept som vi genomfört eller än idag fortsätter bedriva.
+              Genom olika projekt och aktiviteter skapar vi positiva förändringar och ger ungdomar möjlighet att påverka sin egen framtid och utveckla sin ort.
             </p>
           </div>
         </div>

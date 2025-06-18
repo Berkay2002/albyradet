@@ -17,8 +17,8 @@ export const metadata = {
     default: "Albyrådet - Av unga, för unga i Botkyrka",
     template: "%s | Albyrådet"
   },
-  description: "Albyrådet - Av unga, för unga i Botkyrka. Vi arbetar för trygghet, gemenskap och positiv utveckling. Gör skillnad i din ort - bli medlem idag!",
-  keywords: ["Albyrådet", "Alby", "Botkyrka", "ungdomar", "förebyggande", "kriminalitet", "mobbning", "diskriminering", "engagemang", "Stockholm"],
+  description: "Albyrådet - Av unga, för unga i Botkyrka. Vi arbetar för trygghet, gemenskap och positiv utveckling i din ort. Gör skillnad i Botkyrka - bli medlem idag!",
+  keywords: ["Albyrådet", "Botkyrka", "ungdomar", "Alby", "Fittja", "Norsborg", "Hallunda", "Tumba", "ungdomsorganisation", "förebyggande", "trygghet", "gemenskap", "Stockholm", "Södertälje"],
   authors: [{ name: "Albyrådet" }],
   creator: "Albyrådet",
   publisher: "Albyrådet",
@@ -34,9 +34,9 @@ export const metadata = {
       },
     ],
     shortcut: '/favicon.ico',
-  },openGraph: {
+  },  openGraph: {
     title: "Albyrådet - Av unga, för unga i Botkyrka",
-    description: "Albyrådet - Av unga, för unga i Botkyrka. Vi arbetar för trygghet, gemenskap och positiv utveckling. Gör skillnad i din ort - bli medlem idag!",
+    description: "Albyrådet - Av unga, för unga i Botkyrka. Vi arbetar för trygghet, gemenskap och positiv utveckling i din ort. Gör skillnad i Botkyrka!",
     url: '/',
     siteName: 'Albyrådet',
     images: [
@@ -51,7 +51,7 @@ export const metadata = {
     type: 'website',
   },  twitter: {
     card: 'summary_large_image',
-    title: "Albyrådet - Av unga, för unga",
+    title: "Albyrådet - Av unga, för unga i Botkyrka",
     description: "Vi arbetar för trygghet, gemenskap och positiv utveckling i Botkyrka. Gör skillnad i din ort!",
     images: ['/logo/Albyradet-svart-text.png'],
   },
