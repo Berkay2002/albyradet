@@ -22,6 +22,8 @@ export default function Navigation() {
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [isOpen, setIsOpen] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
+  const [isVisible, setIsVisible] = React.useState(true);
+  const [lastScrollY, setLastScrollY] = React.useState(0);
   const pathname = usePathname();
   const { theme } = useTheme();
 
@@ -31,12 +33,43 @@ export default function Navigation() {
 
   React.useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      const currentScrollY = window.scrollY;
+      
+      // Hide/show navbar on scroll
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+      
+      setIsScrolled(currentScrollY > 10);
+      setLastScrollY(currentScrollY);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [lastScrollY]);
+
+  // Close mobile menu on escape key
+  React.useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'hidden'; // Prevent scroll when menu is open
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
 
   const closeSheet = () => setIsOpen(false);
   // Get the appropriate logo based on theme with fallback
@@ -45,14 +78,14 @@ export default function Navigation() {
     : theme === 'dark' 
     ? "/logo/Albyradet-vit-text.png" 
     : "/logo/Albyradet-svart-text.png";
-
   return (
     <header
       className={cn(
         "fixed top-0 z-50 w-full transition-all duration-300 border-b border-transparent",
         isScrolled 
           ? "bg-background/90 backdrop-blur-md shadow-sm border-border/10" 
-          : "bg-background/80"
+          : "bg-background/80",
+        isVisible ? "translate-y-0" : "-translate-y-full"
       )}
     >
       <div className="container flex h-16 items-center justify-between px-4">        

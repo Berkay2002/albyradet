@@ -3,6 +3,7 @@ import { Providers } from "./providers"
 import "./globals.css"
 import Navigation from "./navigationbar"
 import Footer from "./Footer"
+import BackToTop from "@/components/BackToTop"
 
 const inter = Inter({ 
   subsets: ["latin"], 
@@ -12,8 +13,85 @@ const inter = Inter({
 })
 
 export const metadata = {
-  title: "Alby Rådet",
-  description: "Alby Rådets officiella webbplats",
+  title: {
+    default: "Albyrådet - Av unga, för unga i Botkyrka",
+    template: "%s | Albyrådet"
+  },
+  description: "Albyrådet grundades för snart ett decennium sedan av ett tiotal ungdomar från Alby. Sedan dess har Albyrådet varit en plattform för ungdomar som engagerar sig i föreningen med ändamålet att motverka, förebygga och stoppa all form av kriminalitet, mobbning samt diskriminering.",
+  keywords: ["Albyrådet", "Alby", "Botkyrka", "ungdomar", "förebyggande", "kriminalitet", "mobbning", "diskriminering", "engagemang", "Stockholm"],
+  authors: [{ name: "Albyrådet" }],
+  creator: "Albyrådet",
+  publisher: "Albyrådet",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.albyradet.se'),  alternates: {
+    canonical: '/',
+  },
+  icons: {
+    icon: [
+      {
+        url: '/logo/svart.svg',
+        type: 'image/svg+xml',
+        media: '(prefers-color-scheme: light)',
+      },
+      {
+        url: '/logo/vit.svg',
+        type: 'image/svg+xml',
+        media: '(prefers-color-scheme: dark)',
+      },
+      {
+        url: '/logo/Svart transparant.png',
+        type: 'image/png',
+        sizes: '32x32',
+        media: '(prefers-color-scheme: light)',
+      },
+      {
+        url: '/logo/Vit transparant.png',
+        type: 'image/png',
+        sizes: '32x32',
+        media: '(prefers-color-scheme: dark)',
+      },
+    ],
+    apple: [
+      {
+        url: '/logo/Svart transparant.png',
+        sizes: '180x180',
+        type: 'image/png',
+      },
+    ],
+    shortcut: '/logo/svart.svg',
+  },
+  openGraph: {
+    title: "Albyrådet - Av unga, för unga i Botkyrka",
+    description: "Albyrådet grundades för snart ett decennium sedan av ett tiotal ungdomar från Alby. Sedan dess har Albyrådet varit en plattform för ungdomar som engagerar sig i föreningen med ändamålet att motverka, förebygga och stoppa all form av kriminalitet, mobbning samt diskriminering.",
+    url: '/',
+    siteName: 'Albyrådet',
+    images: [
+      {
+        url: '/logo/Albyradet-svart-text.png',
+        width: 1200,
+        height: 630,
+        alt: 'Albyrådet Logo',
+      },
+    ],
+    locale: 'sv_SE',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Albyrådet - Av unga, för unga",
+    description: "Plattform för ungdomar i Alby som arbetar för att motverka, förebygga och stoppa kriminalitet, mobbning och diskriminering.",
+    images: ['/logo/Albyradet-svart-text.png'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 }
 
 export const viewport = {
@@ -32,10 +110,16 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  return (
-    <html lang="sv" suppressHydrationWarning>
-      <body className={`${inter.variable} font-sans min-h-screen flex flex-col bg-background text-foreground`}>
-        <Providers>
+  return (    <html lang="sv" suppressHydrationWarning>
+      <head>
+        <meta httpEquiv="X-Frame-Options" content="DENY" />
+        <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
+        <meta httpEquiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+        <meta httpEquiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()" />
+        <link rel="canonical" href={process.env.NEXT_PUBLIC_SITE_URL || 'https://www.albyradet.se'} />
+        <link rel="sitemap" href="/sitemap.xml" />
+      </head>
+      <body className={`${inter.variable} font-sans min-h-screen flex flex-col bg-background text-foreground`}>        <Providers>
           <Navigation />
           <main className="flex-1 pt-16">{/* pt-16 for fixed Navigation height */}
             {children}
@@ -43,6 +127,7 @@ export default function RootLayout({
           <div className="h-12 md:h-16 w-full bg-gradient-to-b from-alby-beige-subtle/70 via-alby-beige-soft/50 to-alby-beige/30 dark:from-muted/50 dark:via-muted/30 dark:to-muted/30" />
 
           <Footer />
+          <BackToTop />
         </Providers>
       </body>
     </html>

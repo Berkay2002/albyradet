@@ -35,15 +35,47 @@ const Carousel = ({ children, className }: { children: React.ReactNode; classNam
   const [currentIndex, setCurrentIndex] = useState(0);
   const items = React.Children.toArray(children).filter(Boolean); // Filter out any null/undefined items
   const [direction, setDirection] = useState<'left' | 'right'>('right');
+  const [showSwipeHint, setShowSwipeHint] = useState(true);
+  const [hasInteracted, setHasInteracted] = useState(false);
+  const isMobile = useIsMobile();
+  
   const nextSlide = useCallback(() => {
     setDirection('right');
     setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
+    setHasInteracted(true);
   }, [items.length]);
 
   const prevSlide = useCallback(() => {
     setDirection('left');
     setCurrentIndex((prevIndex) => (prevIndex - 1 + items.length) % items.length);
+    setHasInteracted(true);
   }, [items.length]);
+
+  // Handle swipe gestures
+  const handleDragEnd = (event: any, info: any) => {
+    const threshold = 50; // Minimum drag distance to trigger slide change
+    setHasInteracted(true);
+    
+    if (info.offset.x > threshold) {
+      // Swiped right, go to previous slide
+      prevSlide();
+    } else if (info.offset.x < -threshold) {
+      // Swiped left, go to next slide
+      nextSlide();
+    }
+  };
+
+  // Hide swipe hint after interaction or timeout
+  useEffect(() => {
+    if (hasInteracted) {
+      setShowSwipeHint(false);
+    } else {
+      const timer = setTimeout(() => {
+        setShowSwipeHint(false);
+      }, 3000); // Hide after 3 seconds
+      return () => clearTimeout(timer);
+    }
+  }, [hasInteracted]);
   // Auto-rotate slides
   useEffect(() => {
     const timer = setInterval(() => {
@@ -79,8 +111,13 @@ const Carousel = ({ children, className }: { children: React.ReactNode; classNam
             transition={{
               x: { type: "spring", stiffness: 180, damping: 24 }
             }}
-            className="absolute inset-0 h-full"
+            className="absolute inset-0 h-full cursor-grab active:cursor-grabbing"
             style={{ zIndex: 1 }}
+            drag={isMobile ? "x" : false}
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.2}
+            onDragEnd={handleDragEnd}
+            whileDrag={{ scale: 0.95 }}
           >
             {items[currentIndex]}
           </motion.div>
@@ -99,14 +136,16 @@ const Carousel = ({ children, className }: { children: React.ReactNode; classNam
           aria-label="Nästa bild"
         >
           <ArrowRight className="h-5 w-5" />
-        </button>        
-        <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+        </button>          <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
           {items.length <= 10 && (
             // Show individual dots for small carousels only
             items.map((_, index) => (
               <button
                 key={index}
-                onClick={() => setCurrentIndex(index)}
+                onClick={() => {
+                  setCurrentIndex(index);
+                  setHasInteracted(true);
+                }}
                 className={`h-1.5 rounded-full transition-all ${
                   currentIndex === index ? 'w-6 bg-primary' : 'w-4 bg-foreground/20'
                 }`}
@@ -115,6 +154,25 @@ const Carousel = ({ children, className }: { children: React.ReactNode; classNam
             ))
           )}
         </div>
+        
+        {/* Swipe hint for mobile users */}
+        {isMobile && showSwipeHint && items.length > 1 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="absolute top-4 left-1/2 -translate-x-1/2 z-10 bg-black/70 text-white px-3 py-2 rounded-full text-sm flex items-center gap-2 pointer-events-none"
+          >
+            <motion.div
+              animate={{ x: [0, 10, 0] }}
+              transition={{ repeat: Infinity, duration: 1.5 }}
+              className="text-lg"
+            >
+              👈👉
+            </motion.div>
+            <span>Swipa för att bläddra</span>
+          </motion.div>
+        )}
       </div>
     </div>
   );

@@ -1,14 +1,44 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import TeamSection from '@/components/TeamSection';
+import { Metadata } from 'next';
+import Head from 'next/head';
+
+// Structured data for organization
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Albyrådet",
+  "description": "Oberoende plattform för ungdomar i Alby, Botkyrka som arbetar för att motverka kriminalitet, mobbning och diskriminering",
+  "url": "https://www.albyradet.se",
+  "logo": "https://www.albyradet.se/logo/Albyradet-svart-text.png",
+  "foundingDate": "2015",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Alhagsvägen 42, tr 5",
+    "addressLocality": "Norsborg",
+    "postalCode": "145 59",
+    "addressCountry": "SE"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+46-072-310-9958",
+    "contactType": "customer service",
+    "email": "kontakt@albyradet.se"
+  },
+  "sameAs": [
+    "https://www.facebook.com/people/Albyr%C3%A5det/100081907873482/",
+    "https://www.instagram.com/albyradet/",
+    "https://www.linkedin.com/company/albyr%C3%A5det/"
+  ]
+};
 
 // Import icons
 import { 
@@ -150,20 +180,8 @@ const fadeInUp = {
 };
 
 function HomePage() {
-  const { theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  // Ensure component is mounted before accessing theme
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // Get the appropriate header logo based on theme
-  const headerLogoSrc = !mounted 
-    ? "/logo/Vit transparant-header.png" // Default to dark theme logo during SSR
-    : theme === 'dark' 
-    ? "/logo/Vit transparant-header.png" 
-    : "/logo/Svart transparant-header.png";
+  // Use only the white header logo for hero section
+  const headerLogoSrc = "/logo/Vit transparant-header.png";
 
   const features = [
     {
@@ -187,9 +205,20 @@ function HomePage() {
       description: 'Främja inkludering och gemenskap'
     }
   ];
-
   return (
-    <div className="min-h-screen bg-background">
+    <>
+      <Head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationSchema),
+          }}
+        />
+        <meta name="description" content="Albyrådet - Oberoende plattform för ungdomar i Alby, Botkyrka. Vi arbetar för att motverka kriminalitet, mobbning och diskriminering. Bli medlem idag!" />
+        <meta name="keywords" content="Albyrådet, Alby, Botkyrka, ungdomar, förebyggande, kriminalitet, mobbning, diskriminering" />
+        <link rel="canonical" href="https://www.albyradet.se" />
+      </Head>
+      <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center text-center text-foreground overflow-hidden">
         {/* Background Video */}        
@@ -296,12 +325,11 @@ function HomePage() {
         </div>
       </section>
 
-      <div className="h-8 md:h-16 w-full bg-gradient-to-b from-background via-alby-beige-soft to-alby-beige-soft dark:from-background dark:via-alby-gray-darker dark:to-muted/50" />
-
-      {/* Team Section */}
+      <div className="h-8 md:h-16 w-full bg-gradient-to-b from-background via-alby-beige-soft to-alby-beige-soft dark:from-background dark:via-alby-gray-darker dark:to-muted/50" />      {/* Team Section */}
       <TeamSection members={members} />
 
-    </div>
+      </div>
+    </>
   );
 }
 
