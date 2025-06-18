@@ -55,9 +55,11 @@ export default function Medlemsansokan() {
           fill
           priority
           className="object-cover object-center"
-        />
-        <div className="absolute inset-0 bg-black/70" />
-        <div className="pointer-events-none absolute bottom-0 left-0 w-full h-16 sm:h-24 bg-gradient-to-b from-transparent to-alby-beige-subtle/50 dark:to-muted/50 z-20" />
+        />        <div className="absolute inset-0 bg-white/10 dark:bg-black/70" />
+        {/* Strong gradient overlay for smooth transition */}
+        <div className="pointer-events-none absolute bottom-0 left-0 w-full h-24 sm:h-32 bg-gradient-to-b from-transparent via-white/70 to-white dark:from-transparent dark:to-muted/50 z-20" />
+        {/* Additional very strong gradient for light theme */}
+        <div className="pointer-events-none absolute bottom-0 left-0 w-full h-20 sm:h-24 bg-gradient-to-b from-transparent via-background/80 to-background dark:from-transparent dark:to-transparent z-21" />
         <div className="relative z-10 w-full flex flex-col items-center justify-center px-4">
           <h1 className="text-2xl md:text-5xl font-extrabold mb-2 text-primary-foreground drop-shadow-lg">Medlemsansökan</h1>
           <p className="text-sm md:text-xl text-primary-foreground/90 font-medium mb-2 max-w-2xl mx-auto drop-shadow">

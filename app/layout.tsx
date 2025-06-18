@@ -17,39 +17,15 @@ export const metadata = {
     default: "Albyrådet - Av unga, för unga i Botkyrka",
     template: "%s | Albyrådet"
   },
-  description: "Albyrådet grundades för snart ett decennium sedan av ett tiotal ungdomar från Alby. Sedan dess har Albyrådet varit en plattform för ungdomar som engagerar sig i föreningen med ändamålet att motverka, förebygga och stoppa all form av kriminalitet, mobbning samt diskriminering.",
+  description: "Albyrådet - Av unga, för unga i Botkyrka. Vi arbetar för trygghet, gemenskap och positiv utveckling. Gör skillnad i din ort - bli medlem idag!",
   keywords: ["Albyrådet", "Alby", "Botkyrka", "ungdomar", "förebyggande", "kriminalitet", "mobbning", "diskriminering", "engagemang", "Stockholm"],
   authors: [{ name: "Albyrådet" }],
   creator: "Albyrådet",
   publisher: "Albyrådet",
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.albyradet.se'),  alternates: {
     canonical: '/',
-  },
-  icons: {
-    icon: [
-      {
-        url: '/logo/svart.svg',
-        type: 'image/svg+xml',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/logo/vit.svg',
-        type: 'image/svg+xml',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/logo/Svart transparant.png',
-        type: 'image/png',
-        sizes: '32x32',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/logo/Vit transparant.png',
-        type: 'image/png',
-        sizes: '32x32',
-        media: '(prefers-color-scheme: dark)',
-      },
-    ],
+  },  icons: {
+    icon: '/favicon.ico',
     apple: [
       {
         url: '/logo/Svart transparant.png',
@@ -57,11 +33,10 @@ export const metadata = {
         type: 'image/png',
       },
     ],
-    shortcut: '/logo/svart.svg',
-  },
-  openGraph: {
+    shortcut: '/favicon.ico',
+  },openGraph: {
     title: "Albyrådet - Av unga, för unga i Botkyrka",
-    description: "Albyrådet grundades för snart ett decennium sedan av ett tiotal ungdomar från Alby. Sedan dess har Albyrådet varit en plattform för ungdomar som engagerar sig i föreningen med ändamålet att motverka, förebygga och stoppa all form av kriminalitet, mobbning samt diskriminering.",
+    description: "Albyrådet - Av unga, för unga i Botkyrka. Vi arbetar för trygghet, gemenskap och positiv utveckling. Gör skillnad i din ort - bli medlem idag!",
     url: '/',
     siteName: 'Albyrådet',
     images: [
@@ -74,11 +49,10 @@ export const metadata = {
     ],
     locale: 'sv_SE',
     type: 'website',
-  },
-  twitter: {
+  },  twitter: {
     card: 'summary_large_image',
     title: "Albyrådet - Av unga, för unga",
-    description: "Plattform för ungdomar i Alby som arbetar för att motverka, förebygga och stoppa kriminalitet, mobbning och diskriminering.",
+    description: "Vi arbetar för trygghet, gemenskap och positiv utveckling i Botkyrka. Gör skillnad i din ort!",
     images: ['/logo/Albyradet-svart-text.png'],
   },
   robots: {

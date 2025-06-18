@@ -44,10 +44,11 @@ export default function BliMedlem() {
           fill
           priority
           className="object-cover object-center"
-        />
-        <div className="absolute inset-0 bg-black/70" />
-        {/* Gradient overlay for smooth transition to next section */}
-        <div className="pointer-events-none absolute bottom-0 left-0 w-full h-32 sm:h-40 bg-gradient-to-b from-transparent to-alby-beige-warm/50 dark:to-muted/50 z-20" />
+        />        <div className="absolute inset-0 bg-white/10 dark:bg-black/70" />
+        {/* Strong gradient overlay for smooth transition to next section */}
+        <div className="pointer-events-none absolute bottom-0 left-0 w-full h-40 sm:h-48 bg-gradient-to-b from-transparent via-white/70 to-white dark:from-transparent dark:to-muted/50 z-20" />
+        {/* Additional very strong gradient for light theme */}
+        <div className="pointer-events-none absolute bottom-0 left-0 w-full h-32 sm:h-40 bg-gradient-to-b from-transparent via-background/80 to-background dark:from-transparent dark:to-transparent z-21" />
         <div className="relative z-10 w-full flex flex-col items-center justify-center px-4">
           <motion.h1
             className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 text-primary-foreground drop-shadow-lg"

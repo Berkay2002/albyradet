@@ -84,7 +84,7 @@ const config = {
         'alby-orange-muted': '#FFE0C2',        'alby-beige-light': '#F7F3E9',
         'alby-beige': '#E8DCC6',
         'alby-beige-dark': '#D4C4A8',
-        'alby-beige-warm': '#F0E6D2',
+        'alby-beige-warm': '#E8D5B7',
         'alby-beige-subtle': '#F5F1E8',
         'alby-beige-soft': '#F2EDE4',
       },
