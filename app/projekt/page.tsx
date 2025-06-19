@@ -443,10 +443,9 @@ function Projekt() {
     }
   };
 
-  return (
-    <div className="min-h-screen bg-background flex flex-col">
+  return (    <div className="min-h-screen bg-background flex flex-col">
       <Head>
-        <title>Projekt - Alby Rådet</title>
+        <title>Projekt - Albyrådet</title>
         <meta name="description" content="Upptäck våra projekt och initiativ i Alby, Botkyrka. Vi arbetar för en bättre framtid för ungdomar i vårt samhälle." />
       </Head>
       <main className="flex-1">

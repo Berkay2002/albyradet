@@ -176,10 +176,9 @@ function ContactPage() {
     }
   };
 
-  return (
-    <div className="min-h-screen bg-background flex flex-col">
+  return (    <div className="min-h-screen bg-background flex flex-col">
       <Head>
-        <title>Kontakta Oss - Alby Rådet</title>
+        <title>Kontakta Oss - Albyrådet</title>
         <meta name="description" content="Har du frågor eller vill komma i kontakt med Albyrådet? Kontakta oss här eller träffa vårt team." />
       </Head>
         <main className="flex-1 relative">

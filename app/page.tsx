@@ -239,10 +239,9 @@ function HomePage() {
         {/* Hero Content */}
         <div className="relative z-10 container mx-auto px-4">
           <div className="flex flex-col items-center justify-center h-full">              {/* Logo */}
-            <div className="mb-8">
-              <Image
+            <div className="mb-8">              <Image
                 src={headerLogoSrc}
-                alt="Alby Rådet Logo"
+                alt="Albyrådet Logo"
                 width={300}
                 height={300}
                 className="w-30 h-30 md:w-auto md:h-auto"
