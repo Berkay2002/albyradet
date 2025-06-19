@@ -102,9 +102,7 @@ export default function Footer() {
                   >
                     kontakt@albyradet.se
                   </Link>
-                </div>
-                
-                <div>
+                </div>                <div>
                   <p className="font-medium text-foreground text-sm mb-1">Organisationsnummer:</p>
                   <p className="text-muted-foreground text-sm">802513-0421</p>
                 </div>
