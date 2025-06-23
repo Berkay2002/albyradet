@@ -256,18 +256,23 @@ function HomePage() {
             >
               Av unga, för unga
             </motion.h1>
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 mt-8 w-full max-w-xs sm:max-w-none mx-auto justify-center items-center">
+            {/* CTA Buttons */}            <div className="flex flex-col sm:flex-row gap-4 mt-8 w-full max-w-xs sm:max-w-none mx-auto justify-center items-center">
               <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg w-full sm:w-auto focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2" aria-label="Kontakta oss">
-                <Link href="/contact" className="flex items-center justify-center">
+                <Link href="/kontakta-oss" className="flex items-center justify-center">
                   Kontakta oss <ArrowRightIcon className="ml-2 h-5 w-5" aria-hidden="true" />
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="text-foreground border-foreground hover:bg-foreground/10 text-lg w-full sm:w-auto focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2" aria-label="Läs mer om oss">
-                <Link href="/about" className="flex items-center justify-center">
-                  Läs mer om oss
+              <Button asChild variant="outline" size="lg" className="text-foreground border-foreground hover:bg-foreground/10 text-lg w-full sm:w-auto focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2" aria-label="Se våra projekt">
+                <Link href="/projekt" className="flex items-center justify-center">
+                  Se våra projekt
                 </Link>
               </Button>
+              {/* Commented out until om-oss page is ready for production */}
+              {/* <Button asChild variant="outline" size="lg" className="text-foreground border-foreground hover:bg-foreground/10 text-lg w-full sm:w-auto focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2" aria-label="Läs mer om oss">
+                <Link href="/om-oss" className="flex items-center justify-center">
+                  Läs mer om oss
+                </Link>
+              </Button> */}
             </div>
           </div>
         </div>

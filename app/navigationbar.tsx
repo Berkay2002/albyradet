@@ -14,6 +14,7 @@ import React from "react";
 const navItems = [
   { name: "Hem", href: "/" },
   { name: "Våra Projekt", href: "/projekt" },
+  { name: "Sponsorer", href: "/sponsorer" },
   { name: "Kontakta Oss", href: "/kontakta-oss" },
   { name: "Bli Medlem", href: "/bli-medlem" },
 ];
