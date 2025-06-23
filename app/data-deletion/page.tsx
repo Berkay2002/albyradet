@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
@@ -163,16 +164,12 @@ export default function DataDeletion() {
               <p className="text-sm text-muted-foreground mt-4">
                 Kontakta oss på kontakt@albyradet.se för att diskutera dessa alternativ.
               </p>
-            </section>
-
-            <section className="text-center">
-              <Button 
-                size="lg" 
-                className="w-full sm:w-auto"
-                onClick={() => window.location.href = 'mailto:kontakt@albyradet.se?subject=Begäran om dataradering - GDPR Artikel 17&body=Hej,%0A%0AJag begär härmed radering av alla mina personuppgifter enligt GDPR artikel 17 (rätten att bli glömd).%0A%0AMina uppgifter:%0A• Namn: [Ditt fullständiga namn]%0A• E-postadress: [Den e-post som är kopplad till ditt konto]%0A• Telefonnummer: [Om tillgängligt]%0A• Medlemsnummer: [Om du vet det]%0A%0AJag bekräftar att jag förstår att denna åtgärd är permanent och inte kan ångras.%0A%0AMed vänliga hälsningar,%0A[Ditt namn]'}
-              >
-                <Mail className="h-4 w-4 mr-2" />
-                Skicka raderingsförfrågan
+            </section>            <section className="text-center">
+              <Button asChild size="lg" className="w-full sm:w-auto">
+                <Link href="mailto:kontakt@albyradet.se?subject=Begäran om dataradering - GDPR Artikel 17&body=Hej,%0A%0AJag begär härmed radering av alla mina personuppgifter enligt GDPR artikel 17 (rätten att bli glömd).%0A%0AMina uppgifter:%0A• Namn: [Ditt fullständiga namn]%0A• E-postadress: [Den e-post som är kopplad till ditt konto]%0A• Telefonnummer: [Om tillgängligt]%0A• Medlemsnummer: [Om du vet det]%0A%0AJag bekräftar att jag förstår att denna åtgärd är permanent och inte kan ångras.%0A%0AMed vänliga hälsningar,%0A[Ditt namn]">
+                  <Mail className="h-4 w-4 mr-2" />
+                  Skicka raderingsförfrågan
+                </Link>
               </Button>
             </section>
 
