@@ -140,10 +140,9 @@ export default function LegalPage() {
                 <h3 className="font-semibold mb-2">Dataskydd och integritet</h3>
                 <p className="text-muted-foreground mb-2">
                   För frågor om personuppgifter, GDPR eller dataradering:
-                </p>
-                <p className="text-sm">
+                </p>                <p className="text-sm">
                   <strong>E-post:</strong> kontakt@albyradet.se<br />
-                  <strong>Ämne:</strong> "Dataskydd" eller "GDPR"
+                  <strong>Ämne:</strong> &quot;Dataskydd&quot; eller &quot;GDPR&quot;
                 </p>
               </div>
             </div>

@@ -154,10 +154,9 @@ export default function DataDeletion() {
               <h2 className="text-2xl font-semibold mb-4">Alternativ till fullständig radering</h2>
               <p className="text-muted-foreground mb-4">
                 Om du inte vill radera alla dina data kan du istället:
-              </p>
-              <ul className="list-disc pl-6 space-y-2">
+              </p>              <ul className="list-disc pl-6 space-y-2">
                 <li><strong>Avsluta medlemskap:</strong> Behåll grundläggande kontaktinfo men avsluta aktivt medlemskap</li>
-                <li><strong>Begränsa behandling:</strong> Vi "fryser" dina data men raderar dem inte</li>
+                <li><strong>Begränsa behandling:</strong> Vi &quot;fryser&quot; dina data men raderar dem inte</li>
                 <li><strong>Uppdatera samtycken:</strong> Välj vilka typer av kommunikation du vill få</li>
                 <li><strong>Exportera data:</strong> Få en kopia av dina data innan radering</li>
               </ul>

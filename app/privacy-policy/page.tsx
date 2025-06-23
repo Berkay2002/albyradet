@@ -28,7 +28,7 @@ export default function PrivacyPolicy() {
             
             <section>
               <h2 className="text-2xl font-semibold mb-4">1. Inledning</h2>              <p>
-                Albyrådet ("vi", "oss", "vår") respekterar din integritet och är engagerade i att skydda 
+                Albyrådet (&quot;vi&quot;, &quot;oss&quot;, &quot;vår&quot;) respekterar din integritet och är engagerade i att skydda 
                 dina personuppgifter. Denna integritetspolicy förklarar hur vi som ideell ungdomsorganisation 
                 samlar in, använder, lagrar och delar dina personuppgifter när du använder vår webbplats, 
                 app och relaterade tjänster.
@@ -145,7 +145,7 @@ export default function PrivacyPolicy() {
                 <li><strong>Rätt till information:</strong> Om hur vi behandlar dina uppgifter</li>
                 <li><strong>Rätt till tillgång:</strong> Få en kopia av dina lagrade uppgifter</li>
                 <li><strong>Rätt till rättelse:</strong> Korrigera felaktiga uppgifter</li>
-                <li><strong>Rätt till radering:</strong> "Rätten att bli glömd"</li>
+                <li><strong>Rätt till radering:</strong> &quot;Rätten att bli glömd&quot;</li>
                 <li><strong>Rätt till begränsning:</strong> Begränsa behandlingen</li>
                 <li><strong>Rätt till dataportabilitet:</strong> Få dina uppgifter i strukturerat format</li>
                 <li><strong>Rätt att invända:</strong> Mot behandling baserad på berättigat intresse</li>

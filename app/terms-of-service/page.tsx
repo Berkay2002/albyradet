@@ -28,8 +28,8 @@ export default function TermsOfService() {
             
             <section>
               <h2 className="text-2xl font-semibold mb-4">1. Allmänna villkor</h2>              <p>
-                Välkommen till Albyrådet! Dessa användarvillkor ("Villkor") reglerar din användning av 
-                vår webbplats, app och relaterade tjänster ("Tjänsterna") som tillhandahålls av Albyrådet, 
+                Välkommen till Albyrådet! Dessa användarvillkor (&quot;Villkor&quot;) reglerar din användning av 
+                vår webbplats, app och relaterade tjänster (&quot;Tjänsterna&quot;) som tillhandahålls av Albyrådet, 
                 en ideell ungdomsorganisation registrerad i Sverige.
               </p>
               <p>
@@ -89,9 +89,8 @@ export default function TermsOfService() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold mb-4">6. Ansvarsbegränsning</h2>
-              <p>
-                Albyrådet tillhandahåller Tjänsterna "som de är" utan garantier av något slag. 
+              <h2 className="text-2xl font-semibold mb-4">6. Ansvarsbegränsning</h2>              <p>
+                Albyrådet tillhandahåller Tjänsterna &quot;som de är&quot; utan garantier av något slag. 
                 Vi ansvarar inte för:
               </p>
               <ul className="list-disc pl-6 space-y-2">
