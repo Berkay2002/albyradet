@@ -9,7 +9,7 @@ interface Member {
   name: string;
   role: string;
   image: string;
-  description: string;
+  description?: string;
   email?: string;
 }
 
@@ -85,11 +85,12 @@ export default function TeamSection({ members }: TeamSectionProps) {
               <div className="p-4 sm:p-6 text-center">
                 <h3 className="text-base sm:text-lg font-semibold mb-1 text-foreground group-hover:text-alby-orange-dark transition-colors">
                   {member.name}
-                </h3>
-                <span className="inline-block px-3 py-1 mb-2 rounded-full bg-alby-orange-muted text-alby-orange-dark text-xs sm:text-sm font-semibold">
+                </h3>                <span className="inline-block px-3 py-1 mb-2 rounded-full bg-alby-orange-muted text-alby-orange-dark text-xs sm:text-sm font-semibold">
                   {member.role}
                 </span>
-                <p className="text-muted-foreground mb-2 text-xs sm:text-sm">{member.description}</p>
+                {member.description && (
+                  <p className="text-muted-foreground mb-2 text-xs sm:text-sm">{member.description}</p>
+                )}
                 {member.email && (
                   <Link
                     href={`mailto:${member.email}`}

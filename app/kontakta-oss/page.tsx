@@ -20,7 +20,7 @@ interface Member {
   role: string;
   email: string;
   image: string;
-  description: string;
+  description?: string;
 }
 
 const members: Member[] = [
@@ -30,7 +30,6 @@ const members: Member[] = [
     role: 'Ordförande',
     email: 'Muhammet@albyradet.se',
     image: '/sektionen/tozak.jpg',
-    description: 'Ordförande',
   },
   {
     id: 2,
@@ -38,7 +37,6 @@ const members: Member[] = [
     role: 'Vice ordförande',
     email: 'Anahit@albyradet.se',
     image: '/sektionen/nr4.jpg',
-    description: 'Vice ordförande',
   },
   {
     id: 3,
@@ -46,7 +44,6 @@ const members: Member[] = [
     role: 'PR-ansvarig',
     email: 'Jessica@albyradet.se',
     image: '/sektionen/nr3.jpg',
-    description: 'PR-ansvarig',
   },
   {
     id: 4,
@@ -54,7 +51,6 @@ const members: Member[] = [
     role: 'Styrelseledamot',
     email: 'Sara@albyradet.se',
     image: '/sektionen/nr2.jpg',
-    description: 'Styrelseledamot',
   },
   {
     id: 5,
@@ -62,7 +58,6 @@ const members: Member[] = [
     role: 'Styrelseledamot',
     email: 'Jalil@albyradet.se',
     image: '/sektionen/nr5.jpg',
-    description: 'Styrelseledamot',
   },
 ];
 

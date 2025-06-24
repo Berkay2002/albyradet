@@ -58,9 +58,9 @@ interface Member {
   id: number;
   name: string;
   role: string;
+  email: string;
   image: string;
-  description: string;
-  email?: string;
+  description?: string;
 }
 
 interface FeatureCardProps {
@@ -90,80 +90,41 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, description }) =
   );
 };
 
-// MemberCard component props
-interface MemberCardProps {
-  name: string;
-  role: string;
-  image: string;
-  description: string;
-  email?: string;
-}
-
-// MemberCard component
-const MemberCard: React.FC<MemberCardProps> = ({ name, role, image, description, email }) => (
-  <Card className="h-full overflow-hidden transition-shadow duration-300 hover:shadow-lg border-border">
-    <div className="relative h-64 overflow-hidden">
-      <Image
-        src={image}
-        alt={name}
-        fill
-        className="object-cover"
-        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-      />
-    </div>
-    <CardHeader className="border-t border-border">
-      <CardTitle className="text-xl text-foreground">{name}</CardTitle>
-      <CardDescription className="text-primary">{role}</CardDescription>
-    </CardHeader>
-    <CardContent>
-      <p className="text-muted-foreground mb-4">{description}</p>
-      {email && (
-        <a 
-          href={`mailto:${email}`} 
-          className="text-primary hover:underline flex items-center transition-colors"
-        >
-          Kontakta mig <MailIcon className="ml-2 h-4 w-4" />
-        </a>
-      )}
-    </CardContent>
-  </Card>
-);
-
 const members: Member[] = [
   {
     id: 1,
     name: 'Muhammet Tozak',
     role: 'Ordförande',
+    email: 'Muhammet@albyradet.se',
     image: '/sektionen/tozak.jpg',
-    description: 'Ordförande',
   },
   {
     id: 2,
     name: 'Anahit Tovmasyan',
     role: 'Vice ordförande',
+    email: 'Anahit@albyradet.se',
     image: '/sektionen/nr4.jpg',
-    description: 'Vice ordförande',
   },
   {
     id: 3,
     name: 'Jessica Mwaura',
     role: 'PR-ansvarig',
+    email: 'Jessica@albyradet.se',
     image: '/sektionen/nr3.jpg',
-    description: 'PR-ansvarig',
   },
   {
     id: 4,
     name: 'Sara Dhahri',
     role: 'Styrelseledamot',
+    email: 'Sara@albyradet.se',
     image: '/sektionen/nr2.jpg',
-    description: 'Styrelseledamot',
   },
   {
     id: 5,
     name: 'Jalil Saleem',
     role: 'Styrelseledamot',
+    email: 'Jalil@albyradet.se',
     image: '/sektionen/nr5.jpg',
-    description: 'Styrelseledamot',
   },
 ];
 
